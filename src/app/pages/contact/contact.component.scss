@@ -1,0 +1,279 @@
+@use '../../../assets/styles/variables' as *;
+@use '../../../assets/styles/mixins' as *;
+
+// ─── Hero ─────────────────────────────────────────────────────────────────────
+.ct-hero {
+  background: linear-gradient(135deg, $primary-dark 0%, $primary 60%, $secondary 100%);
+  padding: $spacing-16 0 $spacing-10;
+  text-align: center;
+  color: $white;
+
+  &__title {
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    font-weight: 800;
+    margin-bottom: $spacing-3;
+  }
+
+  &__sub {
+    font-size: 1rem;
+    color: rgba($white, 0.85);
+    max-width: 520px;
+    margin: 0 auto;
+  }
+}
+
+// ─── Main layout ──────────────────────────────────────────────────────────────
+.ct-main { background: $gray-100; }
+
+.ct-main__layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: $spacing-10;
+  align-items: start;
+
+  @include tablet { grid-template-columns: 1fr; }
+}
+
+// ─── Form wrap ────────────────────────────────────────────────────────────────
+.ct-form-wrap {
+  background: $white;
+  border-radius: $radius-xl;
+  padding: $spacing-8;
+  border: 1px solid $gray-200;
+  box-shadow: $shadow-sm;
+}
+
+// ─── Success state ────────────────────────────────────────────────────────────
+.ct-success {
+  text-align: center;
+  padding: $spacing-10 $spacing-6;
+
+  &__icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba($success, 0.1);
+    color: $success;
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto $spacing-5;
+  }
+
+  h3 { font-size: 1.35rem; font-weight: 700; color: $gray-800; margin-bottom: $spacing-3; }
+  p  { font-size: 0.95rem; color: $gray-500; max-width: 340px; margin: 0 auto $spacing-6; }
+
+  button { @include btn-primary; border: none; cursor: pointer; }
+}
+
+// ─── Form ─────────────────────────────────────────────────────────────────────
+.ct-form {
+  &__title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: $gray-800;
+    margin-bottom: $spacing-6;
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $spacing-4;
+
+    @include mobile { grid-template-columns: 1fr; }
+  }
+
+  &__error {
+    font-size: 0.85rem;
+    color: #DC3545;
+    margin-bottom: $spacing-4;
+  }
+
+  &__submit {
+    @include btn-primary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-2;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: $spacing-4;
+    &:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  }
+}
+
+// ─── Field ────────────────────────────────────────────────────────────────────
+.ct-field {
+  margin-bottom: $spacing-5;
+
+  label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: $gray-700;
+    margin-bottom: $spacing-2;
+    span { color: #DC3545; margin-left: 2px; }
+  }
+
+  input, select, textarea {
+    width: 100%;
+    padding: $spacing-3 $spacing-4;
+    border: 1.5px solid $gray-200;
+    border-radius: $radius-lg;
+    font-size: 0.9rem;
+    color: $gray-800;
+    background: $white;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    font-family: inherit;
+    &::placeholder { color: $gray-400; }
+    &:focus { border-color: $primary; box-shadow: 0 0 0 3px rgba($primary, 0.12); }
+  }
+
+  textarea { resize: vertical; min-height: 120px; }
+
+  &--error {
+    input, select, textarea {
+      border-color: #DC3545;
+      box-shadow: 0 0 0 3px rgba(#DC3545, 0.1);
+    }
+  }
+
+  &--full { grid-column: 1 / -1; }
+}
+
+.ct-field__error {
+  font-size: 0.78rem;
+  color: #DC3545;
+  margin-top: $spacing-1;
+}
+
+// ─── Sidebar ──────────────────────────────────────────────────────────────────
+.ct-info {
+  position: sticky;
+  top: calc(70px + #{$spacing-6});
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-5;
+  @include tablet { position: static; }
+}
+
+.ct-info-card {
+  background: $white;
+  border: 1px solid $gray-200;
+  border-radius: $radius-xl;
+  padding: $spacing-6;
+  box-shadow: $shadow-sm;
+
+  &__icon {
+    width: 44px;
+    height: 44px;
+    border-radius: $radius-lg;
+    background: rgba($primary, 0.1);
+    color: $primary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: $spacing-4;
+
+    &--green { background: rgba($success, 0.1); color: $success; }
+  }
+
+  h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: $gray-800;
+    margin-bottom: $spacing-4;
+  }
+
+  &__support {
+    font-size: 0.82rem;
+    color: $gray-500;
+    margin-top: $spacing-3;
+    padding-top: $spacing-3;
+    border-top: 1px solid $gray-100;
+  }
+}
+
+// ─── Hours ────────────────────────────────────────────────────────────────────
+.ct-hours {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.875rem;
+    span { color: $gray-500; }
+    strong { font-weight: 600; color: $gray-700; }
+  }
+}
+
+// ─── Contact list ─────────────────────────────────────────────────────────────
+.ct-contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+  margin-bottom: $spacing-5;
+}
+
+.ct-contact-item {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  font-size: 0.9rem;
+  color: $gray-700;
+  text-decoration: none;
+  svg { color: $primary; flex-shrink: 0; }
+  &:hover { color: $primary; }
+}
+
+// ─── WhatsApp button ──────────────────────────────────────────────────────────
+.ct-whatsapp-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-2;
+  width: 100%;
+  padding: $spacing-3 $spacing-4;
+  background: #25D366;
+  color: $white;
+  border: none;
+  border-radius: $radius-lg;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: $transition-base;
+  &:hover { background: #1ebe5d; transform: translateY(-1px); }
+}
+
+// ─── Map placeholder ──────────────────────────────────────────────────────────
+.ct-map-placeholder {
+  background: $white;
+  border: 1px solid $gray-200;
+  border-radius: $radius-xl;
+  padding: $spacing-6;
+  text-align: center;
+  box-shadow: $shadow-sm;
+
+  svg { color: $gray-300; margin-bottom: $spacing-3; }
+
+  p {
+    font-size: 0.875rem;
+    color: $gray-500;
+    line-height: 1.6;
+    margin-bottom: $spacing-4;
+  }
+
+  a {
+    @include btn-outline;
+    display: inline-flex;
+    text-decoration: none;
+  }
+}

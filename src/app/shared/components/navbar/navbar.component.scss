@@ -1,0 +1,302 @@
+@use '../../../../assets/styles/variables' as *;
+@use '../../../../assets/styles/mixins' as *;
+
+// ─── Navbar Base ─────────────────────────────────────────────────────────────
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: $z-navbar;
+  height: $navbar-height;
+  background: rgba($white, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid transparent;
+  transition: $transition-base;
+  & {
+    @include mobile { height: $navbar-height-mobile; }
+  }
+
+  &.scrolled {
+    background: $white;
+    border-bottom-color: $gray-200;
+    box-shadow: $shadow-md;
+  }
+
+  &__inner {
+    @include container;
+    @include flex-between;
+    height: 100%;
+    gap: $spacing-6;
+  }
+
+  // ─── Logo ───────────────────────────────────────────────────────────────
+  &__logo {
+    @include flex-center;
+    gap: $spacing-2;
+    text-decoration: none;
+    flex-shrink: 0;
+
+    &-text {
+      font-family: $font-family-heading;
+      font-size: $font-size-lg;
+      font-weight: $font-weight-bold;
+      color: $gray-900;
+      letter-spacing: -0.02em;
+    }
+
+    svg { flex-shrink: 0; }
+  }
+
+  // ─── Desktop Links ───────────────────────────────────────────────────────
+  &__links {
+    display: flex;
+    align-items: center;
+    gap: $spacing-1;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    flex: 1;
+    justify-content: center;
+
+    @include mobile { display: none; }
+    @include tablet { gap: 0; }
+  }
+
+  &__link {
+    display: block;
+    padding: $spacing-2 $spacing-3;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $gray-700;
+    text-decoration: none;
+    border-radius: $radius-md;
+    transition: $transition-fast;
+    white-space: nowrap;
+
+    &:hover {
+      color: $primary;
+      background: $primary-light;
+    }
+
+    &.active {
+      color: $primary;
+      font-weight: $font-weight-semi;
+    }
+
+    @include tablet { font-size: $font-size-xs; padding: $spacing-2; }
+  }
+
+  // ─── Desktop Right Actions ───────────────────────────────────────────────
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+    flex-shrink: 0;
+
+    @include mobile { display: none; }
+  }
+
+  &__login-btn {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semi;
+    color: $gray-700;
+    text-decoration: none;
+    padding: $spacing-2 $spacing-4;
+    border-radius: $radius-full;
+    border: 1px solid $gray-300;
+    transition: $transition-fast;
+
+    &:hover {
+      border-color: $primary;
+      color: $primary;
+    }
+  }
+
+  &__book-btn {
+    @include btn-primary;
+    padding: $spacing-2 $spacing-5;
+    font-size: $font-size-sm;
+  }
+
+  // ─── User Avatar ────────────────────────────────────────────────────────
+  &__user {
+    position: relative;
+
+    &:hover .navbar__user-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+  }
+
+  &__avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: $radius-full;
+    background: $primary;
+    color: $white;
+    @include flex-center;
+    font-weight: $font-weight-bold;
+    font-size: $font-size-sm;
+    cursor: pointer;
+  }
+
+  &__user-dropdown {
+    position: absolute;
+    top: calc(100% + $spacing-2);
+    right: 0;
+    background: $white;
+    border-radius: $radius-lg;
+    box-shadow: $shadow-lg;
+    padding: $spacing-4;
+    min-width: 160px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: $transition-base;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-3;
+  }
+
+  &__user-name {
+    font-weight: $font-weight-semi;
+    color: $gray-800;
+    font-size: $font-size-sm;
+    padding-bottom: $spacing-2;
+    border-bottom: 1px solid $gray-200;
+  }
+
+  &__logout-btn {
+    background: none;
+    border: none;
+    color: $danger;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    cursor: pointer;
+    text-align: left;
+    padding: 0;
+    transition: $transition-fast;
+
+    &:hover { opacity: 0.8; }
+  }
+
+  // ─── Hamburger ───────────────────────────────────────────────────────────
+  &__hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: $spacing-2;
+    border-radius: $radius-md;
+    width: 40px;
+    height: 40px;
+    transition: $transition-fast;
+
+    span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: $gray-800;
+      border-radius: $radius-full;
+      transition: $transition-base;
+      transform-origin: center;
+    }
+
+    &:hover { background: $gray-100; }
+
+    @include mobile { display: flex; }
+  }
+
+  // Hamburger → X animation
+  &.menu-open &__hamburger {
+    span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  }
+
+  // ─── Mobile Menu ────────────────────────────────────────────────────────
+  &__mobile-menu {
+    display: none;
+    position: absolute;
+    top: $navbar-height-mobile;
+    left: 0;
+    right: 0;
+    background: $white;
+    border-bottom: 1px solid $gray-200;
+    box-shadow: $shadow-lg;
+    padding: $spacing-4 $spacing-4 $spacing-6;
+    transform: translateY(-10px);
+    opacity: 0;
+    transition: $transition-base;
+    pointer-events: none;
+
+    @include mobile {
+      display: block;
+    }
+
+    &.open {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: all;
+    }
+  }
+
+  &__mobile-links {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 $spacing-4;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__mobile-link {
+    display: block;
+    padding: $spacing-3 $spacing-2;
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
+    color: $gray-700;
+    text-decoration: none;
+    border-bottom: 1px solid $gray-100;
+    transition: $transition-fast;
+
+    &:hover, &.active {
+      color: $primary;
+      padding-left: $spacing-4;
+    }
+  }
+
+  &__mobile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-3;
+    padding-top: $spacing-4;
+
+    a, button {
+      text-align: center;
+      width: 100%;
+    }
+  }
+
+  &__mobile-greeting {
+    font-weight: $font-weight-semi;
+    color: $gray-700;
+    font-size: $font-size-sm;
+    text-align: center;
+  }
+
+  // ─── Overlay ─────────────────────────────────────────────────────────────
+  &__overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba($black, 0.4);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity $transition-base;
+
+    @include mobile { display: block; }
+
+    &.visible { opacity: 1; }
+  }
+}

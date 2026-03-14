@@ -1,10 +1,51 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: '',
+    loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule)
+  },
+  {
+    path: 'attractions',
+    loadChildren: () => import('./pages/attractions/attractions.module').then(m => m.AttractionsModule)
+  },
+  {
+    path: 'attractions/:id',
+    loadChildren: () => import('./pages/attraction-detail/attraction-detail.module').then(m => m.AttractionDetailModule)
+  },
+  {
+    path: 'tickets',
+    loadChildren: () => import('./pages/tickets/tickets.module').then(m => m.TicketsModule)
+  },
+  {
+    path: 'availability',
+    loadChildren: () => import('./pages/availability/availability.module').then(m => m.AvailabilityModule)
+  },
+  {
+    path: 'map',
+    loadChildren: () => import('./pages/map/map.module').then(m => m.MapModule)
+  },
+  {
+    path: 'faq-safety',
+    loadChildren: () => import('./pages/faq-safety/faq-safety.module').then(m => m.FaqSafetyModule)
+  },
+  {
+    path: 'contact',
+    loadChildren: () => import('./pages/contact/contact.module').then(m => m.ContactModule)
+  },
+  {
+    path: 'auth',
+    loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthModule)
+  },
+  {
+    path: '**',
+    loadChildren: () => import('./pages/not-found/not-found.module').then(m => m.NotFoundModule)
+  }
+];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { scrollPositionRestoration: 'top' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

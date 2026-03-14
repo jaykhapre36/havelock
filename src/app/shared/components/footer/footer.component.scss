@@ -1,0 +1,192 @@
+@use '../../../../assets/styles/variables' as *;
+@use '../../../../assets/styles/mixins' as *;
+
+.footer {
+  background: $gray-900;
+  color: $gray-400;
+  margin-top: auto;
+
+  // ─── Top Section ─────────────────────────────────────────────────────────
+  &__top {
+    padding: $spacing-16 0 $spacing-12;
+
+    @include mobile {
+      padding: $spacing-10 0 $spacing-8;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    gap: $spacing-10;
+
+    @include tablet {
+      grid-template-columns: 1fr 1fr;
+      gap: $spacing-8;
+    }
+
+    @include mobile {
+      grid-template-columns: 1fr;
+      gap: $spacing-8;
+    }
+  }
+
+  // ─── Brand ───────────────────────────────────────────────────────────────
+  &__brand {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-4;
+  }
+
+  &__logo {
+    @include flex-center;
+    justify-content: flex-start;
+    gap: $spacing-2;
+    text-decoration: none;
+
+    span {
+      font-family: $font-family-heading;
+      font-size: $font-size-lg;
+      font-weight: $font-weight-bold;
+      color: $white;
+    }
+  }
+
+  &__tagline {
+    font-size: $font-size-sm;
+    line-height: 1.7;
+    color: $gray-500;
+    max-width: 280px;
+  }
+
+  &__social {
+    display: flex;
+    gap: $spacing-3;
+    margin-top: $spacing-2;
+  }
+
+  &__social-link {
+    width: 38px;
+    height: 38px;
+    border-radius: $radius-full;
+    background: rgba($white, 0.08);
+    @include flex-center;
+    color: $gray-400;
+    text-decoration: none;
+    transition: $transition-base;
+
+    &:hover {
+      background: $primary;
+      color: $white;
+      transform: translateY(-2px);
+    }
+  }
+
+  // ─── Columns ─────────────────────────────────────────────────────────────
+  &__col {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-4;
+  }
+
+  &__heading {
+    font-family: $font-family-heading;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semi;
+    color: $white;
+    margin-bottom: $spacing-2;
+  }
+
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-3;
+  }
+
+  &__link {
+    font-size: $font-size-sm;
+    color: $gray-500;
+    text-decoration: none;
+    transition: $transition-fast;
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-2;
+
+    &::before {
+      content: '';
+      width: 0;
+      height: 2px;
+      background: $primary;
+      transition: width $transition-fast;
+      display: inline-block;
+    }
+
+    &:hover {
+      color: $primary;
+      &::before { width: 12px; }
+    }
+  }
+
+  // ─── Contact List ─────────────────────────────────────────────────────────
+  &__contact-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-4;
+
+    li {
+      display: flex;
+      align-items: flex-start;
+      gap: $spacing-3;
+      font-size: $font-size-sm;
+      color: $gray-500;
+      line-height: 1.5;
+
+      svg {
+        flex-shrink: 0;
+        margin-top: 2px;
+        color: $primary;
+      }
+    }
+  }
+
+  // ─── Bottom Bar ───────────────────────────────────────────────────────────
+  &__bottom {
+    border-top: 1px solid rgba($white, 0.08);
+    padding: $spacing-5 0;
+  }
+
+  &__bottom-inner {
+    @include flex-between;
+    gap: $spacing-4;
+
+    @include mobile {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    span {
+      font-size: $font-size-xs;
+      color: $gray-600;
+    }
+  }
+
+  &__bottom-links {
+    display: flex;
+    gap: $spacing-6;
+  }
+
+  &__bottom-link {
+    font-size: $font-size-xs;
+    color: $gray-600;
+    text-decoration: none;
+    transition: $transition-fast;
+
+    &:hover { color: $primary; }
+  }
+}

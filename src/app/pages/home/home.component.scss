@@ -1,0 +1,833 @@
+@use '../../../assets/styles/variables' as *;
+@use '../../../assets/styles/mixins' as *;
+
+// ═══════════════════════════════════════════════════════════════════════════
+// HERO
+// ═══════════════════════════════════════════════════════════════════════════
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: $navbar-height;
+  padding-bottom: $spacing-8;
+  overflow: hidden;
+
+  &__bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #003d5c 0%, #0077A8 40%, #00B4D8 80%, #00d4f5 100%);
+    z-index: 0;
+
+    // Decorative wave shapes
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 120px;
+      background: $white;
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 15%;
+      right: -10%;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: rgba($white, 0.05);
+    }
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(#001a2e, 0.35);
+  }
+
+  &__content {
+    position: relative;
+    z-index: 1;
+    padding-top: $spacing-16;
+    padding-bottom: $spacing-10;
+
+    @include mobile {
+      padding-top: $spacing-8;
+      text-align: center;
+    }
+  }
+
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-2;
+    background: rgba($white, 0.15);
+    border: 1px solid rgba($white, 0.3);
+    backdrop-filter: blur(8px);
+    color: $white;
+    padding: $spacing-2 $spacing-4;
+    border-radius: $radius-full;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    margin-bottom: $spacing-6;
+
+    &-dot {
+      width: 8px;
+      height: 8px;
+      background: #4ade80;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+  }
+
+  &__title {
+    font-family: $font-family-heading;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: $font-weight-bold;
+    color: $white;
+    line-height: 1.15;
+    margin-bottom: $spacing-5;
+    max-width: 700px;
+
+    &-highlight {
+      color: $secondary;
+      position: relative;
+    }
+  }
+
+  &__subtitle {
+    font-size: $font-size-md;
+    color: rgba($white, 0.85);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: $spacing-8;
+
+    @include mobile { font-size: $font-size-base; margin-bottom: $spacing-6; }
+  }
+
+  &__ctas {
+    display: flex;
+    gap: $spacing-4;
+    flex-wrap: wrap;
+
+    @include mobile { justify-content: center; }
+  }
+
+  &__cta-primary {
+    @include btn-primary;
+    font-size: $font-size-md;
+    padding: $spacing-4 $spacing-8;
+  }
+
+  &__cta-secondary {
+    @include btn-outline;
+    font-size: $font-size-md;
+    padding: $spacing-4 $spacing-8;
+    border-color: rgba($white, 0.6);
+    color: $white;
+
+    &:hover {
+      background: rgba($white, 0.15);
+      color: $white;
+      border-color: $white;
+    }
+  }
+}
+
+// ─── Availability Widget ───────────────────────────────────────────────────
+.availability-widget {
+  position: relative;
+  z-index: 2;
+  background: $white;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-xl;
+  padding: $spacing-5 $spacing-6;
+  display: flex;
+  align-items: flex-end;
+  gap: $spacing-4;
+  margin-top: $spacing-4;
+  margin-bottom: -$spacing-12;
+
+  @include tablet {
+    flex-wrap: wrap;
+  }
+
+  @include mobile {
+    flex-direction: column;
+    padding: $spacing-5;
+    margin-bottom: -$spacing-8;
+  }
+
+  &__field {
+    flex: 1;
+    min-width: 140px;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-2;
+
+    @include mobile { width: 100%; }
+
+    label {
+      font-size: $font-size-xs;
+      font-weight: $font-weight-semi;
+      color: $gray-500;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    input, select {
+      border: 1.5px solid $gray-200;
+      border-radius: $radius-md;
+      padding: $spacing-3 $spacing-4;
+      font-size: $font-size-sm;
+      color: $gray-800;
+      background: $white;
+      outline: none;
+      transition: $transition-fast;
+      width: 100%;
+      cursor: pointer;
+
+      &:focus { border-color: $primary; box-shadow: 0 0 0 3px rgba($primary, 0.1); }
+    }
+  }
+
+  &__btn {
+    @include btn-primary;
+    white-space: nowrap;
+    padding: $spacing-3 $spacing-6;
+    height: 48px;
+    flex-shrink: 0;
+
+    @include mobile { width: 100%; }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SHARED SECTION HELPERS
+// ═══════════════════════════════════════════════════════════════════════════
+.section-header {
+  text-align: center;
+  margin-bottom: $spacing-12;
+
+  &--row {
+    text-align: left;
+    @include flex-between;
+    align-items: flex-end;
+    margin-bottom: $spacing-8;
+
+    @include mobile { flex-direction: column; align-items: flex-start; gap: $spacing-4; }
+  }
+
+  .divider { margin: $spacing-4 auto 0; }
+}
+
+.section-eyebrow {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semi;
+  color: $primary;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: $spacing-2;
+
+  &--light { color: rgba($white, 0.7); }
+}
+
+.view-all-link {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semi;
+  color: $primary;
+  text-decoration: none;
+  transition: $transition-fast;
+  white-space: nowrap;
+
+  &:hover { gap: $spacing-3; color: $primary-dark; }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// WHY CHOOSE US
+// ═══════════════════════════════════════════════════════════════════════════
+.why-us {
+  padding-top: $spacing-24;
+
+  &__grid {
+    @include grid(4, $spacing-6);
+
+    @include tablet { @include grid(2, $spacing-6); }
+    @include mobile { @include grid(1, $spacing-5); }
+  }
+
+  &__card {
+    text-align: center;
+    padding: $spacing-8 $spacing-6;
+    border-radius: $radius-xl;
+    background: $white;
+    border: 1px solid $gray-200;
+    transition: $transition-base;
+
+    &:hover {
+      border-color: $primary-light;
+      box-shadow: $shadow-lg;
+      transform: translateY(-4px);
+    }
+  }
+
+  &__icon {
+    width: 64px;
+    height: 64px;
+    border-radius: $radius-xl;
+    background: $primary-light;
+    @include flex-center;
+    margin: 0 auto $spacing-5;
+    color: $primary;
+  }
+
+  &__title {
+    font-size: $font-size-base;
+    font-weight: $font-weight-semi;
+    color: $gray-900;
+    margin-bottom: $spacing-3;
+  }
+
+  &__desc {
+    font-size: $font-size-sm;
+    color: $gray-500;
+    line-height: 1.6;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// FEATURED ATTRACTIONS
+// ═══════════════════════════════════════════════════════════════════════════
+.featured {
+  background: $gray-100;
+
+  &__grid {
+    @include grid(4, $spacing-6);
+
+    @include tablet { @include grid(2, $spacing-6); }
+    @include mobile { @include grid(1, $spacing-5); }
+  }
+}
+
+.attraction-card {
+  @include card;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+
+  &__img-wrap {
+    position: relative;
+    overflow: hidden;
+  }
+
+  &__img {
+    height: 200px;
+    @include flex-center;
+    transition: transform 0.4s ease;
+  }
+
+  &:hover &__img { transform: scale(1.05); }
+
+  &__placeholder-icon {
+    font-size: 3rem;
+    opacity: 0.6;
+  }
+
+  &__badge {
+    position: absolute;
+    top: $spacing-3;
+    left: $spacing-3;
+  }
+
+  &__body {
+    padding: $spacing-5;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-2;
+  }
+
+  &__name {
+    font-size: $font-size-base;
+    font-weight: $font-weight-semi;
+    color: $gray-900;
+  }
+
+  &__desc {
+    font-size: $font-size-sm;
+    color: $gray-500;
+    @include text-clamp(2);
+    line-height: 1.5;
+  }
+
+  &__meta {
+    display: flex;
+    gap: $spacing-4;
+    margin-top: $spacing-1;
+  }
+
+  &__height, &__intensity {
+    display: flex;
+    align-items: center;
+    gap: $spacing-1;
+    font-size: $font-size-xs;
+    color: $gray-500;
+    font-weight: $font-weight-medium;
+  }
+
+  &__cta {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semi;
+    color: $primary;
+    margin-top: $spacing-2;
+    transition: $transition-fast;
+  }
+
+  &:hover &__cta { color: $primary-dark; letter-spacing: 0.02em; }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// PRICING
+// ═══════════════════════════════════════════════════════════════════════════
+.pricing {
+  &__grid {
+    @include grid(3, $spacing-6);
+    align-items: start;
+
+    @include mobile { @include grid(1, $spacing-5); }
+  }
+
+  &__note {
+    text-align: center;
+    margin-top: $spacing-8;
+    font-size: $font-size-sm;
+    color: $gray-500;
+
+    a { color: $primary; font-weight: $font-weight-semi; }
+  }
+}
+
+.pricing-card {
+  position: relative;
+  background: $white;
+  border: 2px solid $gray-200;
+  border-radius: $radius-xl;
+  padding: $spacing-8 $spacing-6;
+  transition: $transition-base;
+
+  &:hover { box-shadow: $shadow-lg; transform: translateY(-4px); }
+
+  &--popular {
+    border-color: $primary;
+    box-shadow: $shadow-lg;
+    transform: scale(1.03);
+
+    &:hover { transform: scale(1.03) translateY(-4px); }
+  }
+
+  &__popular-badge {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: $primary;
+    color: $white;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-bold;
+    padding: $spacing-1 $spacing-4;
+    border-radius: $radius-full;
+    white-space: nowrap;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  &__label {
+    font-family: $font-family-heading;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: $gray-900;
+    margin-bottom: $spacing-1;
+  }
+
+  &__subtitle {
+    font-size: $font-size-xs;
+    color: $gray-500;
+    margin-bottom: $spacing-5;
+  }
+
+  &__price {
+    display: flex;
+    align-items: baseline;
+    gap: $spacing-1;
+    margin-bottom: $spacing-6;
+    padding-bottom: $spacing-6;
+    border-bottom: 1px solid $gray-200;
+  }
+
+  &__currency {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $gray-700;
+  }
+
+  &__amount {
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-bold;
+    color: $gray-900;
+    font-family: $font-family-heading;
+  }
+
+  &__unit {
+    font-size: $font-size-sm;
+    color: $gray-500;
+  }
+
+  &__features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 $spacing-8;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-3;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: $spacing-3;
+      font-size: $font-size-sm;
+      color: $gray-700;
+
+      svg { color: $success; flex-shrink: 0; }
+    }
+  }
+
+  &__btn {
+    @include btn-outline;
+    width: 100%;
+    justify-content: center;
+
+    &--popular { @include btn-primary; width: 100%; justify-content: center; }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// HOST YOUR EVENT
+// ═══════════════════════════════════════════════════════════════════════════
+.events {
+  background: $gray-900;
+  padding: $spacing-20 0;
+
+  @include mobile { padding: $spacing-12 0; }
+
+  &__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $spacing-16;
+    align-items: center;
+
+    @include mobile { grid-template-columns: 1fr; gap: $spacing-10; }
+  }
+
+  &__text { color: $white; }
+
+  &__title {
+    font-family: $font-family-heading;
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-bold;
+    color: $white;
+    margin-bottom: $spacing-4;
+
+    @include mobile { font-size: $font-size-2xl; }
+  }
+
+  &__subtitle {
+    color: $gray-400;
+    font-size: $font-size-base;
+    line-height: 1.7;
+    margin-bottom: $spacing-8;
+  }
+
+  &__types {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $spacing-4;
+    margin-bottom: $spacing-8;
+  }
+
+  &__type {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+    background: rgba($white, 0.07);
+    border: 1px solid rgba($white, 0.1);
+    border-radius: $radius-lg;
+    padding: $spacing-4;
+    transition: $transition-base;
+
+    &:hover { background: rgba($primary, 0.2); border-color: $primary; }
+  }
+
+  &__type-icon { font-size: 1.5rem; }
+
+  &__type-label {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $gray-300;
+  }
+
+  &__cta { @include btn-secondary; }
+
+  &__visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @include mobile { display: none; }
+  }
+
+  &__visual-inner {
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba($primary, 0.3), rgba($primary, 0.05));
+    border: 2px solid rgba($primary, 0.3);
+    @include flex-center;
+    flex-direction: column;
+    gap: $spacing-4;
+    text-align: center;
+
+    span { font-size: 4rem; }
+
+    p {
+      color: $gray-400;
+      font-size: $font-size-sm;
+      font-weight: $font-weight-medium;
+      max-width: 160px;
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// REVIEWS
+// ═══════════════════════════════════════════════════════════════════════════
+.reviews {
+  background: $gray-100;
+
+  &__stars {
+    display: flex;
+    align-items: center;
+    gap: $spacing-1;
+    justify-content: center;
+    margin-top: $spacing-3;
+    font-size: 1.25rem;
+    color: $secondary;
+  }
+
+  &__rating-label {
+    font-size: $font-size-sm;
+    color: $gray-500;
+    font-weight: $font-weight-medium;
+    margin-left: $spacing-2;
+  }
+
+  &__grid {
+    @include grid(3, $spacing-6);
+
+    @include tablet { @include grid(1, $spacing-5); }
+    @include mobile { @include grid(1, $spacing-4); }
+  }
+}
+
+.review-card {
+  background: $white;
+  border-radius: $radius-xl;
+  padding: $spacing-8;
+  box-shadow: $shadow-sm;
+  border: 1px solid $gray-200;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-5;
+  transition: $transition-base;
+
+  &:hover { box-shadow: $shadow-lg; transform: translateY(-3px); }
+
+  &__stars {
+    font-size: 1.1rem;
+    color: $gray-300;
+
+    .filled { color: $secondary; }
+  }
+
+  &__text {
+    font-size: $font-size-base;
+    color: $gray-700;
+    line-height: 1.7;
+    font-style: italic;
+    flex: 1;
+  }
+
+  &__author {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+    padding-top: $spacing-4;
+    border-top: 1px solid $gray-100;
+  }
+
+  &__avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: $radius-full;
+    background: $primary;
+    color: $white;
+    @include flex-center;
+    font-weight: $font-weight-bold;
+    font-size: $font-size-base;
+    flex-shrink: 0;
+  }
+
+  &__name {
+    font-weight: $font-weight-semi;
+    color: $gray-900;
+    font-size: $font-size-sm;
+  }
+
+  &__type {
+    font-size: $font-size-xs;
+    color: $gray-400;
+    margin-top: 2px;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// MINI FAQ
+// ═══════════════════════════════════════════════════════════════════════════
+.mini-faq {
+  &__inner {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: $spacing-16;
+    align-items: start;
+
+    @include mobile { grid-template-columns: 1fr; gap: $spacing-8; }
+  }
+
+  &__header {
+    .section-title { text-align: left; }
+    .section-subtitle { text-align: left; }
+    .divider { margin-left: 0; margin-top: $spacing-4; }
+  }
+}
+
+.faq-list { display: flex; flex-direction: column; gap: $spacing-3; }
+
+.faq-item {
+  background: $white;
+  border: 1.5px solid $gray-200;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  cursor: pointer;
+  transition: $transition-base;
+
+  &:hover { border-color: $primary-light; }
+
+  &--open {
+    border-color: $primary;
+    box-shadow: 0 0 0 3px rgba($primary, 0.08);
+  }
+
+  &__question {
+    @include flex-between;
+    padding: $spacing-5 $spacing-6;
+    font-weight: $font-weight-semi;
+    color: $gray-800;
+    font-size: $font-size-base;
+    gap: $spacing-4;
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    color: $gray-400;
+    transition: transform $transition-base;
+  }
+
+  &--open &__icon { transform: rotate(180deg); color: $primary; }
+
+  &__answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.35s ease;
+
+    p {
+      padding: 0 $spacing-6 $spacing-5;
+      font-size: $font-size-sm;
+      color: $gray-600;
+      line-height: 1.7;
+    }
+
+    &--visible { max-height: 200px; }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// BOTTOM CTA BANNER
+// ═══════════════════════════════════════════════════════════════════════════
+.cta-banner {
+  background: linear-gradient(135deg, $primary-dark, $primary);
+  padding: $spacing-16 0;
+
+  @include mobile { padding: $spacing-10 0; }
+
+  &__inner {
+    @include flex-between;
+    gap: $spacing-8;
+
+    @include mobile { flex-direction: column; text-align: center; align-items: center; }
+  }
+
+  &__title {
+    font-family: $font-family-heading;
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    color: $white;
+    margin-bottom: $spacing-2;
+
+    @include mobile { font-size: $font-size-xl; }
+  }
+
+  &__sub {
+    color: rgba($white, 0.8);
+    font-size: $font-size-base;
+  }
+
+  &__btn {
+    @include btn-base;
+    background: $white;
+    color: $primary;
+    font-weight: $font-weight-bold;
+    padding: $spacing-4 $spacing-10;
+    white-space: nowrap;
+    flex-shrink: 0;
+
+    &:hover {
+      background: $gray-100;
+      transform: translateY(-2px);
+      box-shadow: $shadow-lg;
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ANIMATIONS
+// ═══════════════════════════════════════════════════════════════════════════
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.3); }
+}

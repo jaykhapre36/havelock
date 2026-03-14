@@ -1,0 +1,340 @@
+@use '../../../assets/styles/variables' as *;
+@use '../../../assets/styles/mixins' as *;
+
+// ─── Hero ─────────────────────────────────────────────────────────────────────
+.av-hero {
+  background: linear-gradient(135deg, $primary-dark 0%, $primary 60%, $secondary 100%);
+  padding: $spacing-16 0 $spacing-10;
+  color: $white;
+  text-align: center;
+
+  &__title {
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    font-weight: 800;
+    margin-bottom: $spacing-3;
+  }
+
+  &__sub {
+    font-size: 1rem;
+    color: rgba($white, 0.85);
+    max-width: 520px;
+    margin: 0 auto;
+  }
+}
+
+// ─── Main layout ──────────────────────────────────────────────────────────────
+.av-main { background: $gray-100; }
+
+.av-main__layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: $spacing-8;
+  align-items: start;
+
+  @include tablet { grid-template-columns: 1fr; }
+}
+
+// ─── Form card ────────────────────────────────────────────────────────────────
+.av-card {
+  background: $white;
+  border-radius: $radius-xl;
+  padding: $spacing-8;
+  box-shadow: $shadow-sm;
+  border: 1px solid $gray-200;
+
+  &__title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: $gray-800;
+    margin-bottom: $spacing-6;
+  }
+}
+
+// ─── Fields ───────────────────────────────────────────────────────────────────
+.av-field { margin-bottom: $spacing-6; }
+
+.av-label {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: $gray-600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: $spacing-3;
+  svg { color: $primary; }
+}
+
+.av-input {
+  width: 100%;
+  padding: $spacing-3 $spacing-4;
+  border: 1.5px solid $gray-200;
+  border-radius: $radius-lg;
+  font-size: 0.95rem;
+  color: $gray-800;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  &:focus { border-color: $primary; box-shadow: 0 0 0 3px rgba($primary, 0.12); }
+}
+
+// ─── Guests ───────────────────────────────────────────────────────────────────
+.av-guests {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-4;
+  margin-bottom: $spacing-3;
+
+  @include mobile { grid-template-columns: 1fr; }
+
+  &__total {
+    font-size: 0.9rem;
+    color: $gray-600;
+    strong { color: $primary; font-weight: 700; }
+  }
+}
+
+.av-counter {
+  &__label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: $gray-500;
+    margin-bottom: $spacing-2;
+  }
+
+  &__ctrl {
+    display: flex;
+    align-items: center;
+    border: 1.5px solid $gray-200;
+    border-radius: $radius-lg;
+    overflow: hidden;
+
+    button {
+      width: 42px;
+      height: 44px;
+      border: none;
+      background: $gray-100;
+      color: $gray-700;
+      font-size: 1.2rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      &:hover:not(:disabled) { background: $primary; color: $white; }
+      &:disabled { opacity: 0.35; cursor: not-allowed; }
+    }
+
+    span {
+      flex: 1;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 700;
+      color: $gray-800;
+    }
+  }
+}
+
+// ─── Slots ────────────────────────────────────────────────────────────────────
+.av-slots {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+}
+
+.av-slot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-4 $spacing-5;
+  border: 2px solid $gray-200;
+  border-radius: $radius-lg;
+  cursor: pointer;
+  transition: $transition-base;
+  gap: $spacing-4;
+
+  &:hover { border-color: $primary; box-shadow: $shadow-sm; }
+  &--selected { border-color: $primary; background: rgba($primary, 0.04); box-shadow: 0 0 0 4px rgba($primary, 0.1); }
+  &--full { opacity: 0.5; cursor: not-allowed; &:hover { border-color: $gray-200; box-shadow: none; } }
+  &--limited { border-color: #F59E0B; }
+
+  &__info { flex: 1; }
+
+  &__time {
+    font-size: 1rem;
+    font-weight: 700;
+    color: $gray-800;
+    margin: 0 0 2px;
+  }
+
+  &__label { font-size: 0.8rem; color: $gray-500; margin: 0; }
+
+  &__right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: $spacing-1;
+    min-width: 110px;
+  }
+
+  &__status {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px $spacing-2;
+    border-radius: $radius-full;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    &--available { background: rgba($success, 0.12); color: $success; }
+    &--limited   { background: rgba(#F59E0B, 0.15); color: #b45309; }
+    &--full      { background: rgba(#DC3545, 0.1);  color: #DC3545; }
+  }
+
+  &__bar {
+    width: 100%;
+    height: 5px;
+    background: $gray-200;
+    border-radius: $radius-full;
+    overflow: hidden;
+  }
+
+  &__bar-fill {
+    height: 100%;
+    background: $primary;
+    border-radius: $radius-full;
+    transition: width 0.5s ease;
+    &.warn { background: #F59E0B; }
+  }
+
+  &__seats { font-size: 0.78rem; color: $gray-500; }
+}
+
+// ─── Proceed ──────────────────────────────────────────────────────────────────
+.av-proceed {
+  @include btn-primary;
+  width: 100%;
+  margin-top: $spacing-6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-2;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  &:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+}
+
+.av-note {
+  margin-top: $spacing-3;
+  font-size: 0.85rem;
+  color: $success;
+  text-align: center;
+  strong { font-weight: 700; }
+}
+
+// ─── Sidebar ──────────────────────────────────────────────────────────────────
+.av-sidebar {
+  position: sticky;
+  top: calc(70px + #{$spacing-6});
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-5;
+  @include tablet { position: static; }
+}
+
+.av-info-card {
+  background: $white;
+  border: 1px solid $gray-200;
+  border-radius: $radius-xl;
+  padding: $spacing-6;
+  box-shadow: $shadow-sm;
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: $gray-800;
+    margin-bottom: $spacing-4;
+  }
+
+  &__text { font-size: 0.875rem; color: $gray-500; line-height: 1.6; margin-bottom: $spacing-3; }
+  &--tips { background: #f0fdf4; border-color: #bbf7d0; }
+}
+
+.av-status-indicator {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  margin-bottom: $spacing-4;
+}
+
+.av-status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: $gray-400;
+  flex-shrink: 0;
+  &.open { background: $success; box-shadow: 0 0 0 3px rgba($success, 0.2); }
+}
+
+.av-status-text { font-size: 0.9rem; font-weight: 600; color: $gray-700; }
+
+.av-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  padding: $spacing-2 0;
+  border-bottom: 1px solid $gray-100;
+  &:last-of-type { border-bottom: none; }
+  span { color: $gray-500; }
+  strong { font-weight: 600; color: $gray-700; }
+}
+
+.av-occ {
+  margin-top: $spacing-4;
+
+  &__label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    color: $gray-500;
+    margin-bottom: $spacing-2;
+  }
+
+  &__bar {
+    background: $gray-100;
+    border-radius: $radius-full;
+    height: 8px;
+    overflow: hidden;
+    margin-bottom: $spacing-2;
+  }
+
+  &__fill {
+    height: 100%;
+    background: linear-gradient(90deg, $primary, $secondary);
+    border-radius: $radius-full;
+    transition: width 0.5s ease;
+  }
+
+  &__text { font-size: 0.78rem; color: $gray-400; text-align: right; margin: 0; }
+}
+
+.av-tips-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+
+  li {
+    font-size: 0.875rem;
+    color: $gray-600;
+    padding-left: $spacing-4;
+    position: relative;
+    line-height: 1.5;
+    &::before { content: '✓'; position: absolute; left: 0; color: $success; font-weight: 700; }
+  }
+}

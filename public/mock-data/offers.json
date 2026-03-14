@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "title": "Early Bird Special",
+    "description": "Book online and unlock smoother entry + exclusive promotional offers",
+    "discount": 10,
+    "discountType": "percentage",
+    "promoCode": "EARLY10",
+    "validUntil": "2026-12-31",
+    "minGuests": 1,
+    "applicableOn": ["adult", "child", "family"],
+    "isActive": true
+  },
+  {
+    "id": 2,
+    "title": "Group Discount",
+    "description": "Group bookings of 15+ guests receive a special discount",
+    "discount": 15,
+    "discountType": "percentage",
+    "promoCode": "GROUP15",
+    "validUntil": "2026-12-31",
+    "minGuests": 15,
+    "applicableOn": ["adult", "child"],
+    "isActive": true
+  },
+  {
+    "id": 3,
+    "title": "Weekend Family Deal",
+    "description": "Book a Family Combo on weekends and get a free locker + meal vouchers",
+    "discount": 500,
+    "discountType": "flat",
+    "promoCode": "WEEKENDFAM",
+    "validUntil": "2026-06-30",
+    "minGuests": 4,
+    "applicableOn": ["family"],
+    "isActive": true
+  }
+]

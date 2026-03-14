@@ -1,0 +1,266 @@
+{
+  "weekday": [
+    {
+      "id": 1,
+      "type": "adult",
+      "label": "Adult Pass",
+      "badge": "STANDARD",
+      "subtitle": "Above 4ft height",
+      "price": 1299,
+      "unit": "person",
+      "features": [
+        "Full Day Access",
+        "All Water Slides",
+        "Safety Gear Included"
+      ],
+      "popular": false,
+      "ctaLabel": "Select",
+      "ctaType": "primary"
+    },
+    {
+      "id": 2,
+      "type": "child",
+      "label": "Child Pass",
+      "badge": "JUNIOR",
+      "subtitle": "Below 4ft height",
+      "price": 899,
+      "unit": "child",
+      "features": [
+        "KidZone Access",
+        "Lazy River Entry",
+        "Free Floaties"
+      ],
+      "popular": false,
+      "ctaLabel": "Select",
+      "ctaType": "primary"
+    },
+    {
+      "id": 3,
+      "type": "family",
+      "label": "Family Combo",
+      "badge": "BEST VALUE",
+      "subtitle": "2 Adults + 2 Kids",
+      "price": 3999,
+      "unit": "family",
+      "features": [
+        "Priority Entry",
+        "Free Large Locker",
+        "Meal Vouchers Included"
+      ],
+      "popular": true,
+      "ctaLabel": "Select Combo",
+      "ctaType": "primary"
+    },
+    {
+      "id": 4,
+      "type": "senior",
+      "label": "Senior Pass",
+      "badge": null,
+      "subtitle": "Age 60+ with ID",
+      "price": 799,
+      "unit": "senior",
+      "features": [
+        "Relaxation Zone",
+        "Priority Seating",
+        "Soft Entry Ramps"
+      ],
+      "popular": false,
+      "ctaLabel": "Select",
+      "ctaType": "primary"
+    },
+    {
+      "id": 5,
+      "type": "school-group",
+      "label": "School Group",
+      "badge": null,
+      "subtitle": "Min 20 students",
+      "price": 699,
+      "unit": "student",
+      "features": [
+        "Teacher Free Entry",
+        "Guided Group Tour",
+        "Lunch Box Included"
+      ],
+      "popular": false,
+      "ctaLabel": "Enquire Now",
+      "ctaType": "outline"
+    },
+    {
+      "id": 6,
+      "type": "corporate",
+      "label": "Corporate",
+      "badge": null,
+      "subtitle": "Min 50 People",
+      "price": 999,
+      "unit": "employee",
+      "features": [
+        "Private Cabana",
+        "Team Building Events",
+        "Custom Catering"
+      ],
+      "popular": false,
+      "ctaLabel": "Get Quote",
+      "ctaType": "outline"
+    }
+  ],
+  "weekend": [
+    {
+      "id": 1,
+      "type": "adult",
+      "label": "Adult Pass",
+      "badge": "STANDARD",
+      "subtitle": "Above 4ft height",
+      "price": 1499,
+      "unit": "person",
+      "features": ["Full Day Access", "All Water Slides", "Safety Gear Included"],
+      "popular": false,
+      "ctaLabel": "Select",
+      "ctaType": "primary"
+    },
+    {
+      "id": 2,
+      "type": "child",
+      "label": "Child Pass",
+      "badge": "JUNIOR",
+      "subtitle": "Below 4ft height",
+      "price": 1099,
+      "unit": "child",
+      "features": ["KidZone Access", "Lazy River Entry", "Free Floaties"],
+      "popular": false,
+      "ctaLabel": "Select",
+      "ctaType": "primary"
+    },
+    {
+      "id": 3,
+      "type": "family",
+      "label": "Family Combo",
+      "badge": "BEST VALUE",
+      "subtitle": "2 Adults + 2 Kids",
+      "price": 4599,
+      "unit": "family",
+      "features": ["Priority Entry", "Free Large Locker", "Meal Vouchers Included"],
+      "popular": true,
+      "ctaLabel": "Select Combo",
+      "ctaType": "primary"
+    },
+    {
+      "id": 4,
+      "type": "senior",
+      "label": "Senior Pass",
+      "badge": null,
+      "subtitle": "Age 60+ with ID",
+      "price": 999,
+      "unit": "senior",
+      "features": ["Relaxation Zone", "Priority Seating", "Soft Entry Ramps"],
+      "popular": false,
+      "ctaLabel": "Select",
+      "ctaType": "primary"
+    },
+    {
+      "id": 5,
+      "type": "school-group",
+      "label": "School Group",
+      "badge": null,
+      "subtitle": "Min 20 students",
+      "price": 799,
+      "unit": "student",
+      "features": ["Teacher Free Entry", "Guided Group Tour", "Lunch Box Included"],
+      "popular": false,
+      "ctaLabel": "Enquire Now",
+      "ctaType": "outline"
+    },
+    {
+      "id": 6,
+      "type": "corporate",
+      "label": "Corporate",
+      "badge": null,
+      "subtitle": "Min 50 People",
+      "price": 1199,
+      "unit": "employee",
+      "features": ["Private Cabana", "Team Building Events", "Custom Catering"],
+      "popular": false,
+      "ctaLabel": "Get Quote",
+      "ctaType": "outline"
+    }
+  ],
+  "holiday": [
+    {
+      "id": 1,
+      "type": "adult",
+      "label": "Adult Pass",
+      "badge": "STANDARD",
+      "subtitle": "Above 4ft height",
+      "price": 1699,
+      "unit": "person",
+      "features": ["Full Day Access", "All Water Slides", "Safety Gear Included"],
+      "popular": false,
+      "ctaLabel": "Select",
+      "ctaType": "primary"
+    },
+    {
+      "id": 2,
+      "type": "child",
+      "label": "Child Pass",
+      "badge": "JUNIOR",
+      "subtitle": "Below 4ft height",
+      "price": 1299,
+      "unit": "child",
+      "features": ["KidZone Access", "Lazy River Entry", "Free Floaties"],
+      "popular": false,
+      "ctaLabel": "Select",
+      "ctaType": "primary"
+    },
+    {
+      "id": 3,
+      "type": "family",
+      "label": "Family Combo",
+      "badge": "BEST VALUE",
+      "subtitle": "2 Adults + 2 Kids",
+      "price": 5499,
+      "unit": "family",
+      "features": ["Priority Entry", "Free Large Locker", "Meal Vouchers Included"],
+      "popular": true,
+      "ctaLabel": "Select Combo",
+      "ctaType": "primary"
+    },
+    {
+      "id": 4,
+      "type": "senior",
+      "label": "Senior Pass",
+      "badge": null,
+      "subtitle": "Age 60+ with ID",
+      "price": 1199,
+      "unit": "senior",
+      "features": ["Relaxation Zone", "Priority Seating", "Soft Entry Ramps"],
+      "popular": false,
+      "ctaLabel": "Select",
+      "ctaType": "primary"
+    },
+    {
+      "id": 5,
+      "type": "school-group",
+      "label": "School Group",
+      "badge": null,
+      "subtitle": "Min 20 students",
+      "price": 899,
+      "unit": "student",
+      "features": ["Teacher Free Entry", "Guided Group Tour", "Lunch Box Included"],
+      "popular": false,
+      "ctaLabel": "Enquire Now",
+      "ctaType": "outline"
+    },
+    {
+      "id": 6,
+      "type": "corporate",
+      "label": "Corporate",
+      "badge": null,
+      "subtitle": "Min 50 People",
+      "price": 1399,
+      "unit": "employee",
+      "features": ["Private Cabana", "Team Building Events", "Custom Catering"],
+      "popular": false,
+      "ctaLabel": "Get Quote",
+      "ctaType": "outline"
+    }
+  ]
+}

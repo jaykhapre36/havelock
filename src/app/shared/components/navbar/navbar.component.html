@@ -1,0 +1,83 @@
+<nav class="navbar" [class.scrolled]="isScrolled" [class.menu-open]="isMenuOpen">
+  <div class="navbar__inner">
+
+    <!-- Logo -->
+    <a class="navbar__logo" routerLink="/" (click)="closeMenu()">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 2C16 2 6 12 6 20C6 25.523 10.477 30 16 30C21.523 30 26 25.523 26 20C26 12 16 2 16 2Z" fill="#00B4D8"/>
+        <path d="M16 10C16 10 10 16.5 10 21C10 24.314 12.686 27 16 27C19.314 27 22 24.314 22 21C22 16.5 16 10 16 10Z" fill="white" opacity="0.4"/>
+      </svg>
+      <span class="navbar__logo-text">Havelock</span>
+    </a>
+
+    <!-- Desktop Nav Links -->
+    <ul class="navbar__links">
+      <li *ngFor="let link of navLinks">
+        <a
+          [routerLink]="link.route"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: link.exact }"
+          class="navbar__link"
+        >{{ link.label }}</a>
+      </li>
+    </ul>
+
+    <!-- Desktop Right Actions -->
+    <div class="navbar__actions">
+      <!-- Logged Out -->
+      <ng-container *ngIf="!currentUser">
+        <a routerLink="/auth/login" class="navbar__login-btn">Login</a>
+        <a routerLink="/tickets" class="navbar__book-btn btn-primary">Book Tickets</a>
+      </ng-container>
+
+      <!-- Logged In -->
+      <ng-container *ngIf="currentUser">
+        <div class="navbar__user">
+          <div class="navbar__avatar">{{ currentUser.name.charAt(0) }}</div>
+          <div class="navbar__user-dropdown">
+            <span class="navbar__user-name">{{ currentUser.name }}</span>
+            <button class="navbar__logout-btn" (click)="logout()">Logout</button>
+          </div>
+        </div>
+        <a routerLink="/tickets" class="navbar__book-btn btn-primary">Book Tickets</a>
+      </ng-container>
+    </div>
+
+    <!-- Mobile Hamburger -->
+    <button class="navbar__hamburger" (click)="toggleMenu()" [attr.aria-expanded]="isMenuOpen" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="navbar__mobile-menu" [class.open]="isMenuOpen">
+    <ul class="navbar__mobile-links">
+      <li *ngFor="let link of navLinks">
+        <a
+          [routerLink]="link.route"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: link.exact }"
+          class="navbar__mobile-link"
+          (click)="closeMenu()"
+        >{{ link.label }}</a>
+      </li>
+    </ul>
+    <div class="navbar__mobile-actions">
+      <ng-container *ngIf="!currentUser">
+        <a routerLink="/auth/login" class="btn-outline" (click)="closeMenu()">Login</a>
+        <a routerLink="/tickets" class="btn-primary" (click)="closeMenu()">Book Tickets</a>
+      </ng-container>
+      <ng-container *ngIf="currentUser">
+        <span class="navbar__mobile-greeting">Hi, {{ currentUser.name }}</span>
+        <button class="btn-outline" (click)="logout()">Logout</button>
+        <a routerLink="/tickets" class="btn-primary" (click)="closeMenu()">Book Tickets</a>
+      </ng-container>
+    </div>
+  </div>
+
+  <!-- Mobile Overlay -->
+  <div class="navbar__overlay" [class.visible]="isMenuOpen" (click)="closeMenu()"></div>
+</nav>

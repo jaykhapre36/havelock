@@ -1,0 +1,136 @@
+<!-- ══ HERO ════════════════════════════════════════════════════════════════ -->
+<section class="ct-hero">
+  <div class="container ct-hero__inner">
+    <h1 class="ct-hero__title">Contact Us</h1>
+    <p class="ct-hero__sub">We'd love to hear from you. Reach out for bookings, group events, or any questions.</p>
+  </div>
+</section>
+
+<!-- ══ MAIN ════════════════════════════════════════════════════════════════ -->
+<section class="ct-main section">
+  <div class="container ct-main__layout">
+
+    <!-- FORM -->
+    <div class="ct-form-wrap">
+      <!-- Success state -->
+      <div class="ct-success" *ngIf="submitted">
+        <div class="ct-success__icon">✓</div>
+        <h3>Message Sent!</h3>
+        <p>Thank you for reaching out. Our team will get back to you within 24 hours.</p>
+        <button class="btn-primary" (click)="resetForm()">Send Another Message</button>
+      </div>
+
+      <!-- Form -->
+      <form class="ct-form" [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="!submitted">
+        <h2 class="ct-form__title">Send us a Message</h2>
+
+        <div class="ct-form__row">
+          <!-- Name -->
+          <div class="ct-field" [class.ct-field--error]="isInvalid('name')">
+            <label>Full Name <span>*</span></label>
+            <input type="text" formControlName="name" placeholder="Your full name" />
+            <p class="ct-field__error" *ngIf="isInvalid('name')">Please enter your name (min 2 characters).</p>
+          </div>
+          <!-- Email -->
+          <div class="ct-field" [class.ct-field--error]="isInvalid('email')">
+            <label>Email Address <span>*</span></label>
+            <input type="email" formControlName="email" placeholder="you@example.com" />
+            <p class="ct-field__error" *ngIf="isInvalid('email')">Please enter a valid email address.</p>
+          </div>
+        </div>
+
+        <div class="ct-form__row">
+          <!-- Phone -->
+          <div class="ct-field" [class.ct-field--error]="isInvalid('phone')">
+            <label>Phone Number</label>
+            <input type="tel" formControlName="phone" placeholder="+91 99999 00000" />
+            <p class="ct-field__error" *ngIf="isInvalid('phone')">Please enter a valid phone number.</p>
+          </div>
+          <!-- Subject -->
+          <div class="ct-field">
+            <label>Subject</label>
+            <select formControlName="subject">
+              <option *ngFor="let s of subjects" [value]="s">{{ s }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Message -->
+        <div class="ct-field ct-field--full" [class.ct-field--error]="isInvalid('message')">
+          <label>Message <span>*</span></label>
+          <textarea formControlName="message" rows="5" placeholder="How can we help you?"></textarea>
+          <p class="ct-field__error" *ngIf="isInvalid('message')">Please enter a message (min 10 characters).</p>
+        </div>
+
+        <p class="ct-form__error" *ngIf="submitError">{{ submitError }}</p>
+
+        <button type="submit" class="ct-form__submit btn-primary" [disabled]="submitting">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" *ngIf="!submitting">
+            <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+          {{ submitting ? 'Sending...' : 'Send Message' }}
+        </button>
+      </form>
+    </div>
+
+    <!-- INFO SIDEBAR -->
+    <aside class="ct-info">
+
+      <!-- Hours -->
+      <div class="ct-info-card" *ngIf="parkInfo">
+        <div class="ct-info-card__icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <h4>Opening Hours</h4>
+        <div class="ct-hours">
+          <div class="ct-hours__row"><span>Weekday</span><strong>{{ parkInfo.openingHours.weekday.open }} – {{ parkInfo.openingHours.weekday.close }}</strong></div>
+          <div class="ct-hours__row"><span>Weekend</span><strong>{{ parkInfo.openingHours.weekend.open }} – {{ parkInfo.openingHours.weekend.close }}</strong></div>
+          <div class="ct-hours__row"><span>Holiday</span><strong>{{ parkInfo.openingHours.holiday.open }} – {{ parkInfo.openingHours.holiday.close }}</strong></div>
+        </div>
+        <p class="ct-info-card__support">Support: {{ parkInfo.contact.supportHours }}</p>
+      </div>
+
+      <!-- Contact details -->
+      <div class="ct-info-card" *ngIf="parkInfo">
+        <div class="ct-info-card__icon ct-info-card__icon--green">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.81a16 16 0 0 0 6.29 6.29l.95-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+          </svg>
+        </div>
+        <h4>Get in Touch</h4>
+        <div class="ct-contact-list">
+          <a [href]="'tel:' + parkInfo.contact.phone" class="ct-contact-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.81a16 16 0 0 0 6.29 6.29l.95-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            {{ parkInfo.contact.phone }}
+          </a>
+          <a [href]="'mailto:' + parkInfo.contact.email" class="ct-contact-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            {{ parkInfo.contact.email }}
+          </a>
+          <div class="ct-contact-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            {{ parkInfo.address.line1 }}, {{ parkInfo.address.city }}, {{ parkInfo.address.state }}
+          </div>
+        </div>
+        <a [href]="getWhatsappUrl(parkInfo.contact.whatsapp)" target="_blank" class="ct-whatsapp-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+          </svg>
+          Chat on WhatsApp
+        </a>
+      </div>
+
+      <!-- Map placeholder -->
+      <div class="ct-map-placeholder">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21 3 6"/>
+        </svg>
+        <p>Havelock Water Park,<br>Highway Road, Gandhinagar,<br>Gujarat – 382010</p>
+        <a routerLink="/map" class="btn-outline" style="margin-top:.5rem">Open Map →</a>
+      </div>
+
+    </aside>
+  </div>
+</section>

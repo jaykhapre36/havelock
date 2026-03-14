@@ -1,0 +1,16 @@
+{
+  "parkInfo": {
+    "openingTime": "10:00",
+    "closingTime": "20:00",
+    "maxCapacity": 2000,
+    "currentOccupancy": 840,
+    "status": "open",
+    "avgWaitTime": "15-30 min"
+  },
+  "timeSlots": [
+    { "id": 1, "time": "10:00 AM", "label": "Morning Entry", "availableSeats": 400, "totalSeats": 500, "status": "available" },
+    { "id": 2, "time": "12:00 PM", "label": "Afternoon Entry", "availableSeats": 120, "totalSeats": 500, "status": "limited" },
+    { "id": 3, "time": "02:00 PM", "label": "Post Noon Entry", "availableSeats": 0,   "totalSeats": 500, "status": "full" },
+    { "id": 4, "time": "04:00 PM", "label": "Evening Entry",   "availableSeats": 350, "totalSeats": 500, "status": "available" }
+  ]
+}

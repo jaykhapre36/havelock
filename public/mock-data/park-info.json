@@ -1,0 +1,38 @@
+{
+  "name": "Havelock Water Park",
+  "tagline": "Gujarat's Most Exciting Water Park",
+  "description": "Book tickets online, entertain with QR, and enjoy a memorable family day out with world-class rides and safety.",
+  "address": {
+    "line1": "Plot 32, Dreamland City, Highway Road",
+    "city": "Gandhinagar",
+    "state": "Gujarat",
+    "pincode": "382010"
+  },
+  "contact": {
+    "phone": "+91-99883-45120",
+    "email": "info@havelock.com",
+    "whatsapp": "+919988345120",
+    "supportHours": "9 AM – 7 PM daily"
+  },
+  "openingHours": {
+    "weekday": { "open": "10:00 AM", "close": "7:00 PM" },
+    "weekend": { "open": "9:00 AM",  "close": "8:00 PM" },
+    "holiday": { "open": "9:00 AM",  "close": "9:00 PM" }
+  },
+  "socialLinks": {
+    "instagram": "https://instagram.com/havelock",
+    "facebook": "https://facebook.com/havelock",
+    "youtube": "https://youtube.com/havelock"
+  },
+  "mapCoordinates": {
+    "lat": 23.2156,
+    "lng": 72.6369
+  },
+  "parkZones": [
+    { "id": 1, "name": "Adventure Peak",   "color": "#FF6B6B", "description": "High-thrill rides for adrenaline seekers" },
+    { "id": 2, "name": "Family Cove",      "color": "#4ECDC4", "description": "Fun for the whole family" },
+    { "id": 3, "name": "Kids Kingdom",     "color": "#FFE66D", "description": "Safe and playful zone for little ones" },
+    { "id": 4, "name": "Serenity Springs", "color": "#A8E6CF", "description": "Relax and unwind" },
+    { "id": 5, "name": "Entertainment Hub","color": "#C9B1FF", "description": "Shows, music and more" }
+  ]
+}

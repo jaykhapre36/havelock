@@ -1,0 +1,112 @@
+[
+  {
+    "id": 1,
+    "category": "Booking & Tickets",
+    "icon": "ticket",
+    "questions": [
+      {
+        "id": 101,
+        "question": "What is included in the Adult/Child Pass?",
+        "answer": "Our passes include unlimited access to all water rides, slides, wave pools, and the lazy river for the entire day. It also includes basic life vests and tubes. Lockers and food are charged separately unless specified in a combo."
+      },
+      {
+        "id": 102,
+        "question": "All tickets must be booked online?",
+        "answer": "All tickets must be booked online at least 2 hours prior to visit. Digital QR codes are accepted at the entrance."
+      },
+      {
+        "id": 103,
+        "question": "Can I reschedule my booking?",
+        "answer": "Yes, you can reschedule up to 48 hours before your visit at no charge. Rescheduling within 24 hours may incur a fee."
+      },
+      {
+        "id": 104,
+        "question": "Do you offer student or group discounts?",
+        "answer": "Yes! Group bookings of 15+ guests receive a 15% discount. School groups of 20+ students have special pricing. Contact us to enquire."
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "category": "Ride Rules",
+    "icon": "water-drop",
+    "questions": [
+      {
+        "id": 201,
+        "question": "What are the height requirements?",
+        "answer": "Height requirements vary per ride. Cyclone Drop requires 120cm+, Aqua Racer requires 110cm+, Family Tube Ride requires 100cm+. Kids Coral Zone is for children under 120cm. Height boards are posted at each ride entrance."
+      },
+      {
+        "id": 202,
+        "question": "Can pregnant women ride the slides?",
+        "answer": "Pregnant women are advised against riding any water slides or high-speed attractions. They are welcome to enjoy the wave pool (calm sessions), lazy river, and relaxation areas."
+      },
+      {
+        "id": 203,
+        "question": "Are single riders allowed on all rides?",
+        "answer": "Most rides allow single riders. The Family Tube Ride requires a minimum of 2 riders. Staff at each ride will guide you."
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "category": "Visitor Guidelines",
+    "icon": "people",
+    "questions": [
+      {
+        "id": 301,
+        "question": "What swimwear is required?",
+        "answer": "Proper nylon/lycra swimwear is mandatory. Denim shorts, underwear, or regular clothing is not permitted in the pools or on rides. Board shorts are acceptable for males."
+      },
+      {
+        "id": 302,
+        "question": "Are outside food and drinks allowed?",
+        "answer": "Outside food and drinks are not permitted inside the park. We have multiple dining options including snack bars and a full food court with a wide variety of meals and refreshments."
+      },
+      {
+        "id": 303,
+        "question": "Is there a parking facility available?",
+        "answer": "Yes, we have a large parking facility accommodating 500+ vehicles. Parking charges are ₹100 for two-wheelers and ₹200 for four-wheelers per day."
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "category": "Safety Notes",
+    "icon": "shield",
+    "questions": [
+      {
+        "id": 401,
+        "question": "How many lifeguards are on duty?",
+        "answer": "We maintain a ratio of 1 lifeguard per 25 visitors across all water areas. All lifeguards are certified and trained in water rescue and first aid."
+      },
+      {
+        "id": 402,
+        "question": "What should I do in case of an emergency?",
+        "answer": "Alert the nearest lifeguard or staff member immediately. First aid stations are located at every zone entrance. Our emergency response team is on-site at all times."
+      },
+      {
+        "id": 403,
+        "question": "Is adult supervision mandatory for children?",
+        "answer": "Children under 12 must be accompanied by an adult at all times except in the Kids Coral Zone which has dedicated child-only supervised areas."
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "category": "Refund Questions",
+    "icon": "refund",
+    "questions": [
+      {
+        "id": 501,
+        "question": "What is the refund policy?",
+        "answer": "Tickets are non-refundable within 24 hours of visit. Free rescheduling is available up to 48 hours prior. In case of park closure due to weather or unforeseen events, a full refund is issued."
+      },
+      {
+        "id": 502,
+        "question": "How long does a refund take to process?",
+        "answer": "Approved refunds are processed within 5–7 business days to the original payment method."
+      }
+    ]
+  }
+]

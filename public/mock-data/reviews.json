@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "Rahul S.",
+    "rating": 5,
+    "review": "The QR entry system was so seamless! We didn't have to wait at all. The Cyclone Drop is absolutely insane — best ride I've been on!",
+    "date": "2026-02-10",
+    "visitType": "family"
+  },
+  {
+    "id": 2,
+    "name": "Priya K.",
+    "rating": 5,
+    "review": "Amazing water park! My daughter had so much fun in the Kids Coral Zone. The staff were super helpful and the park was clean.",
+    "date": "2026-01-22",
+    "visitType": "family"
+  },
+  {
+    "id": 3,
+    "name": "Anon",
+    "rating": 5,
+    "review": "Perfect for our corporate team outing. The staff managed everything brilliantly, the food was surprisingly good!",
+    "date": "2026-03-01",
+    "visitType": "corporate"
+  }
+]

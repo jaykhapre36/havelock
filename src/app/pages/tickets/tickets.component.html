@@ -1,0 +1,247 @@
+<!-- ══ HERO ════════════════════════════════════════════════════════════════ -->
+<section class="tk-hero">
+  <div class="container tk-hero__inner">
+    <div class="tk-hero__text">
+      <span class="tk-hero__eyebrow">ADMISSION</span>
+      <h1 class="tk-hero__title">Tickets &amp; Packages</h1>
+      <p class="tk-hero__sub">
+        Simple pricing, flexible pass options, and better value when you book
+        online. Dive into the most thrilling water park experience.
+      </p>
+    </div>
+    <div class="tk-hero__visual">
+      <div class="tk-hero__img-placeholder">
+        <span>🏄</span>
+        <p>Best prices online!</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ OFFER BANNER ════════════════════════════════════════════════════════ -->
+<div class="offer-banner" *ngFor="let offer of offers.slice(0,1)">
+  <div class="container offer-banner__inner">
+    <div class="offer-banner__left">
+      <span class="offer-banner__icon">🎟️</span>
+      <div>
+        <strong class="offer-banner__title">{{ offer.title }}</strong>
+        <p class="offer-banner__desc">{{ offer.description }}</p>
+      </div>
+    </div>
+    <div class="offer-banner__promo">
+      <div class="promo-input-wrap">
+        <input
+          type="text"
+          [(ngModel)]="promoCode"
+          placeholder="Enter promo code"
+          class="promo-input"
+          [disabled]="!!appliedOffer"
+          (keyup.enter)="applyPromo()"
+        />
+        <button class="promo-btn" (click)="applyPromo()" *ngIf="!appliedOffer" [disabled]="promoLoading">
+          {{ promoLoading ? 'Checking...' : 'Apply Promo' }}
+        </button>
+        <button class="promo-btn promo-btn--remove" (click)="removePromo()" *ngIf="appliedOffer">
+          ✕ Remove
+        </button>
+      </div>
+      <p class="promo-msg promo-msg--success" *ngIf="promoSuccess">✓ {{ promoSuccess }}</p>
+      <p class="promo-msg promo-msg--error"   *ngIf="promoError">✗ {{ promoError }}</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MAIN CONTENT ════════════════════════════════════════════════════════ -->
+<section class="tk-content section">
+  <div class="container">
+
+    <!-- Day type selector -->
+    <div class="day-tabs">
+      <p class="day-tabs__label">Choose your visit type</p>
+      <div class="day-tabs__btns">
+        <button
+          class="day-tab"
+          *ngFor="let d of dayTypes"
+          [class.active]="activeDayType === d.key"
+          (click)="setDayType(d.key)"
+        >{{ d.label }}</button>
+      </div>
+    </div>
+
+    <div class="tk-layout">
+
+      <!-- Ticket Cards -->
+      <div class="tk-cards-area">
+
+        <!-- Skeletons -->
+        <div class="tk-grid" *ngIf="loading">
+          <div class="tk-card-skeleton" *ngFor="let i of [1,2,3,4,5,6]">
+            <div style="display:flex;flex-direction:column;gap:.75rem;padding:1.5rem">
+              <div class="skeleton" style="height:22px;width:55%;border-radius:4px"></div>
+              <div class="skeleton" style="height:36px;width:70%;border-radius:4px"></div>
+              <div class="skeleton" style="height:14px;border-radius:4px"></div>
+              <div class="skeleton" style="height:14px;width:80%;border-radius:4px"></div>
+              <div class="skeleton" style="height:14px;width:65%;border-radius:4px"></div>
+              <div class="skeleton" style="height:42px;border-radius:50px;margin-top:.5rem"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cards grid -->
+        <div class="tk-grid" *ngIf="!loading">
+          <div
+            class="tk-card"
+            *ngFor="let ticket of tickets"
+            [class.tk-card--popular]="ticket.popular"
+          >
+            <!-- Popular badge -->
+            <div class="tk-card__popular-badge" *ngIf="ticket.popular">BEST VALUE</div>
+
+            <!-- Header -->
+            <div class="tk-card__header">
+              <div>
+                <p class="tk-card__label">{{ ticket.label }}</p>
+                <span class="tk-card__badge" *ngIf="ticket.badge">{{ ticket.badge }}</span>
+              </div>
+            </div>
+            <p class="tk-card__subtitle">{{ ticket.subtitle }}</p>
+
+            <!-- Price -->
+            <div class="tk-card__price">
+              <ng-container *ngIf="appliedOffer; else normalPrice">
+                <span class="tk-card__price-original">₹{{ ticket.price | number }}</span>
+                <div class="tk-card__price-discounted">
+                  <span class="tk-card__currency">₹</span>
+                  <span class="tk-card__amount">{{ getDiscountedPrice(ticket.price) | number }}</span>
+                </div>
+              </ng-container>
+              <ng-template #normalPrice>
+                <span class="tk-card__currency">₹</span>
+                <span class="tk-card__amount">{{ ticket.price | number }}</span>
+              </ng-template>
+              <span class="tk-card__unit">/ {{ ticket.unit }}</span>
+            </div>
+
+            <!-- Features -->
+            <ul class="tk-card__features">
+              <li *ngFor="let f of ticket.features">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                {{ f }}
+              </li>
+            </ul>
+
+            <!-- CTA -->
+            <a
+              routerLink="/availability"
+              class="tk-card__btn"
+              [class.tk-card__btn--popular]="ticket.popular"
+              [class.tk-card__btn--outline]="ticket.ctaType === 'outline'"
+            >{{ ticket.ctaLabel }}</a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Sidebar -->
+      <aside class="tk-sidebar">
+
+        <!-- Why Book Online -->
+        <div class="tk-info-card">
+          <div class="tk-info-card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <h4 class="tk-info-card__title">Why Book Online?</h4>
+          <ul class="tk-info-card__list">
+            <li *ngFor="let b of getWhyBenefits()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              {{ b }}
+            </li>
+          </ul>
+        </div>
+
+        <!-- Cancellation Policy -->
+        <div class="tk-info-card">
+          <div class="tk-info-card__icon tk-info-card__icon--yellow">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          </div>
+          <h4 class="tk-info-card__title">Cancellation Policy</h4>
+          <p class="tk-info-card__text">Non‑refundable within 24 hours of visit. Free rescheduling up to 48 hours prior.</p>
+          <button class="tk-info-card__link" (click)="policyOpen = !policyOpen">
+            Full Refund Terms {{ policyOpen ? '▲' : '▼' }}
+          </button>
+          <div class="tk-info-card__expand" [class.open]="policyOpen">
+            <p>In case of park closure due to weather or unforeseen events, a full refund is processed within 5–7 business days to your original payment method.</p>
+          </div>
+        </div>
+
+        <!-- Need Help -->
+        <div class="tk-info-card tk-info-card--help">
+          <div class="tk-info-card__icon tk-info-card__icon--green">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.81a16 16 0 0 0 6.29 6.29l.95-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+          </div>
+          <h4 class="tk-info-card__title">Need Help?</h4>
+          <p class="tk-info-card__text">Our customer support is available 9 AM – 6 PM daily.</p>
+          <a href="tel:+911800123456" class="tk-info-card__contact">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.81a16 16 0 0 0 6.29 6.29l.95-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            1800-123-4567
+          </a>
+          <a href="mailto:support@havelock.com" class="tk-info-card__contact">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+            </svg>
+            support&#64;havelock.com
+          </a>
+        </div>
+
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FAQ SECTION ══════════════════════════════════════════════════════════ -->
+<section class="tk-faq section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title" style="text-align:center">Frequently Asked Questions</h2>
+      <p class="section-subtitle" style="text-align:center;margin:0 auto">
+        Everything you need to know about your visit to Havelock
+      </p>
+    </div>
+
+    <div class="tk-faq__list" *ngFor="let cat of faqCategories">
+      <div
+        class="faq-item"
+        *ngFor="let q of cat.questions"
+        [class.faq-item--open]="openFaqId === q.id"
+        (click)="toggleFaq(q.id)"
+      >
+        <div class="faq-item__question">
+          <span>{{ q.question }}</span>
+          <svg class="faq-item__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </div>
+        <div class="faq-item__answer" [class.faq-item__answer--visible]="openFaqId === q.id">
+          <p>{{ q.answer }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tk-faq__more">
+      <a routerLink="/faq-safety" class="btn-outline">View All FAQs &amp; Safety Rules</a>
+    </div>
+  </div>
+</section>

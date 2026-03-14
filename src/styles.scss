@@ -1,1 +1,155 @@
-/* You can add global styles to this file, and also import other style files */
+// ─── Import Design Tokens ────────────────────────────────────────────────────
+@use 'assets/styles/variables' as *;
+@use 'assets/styles/mixins' as *;
+
+// ─── Google Fonts ────────────────────────────────────────────────────────────
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap');
+
+// ─── Reset & Base ────────────────────────────────────────────────────────────
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  color: $gray-800;
+  background-color: $white;
+  line-height: $line-height-base;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: $primary;
+  text-decoration: none;
+  transition: $transition-fast;
+
+  &:hover { color: $primary-dark; }
+}
+
+ul, ol {
+  list-style: none;
+}
+
+button {
+  font-family: inherit;
+}
+
+input, textarea, select {
+  font-family: inherit;
+  font-size: $font-size-base;
+}
+
+// ─── Typography Utilities ────────────────────────────────────────────────────
+h1 { font-family: $font-family-heading; font-size: $font-size-4xl; font-weight: $font-weight-bold; line-height: $line-height-heading; }
+h2 { font-family: $font-family-heading; font-size: $font-size-3xl; font-weight: $font-weight-bold; line-height: $line-height-heading; }
+h3 { font-family: $font-family-heading; font-size: $font-size-2xl; font-weight: $font-weight-semi; line-height: $line-height-heading; }
+h4 { font-family: $font-family-heading; font-size: $font-size-xl;  font-weight: $font-weight-semi; line-height: $line-height-heading; }
+h5 { font-family: $font-family-heading; font-size: $font-size-lg;  font-weight: $font-weight-medium; }
+h6 { font-family: $font-family-heading; font-size: $font-size-md;  font-weight: $font-weight-medium; }
+
+@include mobile {
+  h1 { font-size: $font-size-2xl; }
+  h2 { font-size: $font-size-xl; }
+  h3 { font-size: $font-size-lg; }
+}
+
+// ─── Layout Utilities ────────────────────────────────────────────────────────
+.container {
+  @include container;
+}
+
+.section {
+  @include section-padding;
+}
+
+// ─── Button Utilities ────────────────────────────────────────────────────────
+.btn-primary   { @include btn-primary; }
+.btn-secondary { @include btn-secondary; }
+.btn-outline   { @include btn-outline; }
+
+// ─── Card Utility ────────────────────────────────────────────────────────────
+.card { @include card; }
+
+// ─── Spacing Utilities ───────────────────────────────────────────────────────
+.mt-auto { margin-top: auto; }
+.mb-auto { margin-bottom: auto; }
+.text-center { text-align: center; }
+.text-right  { text-align: right; }
+
+// ─── Page wrapper (offset fixed navbar) ─────────────────────────────────────
+.page-wrapper {
+  padding-top: $navbar-height;
+
+  @include mobile {
+    padding-top: $navbar-height-mobile;
+  }
+}
+
+// ─── Badge ───────────────────────────────────────────────────────────────────
+.badge {
+  display: inline-block;
+  padding: $spacing-1 $spacing-3;
+  border-radius: $radius-full;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semi;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+
+  &.badge-thrill  { background: #FFE4E4; color: #C0392B; }
+  &.badge-family  { background: #E4F4FF; color: #1A6FA8; }
+  &.badge-kids    { background: #E8FFE4; color: #1A8A3A; }
+  &.badge-relax   { background: #F4E4FF; color: #7A1AC0; }
+}
+
+// ─── Section heading ─────────────────────────────────────────────────────────
+.section-title {
+  @include heading($font-size-3xl);
+  margin-bottom: $spacing-4;
+
+  @include mobile {
+    font-size: $font-size-2xl;
+  }
+}
+
+.section-subtitle {
+  font-size: $font-size-md;
+  color: $gray-600;
+  max-width: 600px;
+  margin-bottom: $spacing-10;
+}
+
+// ─── Divider ─────────────────────────────────────────────────────────────────
+.divider {
+  width: 60px;
+  height: 4px;
+  background: $primary;
+  border-radius: $radius-full;
+  margin-bottom: $spacing-6;
+}
+
+// ─── Skeleton loader ─────────────────────────────────────────────────────────
+.skeleton {
+  background: linear-gradient(90deg, $gray-200 25%, $gray-100 50%, $gray-200 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s infinite;
+  border-radius: $radius-md;
+}
+
+@keyframes skeleton-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

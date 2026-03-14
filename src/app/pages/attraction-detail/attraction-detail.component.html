@@ -1,0 +1,236 @@
+<!-- Not Found -->
+<div class="not-found" *ngIf="notFound">
+  <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+  <h2>Attraction Not Found</h2>
+  <p>The attraction you're looking for doesn't exist.</p>
+  <button class="btn-primary" (click)="goBack()">← Back to Attractions</button>
+</div>
+
+<!-- Loading skeleton -->
+<div class="detail-skeleton" *ngIf="loading && !notFound">
+  <div class="skeleton" style="height:420px"></div>
+  <div class="container" style="padding-top:2rem; display:flex; flex-direction:column; gap:1rem">
+    <div class="skeleton" style="height:32px; width:40%"></div>
+    <div class="skeleton" style="height:16px"></div>
+    <div class="skeleton" style="height:16px; width:80%"></div>
+  </div>
+</div>
+
+<ng-container *ngIf="!loading && attraction">
+
+  <!-- ── HERO ──────────────────────────────────────────────────────────── -->
+  <section class="detail-hero" [style.background]="getGradient(attraction.category)">
+    <div class="detail-hero__overlay"></div>
+    <div class="container detail-hero__content">
+
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb">
+        <a routerLink="/">Home</a>
+        <span>/</span>
+        <a routerLink="/attractions">Attractions</a>
+        <span>/</span>
+        <span class="breadcrumb__current">{{ attraction.name }}</span>
+      </nav>
+
+      <!-- Tags -->
+      <div class="detail-hero__tags">
+        <span class="detail-hero__tag" *ngFor="let tag of attraction.tags">{{ tag }}</span>
+      </div>
+
+      <h1 class="detail-hero__title">{{ attraction.name }}</h1>
+      <p class="detail-hero__sub">{{ attraction.shortDescription }}</p>
+
+      <div class="detail-hero__actions">
+        <button class="btn-primary detail-hero__book" (click)="bookTickets()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Book Tickets
+        </button>
+        <a routerLink="/map" class="detail-hero__map-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21 3 6"/></svg>
+          View Map
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── MAIN BODY ─────────────────────────────────────────────────────── -->
+  <section class="detail-body section">
+    <div class="container detail-body__layout">
+
+      <!-- LEFT: tabs + content -->
+      <div class="detail-main">
+
+        <!-- Tabs -->
+        <div class="detail-tabs">
+          <button class="detail-tab" [class.active]="activeTab === 'about'"   (click)="setTab('about')">About</button>
+          <button class="detail-tab" [class.active]="activeTab === 'expect'"  (click)="setTab('expect')">What to Expect</button>
+          <button class="detail-tab" [class.active]="activeTab === 'bestfor'" (click)="setTab('bestfor')">Best For</button>
+        </div>
+
+        <!-- About -->
+        <div class="detail-tab-content" *ngIf="activeTab === 'about'">
+          <p class="detail-description">{{ attraction.description }}</p>
+
+          <!-- Feature cards -->
+          <div class="detail-features" *ngIf="attraction.features.length">
+            <div class="detail-feature-card" *ngFor="let feat of attraction.features.slice(0,2)">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              <p>{{ feat }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- What to Expect -->
+        <div class="detail-tab-content" *ngIf="activeTab === 'expect'">
+          <p class="detail-description">
+            Get ready for an unforgettable experience. Here's what awaits you at <strong>{{ attraction.name }}</strong>:
+          </p>
+          <ul class="detail-expect-list">
+            <li *ngFor="let feat of attraction.features">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              {{ feat }}
+            </li>
+          </ul>
+          <p class="detail-description" *ngIf="attraction.maxVelocity">
+            <strong>Maximum speed:</strong> {{ attraction.maxVelocity }} — hold tight!
+          </p>
+        </div>
+
+        <!-- Best For -->
+        <div class="detail-tab-content" *ngIf="activeTab === 'bestfor'">
+          <p class="detail-description">
+            <strong>{{ attraction.name }}</strong> is best suited for thrill-seekers and adventure lovers who meet the height requirements. Not recommended for first-time visitors or those with health conditions.
+          </p>
+          <div class="detail-bestfor-tags">
+            <span *ngIf="attraction.thrillLevel === 'Expert'">🔥 Adrenaline Junkies</span>
+            <span *ngIf="attraction.thrillLevel !== 'Expert'">👨‍👩‍👧‍👦 Families</span>
+            <span *ngIf="attraction.category === 'Kids'">🧒 Children</span>
+            <span *ngIf="attraction.category === 'Relax'">☁️ Relaxation Seekers</span>
+            <span>🎟️ Pass Holders</span>
+            <span *ngIf="attraction.fastPassAvailable">⚡ Fast Pass Guests</span>
+          </div>
+        </div>
+
+        <!-- Nearby Facilities -->
+        <div class="detail-facilities" *ngIf="attraction.nearbyFacilities.length">
+          <h3 class="detail-section-title">Nearby Facilities</h3>
+          <div class="detail-facilities__grid">
+            <div class="detail-facility" *ngFor="let fac of attraction.nearbyFacilities">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>{{ fac }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Info panel -->
+      <aside class="detail-sidebar">
+
+        <!-- Thrill Meter -->
+        <div class="info-card">
+          <div class="info-card__header">
+            <span class="info-card__label">THRILL METER</span>
+            <span class="info-card__level" [style.color]="getThrillColor(attraction.thrillLevel)">
+              {{ attraction.thrillLevel }}
+            </span>
+          </div>
+          <div class="thrill-bar">
+            <div class="thrill-bar__fill" [style.width]="getThrillWidth(attraction.thrillLevel)"
+              [style.background]="getThrillColor(attraction.thrillLevel)"></div>
+          </div>
+
+          <!-- Height Req -->
+          <div class="info-row" *ngIf="attraction.heightRequirement">
+            <div class="info-row__icon info-row__icon--blue">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="20" x2="12" y2="4"/><polyline points="8 8 12 4 16 8"/><line x1="8" y1="20" x2="16" y2="20"/>
+              </svg>
+            </div>
+            <div>
+              <p class="info-row__title">Height Requirement</p>
+              <p class="info-row__value">Minimum {{ attraction.heightRequirement }} cm</p>
+            </div>
+          </div>
+
+          <!-- Health Advisory -->
+          <div class="info-row" *ngIf="attraction.healthAdvisory">
+            <div class="info-row__icon info-row__icon--yellow">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+              </svg>
+            </div>
+            <div>
+              <p class="info-row__title">Health Advisory</p>
+              <p class="info-row__value">{{ attraction.healthAdvisory }}</p>
+            </div>
+          </div>
+
+          <!-- Zone -->
+          <div class="info-row">
+            <div class="info-row__icon info-row__icon--green">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <div>
+              <p class="info-row__title">Nearby Zone</p>
+              <p class="info-row__value">{{ attraction.zone }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fast Pass CTA -->
+        <div class="info-card info-card--cta" *ngIf="attraction.fastPassAvailable">
+          <p class="info-card__cta-label">⚡ Fast Pass Available</p>
+          <p class="info-card__cta-sub">Skip the queue with a Fast Pass entry.</p>
+          <button class="btn-primary" (click)="bookTickets()" style="width:100%; justify-content:center">
+            Book Fast Pass →
+          </button>
+        </div>
+
+      </aside>
+    </div>
+  </section>
+
+  <!-- ── YOU MAY ALSO LIKE ─────────────────────────────────────────────── -->
+  <section class="related section" *ngIf="relatedAttractions.length">
+    <div class="container">
+      <h2 class="related__title">You May Also Like</h2>
+      <p class="related__sub">Other high-thrill rides in Adventure Peak</p>
+      <div class="related__grid">
+        <a class="related-card" *ngFor="let r of relatedAttractions" [routerLink]="['/attractions', r.id]">
+          <div class="related-card__img" [style.background]="getGradient(r.category)">
+            <span class="related-card__fastpass" *ngIf="r.fastPassAvailable">FASTPASS</span>
+            <span style="font-size:2rem; opacity:.6">🌊</span>
+          </div>
+          <div class="related-card__body">
+            <h4>{{ r.name }}</h4>
+            <p>{{ r.shortDescription }}</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SAFETY WARNING ────────────────────────────────────────────────── -->
+  <section class="safety-warning">
+    <div class="container safety-warning__inner">
+      <div class="safety-warning__icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C0392B" stroke-width="2">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+      </div>
+      <div class="safety-warning__text">
+        <strong>Safety First: Ride Restrictions Warning</strong>
+        <p>Please ensure you meet all height and health requirements before queueing. Havelock staff reserves the right to deny entry for safety reasons.</p>
+      </div>
+      <div class="safety-warning__btns">
+        <a routerLink="/faq-safety" class="btn-primary">View Park Rules</a>
+        <a routerLink="/attractions" class="btn-outline">See More Attractions</a>
+      </div>
+    </div>
+  </section>
+
+</ng-container>
