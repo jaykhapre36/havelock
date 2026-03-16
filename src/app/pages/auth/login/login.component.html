@@ -101,27 +101,29 @@
 
         <h1 class="auth-form-wrap__title">Enter OTP</h1>
         <p class="auth-form-wrap__sub">
-          6-digit code sent to <strong>+91 {{ phone }}</strong> via WhatsApp.
+          4-digit code sent to <strong>+91 {{ phone }}</strong> via WhatsApp.
         </p>
 
-        <!-- 6-box OTP input -->
-        <div class="otp-boxes">
-          <input
-            #otpBox
+        <!-- 4-box OTP input -->
+        <div class="otp-boxes" (click)="focusOtp()">
+          <div
             *ngFor="let digit of otpDigits; let i = index"
             class="otp-box"
+            [class.otp-box--active]="i === otpValue.length"
+          >{{ digit }}</div>
+          <input
+            #otpInput
             type="text"
             inputmode="numeric"
-            maxlength="1"
-            [value]="otpDigits[i]"
-            (input)="onOtpInput(i, $event)"
-            (keydown)="onOtpKeydown(i, $event)"
-            (paste)="onOtpPaste($event)"
+            maxlength="4"
             autocomplete="one-time-code"
+            class="otp-hidden-input"
+            [value]="otpValue"
+            (input)="onOtpChange($event)"
           />
         </div>
 
-        <button class="auth-submit" [disabled]="loading || otpValue.length < 6" (click)="onVerify()">
+        <button class="auth-submit" [disabled]="loading || otpValue.length < 4" (click)="onVerify()">
           <span class="auth-submit__spinner" *ngIf="loading"></span>
           {{ loading ? 'Verifying...' : 'Verify & Sign In' }}
         </button>

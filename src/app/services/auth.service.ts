@@ -15,21 +15,21 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   // ── Send OTP ────────────────────────────────────────────────────────────────
-  sendOtp(phone: string, otpType: 'login' | 'register' = 'login'): Observable<{ success: boolean; message: string }> {
+  sendOtp(phone: string, otpType: 'login' | 'register' = 'login'): Observable<{ success: boolean; message: string; data: { otp_id: number; phone: string } }> {
     return this.http.post<any>(`${this.apiUrl}/auth/send-otp`, {
       phone,
       otp_type: otpType
     });
   }
 
-  // ── Verify OTP (standalone check) ───────────────────────────────────────────
-  verifyOtp(phone: string, otp: string): Observable<{ success: boolean; message: string }> {
-    return this.http.post<any>(`${this.apiUrl}/auth/verify-otp`, { phone, otp });
+  // ── Verify OTP ──────────────────────────────────────────────────────────────
+  verifyOtp(otpId: number, otpCode: string): Observable<{ success: boolean; message: string }> {
+    return this.http.post<any>(`${this.apiUrl}/auth/verify-otp`, { id: otpId, otp_code: otpCode });
   }
 
-  // ── Login (called after OTP verified) ───────────────────────────────────────
-  login(phone: string, otp: string): Observable<{ success: boolean; token: string; user: User }> {
-    return this.http.post<any>(`${this.apiUrl}/auth/login`, { phone, otp }).pipe(
+  // ── Login ────────────────────────────────────────────────────────────────────
+  login(phone: string): Observable<{ success: boolean; token: string; user: User }> {
+    return this.http.post<any>(`${this.apiUrl}/auth/login`, { phone }).pipe(
       tap(res => {
         if (res.success) {
           localStorage.setItem('token', res.token);
@@ -40,13 +40,13 @@ export class AuthService {
     );
   }
 
-  // ── Register (called after OTP verified) ────────────────────────────────────
+  // ── Register ─────────────────────────────────────────────────────────────────
   register(data: {
     name: string;
     phone: string;
     email: string;
     age: number;
-    gender: string;
+    gender: boolean;
     otp: string;
   }): Observable<{ success: boolean; token: string; user: User }> {
     return this.http.post<any>(`${this.apiUrl}/auth/register`, data).pipe(

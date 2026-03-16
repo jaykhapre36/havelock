@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChildren, QueryList, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 
@@ -10,7 +10,7 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class RegisterComponent implements OnInit, OnDestroy {
 
-  @ViewChildren('otpBox') otpBoxes!: QueryList<ElementRef<HTMLInputElement>>;
+  @ViewChild('otpInput') otpInput!: ElementRef<HTMLInputElement>;
 
   stage: 'details' | 'otp' = 'details';
 
@@ -19,7 +19,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   phone  = '';
   email  = '';
   age: number | null = null;
-  gender = '';
+  gender: boolean | null = null;
 
   // Validation errors
   nameError   = '';
@@ -28,7 +28,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
   genderError = '';
 
   // Stage 2 — OTP
-  otpDigits = ['', '', '', '', '', ''];
+  otpDigits: string[] = ['', '', '', ''];
+  otpId = 0;
 
   loading = false;
   error   = '';
@@ -51,15 +52,20 @@ export class RegisterComponent implements OnInit, OnDestroy {
   get phoneValue(): string { return this.phone.replace(/\D/g, ''); }
   get otpValue(): string   { return this.otpDigits.join(''); }
 
+  focusOtp(): void {
+    this.otpInput?.nativeElement.focus();
+  }
+
   // ── Step 1: validate then send OTP ─────────────────────────────────────────
   onSendOtp(): void {
     this.error = '';
     if (!this.validateDetails()) return;
 
     this.loading = true;
-    this.authService.sendOtp(this.phoneValue, 'login').subscribe({
-      next: () => {
+    this.authService.sendOtp(this.phoneValue, 'register').subscribe({
+      next: (res) => {
         this.loading = false;
+        this.otpId = res.data.otp_id;
         this.stage = 'otp';
         this.startCountdown();
       },
@@ -70,25 +76,25 @@ export class RegisterComponent implements OnInit, OnDestroy {
     });
   }
 
-  // ── Step 2: verify OTP → register ──────────────────────────────────────────
+  // ── Step 2: Verify OTP → Register ───────────────────────────────────────────
   onCreateAccount(): void {
     this.error = '';
-    if (this.otpValue.length < 6) {
-      this.error = 'Please enter the complete 6-digit OTP.';
+    if (this.otpValue.length < 4) {
+      this.error = 'Please enter the complete 4-digit OTP.';
       return;
     }
     this.loading = true;
     const phone = this.phoneValue;
     const otp   = this.otpValue;
 
-    this.authService.verifyOtp(phone, otp).subscribe({
+    this.authService.verifyOtp(this.otpId, otp).subscribe({
       next: () => {
         this.authService.register({
           name:   this.name.trim(),
           phone,
           email:  this.email.trim(),
           age:    this.age!,
-          gender: this.gender,
+          gender: this.gender!,
           otp
         }).subscribe({
           next: () => {
@@ -108,30 +114,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
     });
   }
 
-  // ── OTP box interactions ────────────────────────────────────────────────────
-  onOtpInput(index: number, event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const val = input.value.replace(/\D/g, '').slice(-1);
-    this.otpDigits[index] = val;
-    input.value = val;
-    if (val && index < 5) {
-      this.otpBoxes.toArray()[index + 1].nativeElement.focus();
+  // ── Single hidden input handler ──────────────────────────────────────────────
+  onOtpChange(event: Event): void {
+    const val = (event.target as HTMLInputElement).value.replace(/\D/g, '').slice(0, 4);
+    (event.target as HTMLInputElement).value = val;
+    for (let i = 0; i < 4; i++) {
+      this.otpDigits[i] = val[i] || '';
     }
-  }
-
-  onOtpKeydown(index: number, event: KeyboardEvent): void {
-    if (event.key === 'Backspace' && !this.otpDigits[index] && index > 0) {
-      this.otpDigits[index - 1] = '';
-      this.otpBoxes.toArray()[index - 1].nativeElement.focus();
-    }
-  }
-
-  onOtpPaste(event: ClipboardEvent): void {
-    event.preventDefault();
-    const pasted = (event.clipboardData?.getData('text') || '').replace(/\D/g, '').slice(0, 6);
-    pasted.split('').forEach((c, i) => this.otpDigits[i] = c);
-    const focusIdx = Math.min(pasted.length, 5);
-    setTimeout(() => this.otpBoxes.toArray()[focusIdx]?.nativeElement.focus());
   }
 
   // ── Resend ──────────────────────────────────────────────────────────────────
@@ -139,10 +128,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
     if (this.resendCountdown > 0) return;
     this.loading = true;
     this.error = '';
-    this.authService.sendOtp(this.phoneValue, 'login').subscribe({
-      next: () => {
+    this.authService.sendOtp(this.phoneValue, 'register').subscribe({
+      next: (res) => {
         this.loading = false;
-        this.otpDigits = ['', '', '', '', '', ''];
+        this.otpId = res.data.otp_id;
+        this.otpDigits = ['', '', '', ''];
+        if (this.otpInput) this.otpInput.nativeElement.value = '';
         this.startCountdown();
       },
       error: () => {
@@ -154,7 +145,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   goBack(): void {
     this.stage = 'details';
-    this.otpDigits = ['', '', '', '', '', ''];
+    this.otpDigits = ['', '', '', ''];
     this.error = '';
     if (this.countdownRef) clearInterval(this.countdownRef);
     this.resendCountdown = 0;
@@ -176,7 +167,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       this.ageError = 'Enter a valid age (1–120).';
       valid = false;
     }
-    if (!this.gender) {
+    if (this.gender === null) {
       this.genderError = 'Please select a gender.';
       valid = false;
     }

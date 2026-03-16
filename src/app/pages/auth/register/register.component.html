@@ -135,14 +135,11 @@
             <label>Gender <span class="auth-field__required">*</span></label>
             <div class="auth-gender">
               <button type="button" class="auth-gender__btn"
-                [class.auth-gender__btn--active]="gender === 'male'"
-                (click)="gender = 'male'">Male</button>
+                [class.auth-gender__btn--active]="gender === true"
+                (click)="gender = true">Male</button>
               <button type="button" class="auth-gender__btn"
-                [class.auth-gender__btn--active]="gender === 'female'"
-                (click)="gender = 'female'">Female</button>
-              <button type="button" class="auth-gender__btn"
-                [class.auth-gender__btn--active]="gender === 'other'"
-                (click)="gender = 'other'">Other</button>
+                [class.auth-gender__btn--active]="gender === false"
+                (click)="gender = false">Female</button>
             </div>
             <p class="auth-field__error" *ngIf="genderError">{{ genderError }}</p>
           </div>
@@ -161,27 +158,29 @@
 
         <h1 class="auth-form-wrap__title">Verify Number</h1>
         <p class="auth-form-wrap__sub">
-          6-digit code sent to <strong>+91 {{ phone }}</strong> via WhatsApp.
+          4-digit code sent to <strong>+91 {{ phone }}</strong> via WhatsApp.
         </p>
 
-        <!-- 6-box OTP input -->
-        <div class="otp-boxes">
-          <input
-            #otpBox
+        <!-- 4-box OTP input -->
+        <div class="otp-boxes" (click)="focusOtp()">
+          <div
             *ngFor="let digit of otpDigits; let i = index"
             class="otp-box"
+            [class.otp-box--active]="i === otpValue.length"
+          >{{ digit }}</div>
+          <input
+            #otpInput
             type="text"
             inputmode="numeric"
-            maxlength="1"
-            [value]="otpDigits[i]"
-            (input)="onOtpInput(i, $event)"
-            (keydown)="onOtpKeydown(i, $event)"
-            (paste)="onOtpPaste($event)"
+            maxlength="4"
             autocomplete="one-time-code"
+            class="otp-hidden-input"
+            [value]="otpValue"
+            (input)="onOtpChange($event)"
           />
         </div>
 
-        <button class="auth-submit" [disabled]="loading || otpValue.length < 6" (click)="onCreateAccount()">
+        <button class="auth-submit" [disabled]="loading || otpValue.length < 4" (click)="onCreateAccount()">
           <span class="auth-submit__spinner" *ngIf="loading"></span>
           {{ loading ? 'Creating account...' : 'Verify & Create Account' }}
         </button>
