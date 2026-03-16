@@ -1,0 +1,49 @@
+<div class="bk-page">
+
+  <!-- ── Progress Stepper ─────────────────────────────────────────────────── -->
+  <div class="bk-stepper">
+    <div class="bk-stepper__inner">
+      <ng-container *ngFor="let step of steps; let last = last">
+        <div
+          class="bk-stepper__step"
+          [class.bk-stepper__step--active]="currentStep === step.n"
+          [class.bk-stepper__step--done]="currentStep > step.n"
+        >
+          <div class="bk-stepper__circle">
+            <svg *ngIf="currentStep > step.n" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            <span *ngIf="currentStep <= step.n">{{ step.n }}</span>
+          </div>
+          <span class="bk-stepper__label">{{ step.label }}</span>
+        </div>
+        <div class="bk-stepper__line" *ngIf="!last" [class.bk-stepper__line--done]="currentStep > step.n"></div>
+      </ng-container>
+    </div>
+  </div>
+
+  <!-- ── Step Panels ──────────────────────────────────────────────────────── -->
+  <div class="bk-body">
+    <app-bk-step1
+      *ngIf="currentStep === 1"
+      (next)="onStep1Next()"
+    ></app-bk-step1>
+
+    <app-bk-step2
+      *ngIf="currentStep === 2"
+      (back)="goTo(1)"
+      (next)="onStep2Next()"
+    ></app-bk-step2>
+
+    <app-bk-step3
+      *ngIf="currentStep === 3"
+      (back)="onStep3Back()"
+      (confirm)="onStep3Confirm()"
+    ></app-bk-step3>
+
+    <app-bk-step4
+      *ngIf="currentStep === 4"
+    ></app-bk-step4>
+  </div>
+
+</div>

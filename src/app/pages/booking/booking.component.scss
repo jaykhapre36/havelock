@@ -1,0 +1,94 @@
+@use '../../../assets/styles/variables' as *;
+@use '../../../assets/styles/mixins' as *;
+
+:host { display: block; overflow-x: hidden; }
+
+.bk-page {
+  min-height: 100vh;
+  background: $gray-100;
+}
+
+// ─── Stepper ──────────────────────────────────────────────────────────────────
+.bk-stepper {
+  background: $white;
+  border-bottom: 1px solid $gray-200;
+  padding: $spacing-5 $spacing-6;
+  position: sticky;
+  top: 70px;
+  z-index: 50;
+  box-shadow: $shadow-sm;
+
+  &__inner {
+    max-width: 560px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+  }
+
+  &__step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacing-1;
+    flex-shrink: 0;
+  }
+
+  &__circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid $gray-300;
+    background: $white;
+    color: $gray-400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+    transition: $transition-base;
+
+    .bk-stepper__step--active & {
+      border-color: $primary;
+      background: $primary;
+      color: $white;
+    }
+
+    .bk-stepper__step--done & {
+      border-color: #28A745;
+      background: #28A745;
+      color: $white;
+    }
+  }
+
+  &__label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: $gray-400;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+
+    .bk-stepper__step--active & { color: $primary; }
+    .bk-stepper__step--done &   { color: #28A745;  }
+  }
+
+  &__line {
+    flex: 1;
+    height: 2px;
+    background: $gray-200;
+    margin: 0 $spacing-2;
+    margin-bottom: $spacing-5;
+    transition: $transition-base;
+
+    &--done { background: #28A745; }
+  }
+}
+
+// ─── Body ─────────────────────────────────────────────────────────────────────
+.bk-body {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: $spacing-8 $spacing-6 $spacing-16;
+
+  @include mobile { padding: $spacing-5 $spacing-4 $spacing-12; }
+}

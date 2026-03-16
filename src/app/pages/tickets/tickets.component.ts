@@ -6,7 +6,7 @@ import { Ticket }         from '../../models/ticket.model';
 import { Offer }          from '../../models/offer.model';
 import { FaqCategory }    from '../../models/faq.model';
 
-type DayType = 'weekday' | 'weekend' | 'holiday';
+type DayType = 'weekday' | 'sunday';
 
 @Component({
   standalone: false,
@@ -23,9 +23,8 @@ export class TicketsComponent implements OnInit {
 
   activeDayType: DayType = 'weekday';
   dayTypes: { key: DayType; label: string }[] = [
-    { key: 'weekday', label: 'Weekday' },
-    { key: 'weekend', label: 'Weekend' },
-    { key: 'holiday', label: 'Holiday' }
+    { key: 'weekday', label: 'Mon – Sat' },
+    { key: 'sunday',  label: 'Sunday'    }
   ];
 
   // Promo code

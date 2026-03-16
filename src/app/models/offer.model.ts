@@ -9,4 +9,9 @@ export interface Offer {
   minGuests: number;
   applicableOn: string[];
   isActive: boolean;
+  tag?: string;
+  emoji?: string;
+  originalPrice?: number;
+  discountedPrice?: number;
+  category?: 'deal' | 'seasonal';
 }

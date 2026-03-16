@@ -1,0 +1,86 @@
+<div class="bk-step2">
+
+  <div class="bk-card">
+    <h2 class="bk-card__title">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+      </svg>
+      Visitor Details
+    </h2>
+
+    <form [formGroup]="form" (ngSubmit)="onNext()" novalidate>
+
+      <!-- Full Name -->
+      <div class="bk-field" [class.bk-field--error]="isInvalid('fullName')">
+        <label class="bk-field__label">Full Name <span class="bk-field__req">*</span></label>
+        <input
+          class="bk-field__input"
+          type="text"
+          formControlName="fullName"
+          placeholder="e.g. Rahul Sharma"
+          autocomplete="name"
+        />
+        <span class="bk-field__error" *ngIf="isInvalid('fullName')">
+          <ng-container *ngIf="f('fullName')?.errors?.['required']">Name is required.</ng-container>
+          <ng-container *ngIf="f('fullName')?.errors?.['minlength']">Minimum 2 characters.</ng-container>
+        </span>
+      </div>
+
+      <!-- Email -->
+      <div class="bk-field" [class.bk-field--error]="isInvalid('email')">
+        <label class="bk-field__label">Email Address <span class="bk-field__req">*</span></label>
+        <input
+          class="bk-field__input"
+          type="email"
+          formControlName="email"
+          placeholder="e.g. rahul@email.com"
+          autocomplete="email"
+        />
+        <span class="bk-field__error" *ngIf="isInvalid('email')">
+          <ng-container *ngIf="f('email')?.errors?.['required']">Email is required.</ng-container>
+          <ng-container *ngIf="f('email')?.errors?.['email']">Enter a valid email.</ng-container>
+        </span>
+      </div>
+
+      <!-- Phone -->
+      <div class="bk-field" [class.bk-field--error]="isInvalid('phone')">
+        <label class="bk-field__label">Mobile Number <span class="bk-field__req">*</span></label>
+        <div class="bk-field__phone-wrap">
+          <span class="bk-field__prefix">+91</span>
+          <input
+            class="bk-field__input"
+            type="tel"
+            formControlName="phone"
+            placeholder="9876543210"
+            maxlength="10"
+            autocomplete="tel"
+          />
+        </div>
+        <span class="bk-field__error" *ngIf="isInvalid('phone')">
+          <ng-container *ngIf="f('phone')?.errors?.['required']">Mobile number is required.</ng-container>
+          <ng-container *ngIf="f('phone')?.errors?.['pattern']">Enter a valid 10-digit Indian number.</ng-container>
+        </span>
+      </div>
+
+      <p class="bk-note">Your ticket confirmation will be sent to this email and phone number.</p>
+
+    </form>
+  </div>
+
+  <!-- Actions -->
+  <div class="bk-actions">
+    <button class="bk-btn bk-btn--outline" (click)="onBack()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+      Back
+    </button>
+    <button class="bk-btn bk-btn--primary" (click)="onNext()">
+      Review Booking
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </button>
+  </div>
+
+</div>

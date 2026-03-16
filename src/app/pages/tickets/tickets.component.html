@@ -18,38 +18,6 @@
   </div>
 </section>
 
-<!-- ══ OFFER BANNER ════════════════════════════════════════════════════════ -->
-<div class="offer-banner" *ngFor="let offer of offers.slice(0,1)">
-  <div class="container offer-banner__inner">
-    <div class="offer-banner__left">
-      <span class="offer-banner__icon">🎟️</span>
-      <div>
-        <strong class="offer-banner__title">{{ offer.title }}</strong>
-        <p class="offer-banner__desc">{{ offer.description }}</p>
-      </div>
-    </div>
-    <div class="offer-banner__promo">
-      <div class="promo-input-wrap">
-        <input
-          type="text"
-          [(ngModel)]="promoCode"
-          placeholder="Enter promo code"
-          class="promo-input"
-          [disabled]="!!appliedOffer"
-          (keyup.enter)="applyPromo()"
-        />
-        <button class="promo-btn" (click)="applyPromo()" *ngIf="!appliedOffer" [disabled]="promoLoading">
-          {{ promoLoading ? 'Checking...' : 'Apply Promo' }}
-        </button>
-        <button class="promo-btn promo-btn--remove" (click)="removePromo()" *ngIf="appliedOffer">
-          ✕ Remove
-        </button>
-      </div>
-      <p class="promo-msg promo-msg--success" *ngIf="promoSuccess">✓ {{ promoSuccess }}</p>
-      <p class="promo-msg promo-msg--error"   *ngIf="promoError">✗ {{ promoError }}</p>
-    </div>
-  </div>
-</div>
 
 <!-- ══ MAIN CONTENT ════════════════════════════════════════════════════════ -->
 <section class="tk-content section">
@@ -134,7 +102,8 @@
 
             <!-- CTA -->
             <a
-              routerLink="/availability"
+              [routerLink]="ticket.ctaType === 'primary' ? ['/booking'] : ['/contact']"
+              [queryParams]="ticket.ctaType === 'primary' ? { type: ticket.type, dayType: activeDayType } : {}"
               class="tk-card__btn"
               [class.tk-card__btn--popular]="ticket.popular"
               [class.tk-card__btn--outline]="ticket.ctaType === 'outline'"

@@ -39,6 +39,14 @@ const routes: Routes = [
     loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthModule)
   },
   {
+    path: 'offers',
+    loadChildren: () => import('./pages/offers/offers.module').then(m => m.OffersModule)
+  },
+  {
+    path: 'booking',
+    loadChildren: () => import('./pages/booking/booking.module').then(m => m.BookingModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./pages/not-found/not-found.module').then(m => m.NotFoundModule)
   }

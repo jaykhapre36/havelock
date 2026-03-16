@@ -1,0 +1,411 @@
+@use '../../../assets/styles/variables' as *;
+@use '../../../assets/styles/mixins' as *;
+
+// prevent any child from causing horizontal scroll
+:host { display: block; overflow-x: hidden; }
+
+// ─── Hero ─────────────────────────────────────────────────────────────────────
+.map-hero {
+  background: linear-gradient(135deg, $primary-dark 0%, $primary 60%, $secondary 100%);
+  padding: $spacing-16 0 $spacing-10;
+  text-align: center;
+  color: $white;
+
+  @include mobile { padding: $spacing-10 0 $spacing-8; }
+
+  &__eyebrow {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba($white, 0.75);
+    margin-bottom: $spacing-3;
+  }
+
+  &__title {
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    font-weight: 800;
+    margin-bottom: $spacing-3;
+  }
+
+  &__sub {
+    font-size: 1rem;
+    color: rgba($white, 0.85);
+    max-width: 480px;
+    margin: 0 auto;
+  }
+}
+
+// ─── Main layout ──────────────────────────────────────────────────────────────
+.map-main {
+  background: $gray-100;
+  overflow-x: hidden;
+}
+
+.map-main__layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: $spacing-8;
+  align-items: start;
+
+  @include tablet { grid-template-columns: 1fr; }
+  @include mobile { grid-template-columns: 1fr; gap: $spacing-5; }
+
+  // prevent children from overflowing grid
+  > * { min-width: 0; }
+}
+
+// ─── Legend pills ─────────────────────────────────────────────────────────────
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-2;
+  margin-bottom: $spacing-4;
+
+  @include mobile {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: $spacing-2;
+    scrollbar-width: none;
+    &::-webkit-scrollbar { display: none; }
+  }
+
+  &__pill {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    padding: $spacing-2 $spacing-4;
+    border-radius: $radius-full;
+    border: 1.5px solid $gray-200;
+    background: $white;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: $gray-700;
+    cursor: pointer;
+    transition: $transition-base;
+
+    &:hover { border-color: var(--zone-color); color: var(--zone-color); }
+
+    &--active {
+      background: var(--zone-color);
+      border-color: var(--zone-color);
+      color: $white;
+
+      .map-legend__dot { background: $white !important; }
+    }
+  }
+
+  &__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+}
+
+// ─── SVG Map ──────────────────────────────────────────────────────────────────
+.map-svg-wrap {
+  background: $white;
+  border-radius: $radius-xl;
+  border: 1px solid $gray-200;
+  box-shadow: $shadow-sm;
+  overflow: hidden;
+  position: relative;
+}
+
+.map-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.map-zone-path {
+  transition: fill-opacity 0.2s ease, filter 0.2s ease;
+
+  &:hover { fill-opacity: 0.75 !important; }
+  &--active { filter: drop-shadow(0 0 8px rgba(0,0,0,0.25)); }
+}
+
+.map-svg-overlay {
+  position: absolute;
+  bottom: $spacing-3;
+  left: $spacing-3;
+  right: $spacing-3;
+  text-align: center;
+  background: rgba($gray-800, 0.75);
+  color: $white;
+  font-size: 0.72rem;
+  padding: $spacing-1 $spacing-3;
+  border-radius: $radius-full;
+  pointer-events: none;
+}
+
+// ─── Facilities ───────────────────────────────────────────────────────────────
+.map-facilities {
+  margin-top: $spacing-5;
+  background: $white;
+  border-radius: $radius-xl;
+  padding: $spacing-5;
+  border: 1px solid $gray-200;
+
+  &__title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: $gray-700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: $spacing-4;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $spacing-3;
+
+    @include mobile { grid-template-columns: repeat(2, 1fr); }
+  }
+}
+
+.map-facility {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  font-size: 0.82rem;
+  color: $gray-600;
+
+  &__icon { font-size: 1.1rem; }
+  &__label { font-weight: 500; }
+}
+
+// ─── Sidebar ──────────────────────────────────────────────────────────────────
+.map-sidebar {
+  position: sticky;
+  top: calc(70px + #{$spacing-6});
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-5;
+  @include tablet { position: static; }
+  @include mobile { position: static; }
+}
+
+.map-sidebar__title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: $gray-800;
+  margin-bottom: $spacing-2;
+}
+
+.map-sidebar__sub {
+  font-size: 0.875rem;
+  color: $gray-500;
+  margin-bottom: $spacing-5;
+}
+
+// ─── Zone list ────────────────────────────────────────────────────────────────
+.zone-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+}
+
+.zone-list-item {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  padding: $spacing-4;
+  background: $white;
+  border: 1px solid $gray-200;
+  border-radius: $radius-lg;
+  cursor: pointer;
+  transition: $transition-base;
+
+  &:hover { border-color: $primary; box-shadow: $shadow-sm; transform: translateX(3px); }
+
+  &__dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  &__info { flex: 1; }
+
+  &__name {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: $gray-800;
+    margin-bottom: 2px;
+  }
+
+  &__desc {
+    font-size: 0.78rem;
+    color: $gray-500;
+    margin-bottom: 2px;
+  }
+
+  &__count {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: $primary;
+    margin: 0;
+  }
+
+  &__arrow {
+    font-size: 1.2rem;
+    color: $gray-300;
+    transition: color 0.2s;
+  }
+
+  &:hover &__arrow { color: $primary; }
+}
+
+// ─── Zone detail panel ────────────────────────────────────────────────────────
+.zone-panel {
+  background: $white;
+  border-radius: $radius-xl;
+  border: 1px solid $gray-200;
+  overflow: hidden;
+  box-shadow: $shadow-md;
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    gap: $spacing-3;
+    padding: $spacing-5;
+    border-bottom: 1px solid $gray-100;
+    position: relative;
+  }
+
+  &__color-bar {
+    width: 5px;
+    border-radius: $radius-full;
+    align-self: stretch;
+    flex-shrink: 0;
+    min-height: 48px;
+  }
+
+  &__head-content { flex: 1; }
+
+  &__name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: $gray-800;
+    margin-bottom: $spacing-1;
+  }
+
+  &__desc { font-size: 0.85rem; color: $gray-500; margin: 0; }
+
+  &__close {
+    background: $gray-100;
+    border: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    cursor: pointer;
+    color: $gray-500;
+    flex-shrink: 0;
+    transition: $transition-base;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:hover { background: $gray-200; color: $gray-800; }
+  }
+
+  &__body { padding: $spacing-5; }
+
+  &__rides-title {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: $gray-500;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: $spacing-4;
+    svg { color: $primary; }
+  }
+
+  &__empty {
+    text-align: center;
+    padding: $spacing-6;
+    color: $gray-400;
+    font-size: 0.875rem;
+  }
+}
+
+// ─── Ride cards inside zone panel ─────────────────────────────────────────────
+.zone-ride-card {
+  display: flex;
+  align-items: center;
+  padding: $spacing-3 $spacing-4;
+  border: 1px solid $gray-200;
+  border-radius: $radius-lg;
+  margin-bottom: $spacing-2;
+  text-decoration: none;
+  transition: $transition-base;
+
+  &:hover {
+    border-color: $primary;
+    background: rgba($primary, 0.03);
+    transform: translateX(3px);
+  }
+
+  &__info { flex: 1; }
+
+  &__name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: $gray-800;
+    margin-bottom: 2px;
+  }
+
+  &__meta {
+    font-size: 0.78rem;
+    color: $gray-500;
+    margin: 0;
+  }
+
+  &__arrow {
+    font-size: 1rem;
+    color: $gray-400;
+    transition: color 0.2s, transform 0.2s;
+  }
+
+  &:hover &__arrow { color: $primary; transform: translateX(3px); }
+}
+
+// ─── Directions card ──────────────────────────────────────────────────────────
+.directions-card {
+  background: $white;
+  border: 1px solid $gray-200;
+  border-radius: $radius-xl;
+  padding: $spacing-6;
+  text-align: center;
+
+  &__icon { font-size: 2rem; margin-bottom: $spacing-3; }
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: $gray-800;
+    margin-bottom: $spacing-2;
+  }
+
+  &__addr {
+    font-size: 0.82rem;
+    color: $gray-500;
+    line-height: 1.6;
+    margin-bottom: $spacing-5;
+  }
+
+  &__btn {
+    @include btn-primary;
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-2;
+    text-decoration: none;
+    font-size: 0.875rem;
+  }
+}

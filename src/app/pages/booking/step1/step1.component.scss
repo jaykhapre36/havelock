@@ -1,0 +1,298 @@
+@use '../../../../assets/styles/variables' as *;
+@use '../../../../assets/styles/mixins' as *;
+
+// ─── Card ──────────────────────────────────────────────────────────────────────
+.bk-card {
+  background: $white;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-sm;
+  border: 1px solid $gray-200;
+  padding: $spacing-6;
+  margin-bottom: $spacing-5;
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: $gray-800;
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    margin-bottom: $spacing-5;
+    svg { color: $primary; flex-shrink: 0; }
+  }
+
+  &--promo { margin-bottom: $spacing-5; }
+}
+
+// ─── Date input ────────────────────────────────────────────────────────────────
+.bk-date-input {
+  width: 100%;
+  padding: $spacing-3 $spacing-4;
+  border: 2px solid $gray-200;
+  border-radius: $radius-lg;
+  font-size: 1rem;
+  color: $gray-800;
+  margin-bottom: $spacing-5;
+  outline: none;
+  transition: $transition-base;
+  box-sizing: border-box;
+
+  &:focus { border-color: $primary; }
+}
+
+// ─── Day tabs ──────────────────────────────────────────────────────────────────
+.bk-day-tabs {
+  display: flex;
+  gap: $spacing-2;
+  @include mobile { gap: $spacing-1; }
+}
+
+.bk-day-tab {
+  flex: 1;
+  padding: $spacing-2 $spacing-3;
+  border: 2px solid $gray-200;
+  border-radius: $radius-lg;
+  background: $white;
+  color: $gray-600;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: $transition-base;
+  text-align: center;
+
+  &:hover { border-color: $primary; color: $primary; }
+  &--active { border-color: $primary; background: $primary; color: $white; }
+}
+
+// ─── Ticket list ───────────────────────────────────────────────────────────────
+.bk-ticket-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+}
+
+.bk-ticket-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: $spacing-4;
+  padding: $spacing-3 0;
+  border-bottom: 1px solid $gray-100;
+
+  &:last-child { border-bottom: none; }
+
+  @include mobile {
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    gap: $spacing-2;
+  }
+
+  &--skeleton {
+    grid-template-columns: 1fr auto auto;
+    padding: $spacing-4 0;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+    @include mobile { grid-column: 1 / -1; }
+  }
+
+  &__label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: $gray-800;
+  }
+
+  &__sub {
+    font-size: 0.8rem;
+    color: $gray-400;
+  }
+
+  &__min-note {
+    font-size: 0.75rem;
+    color: $secondary;
+    font-weight: 600;
+  }
+
+  &__per {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: $gray-400;
+  }
+
+  &__price {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: $gray-700;
+    white-space: nowrap;
+    @include mobile { display: none; }
+  }
+}
+
+// ─── Counter ──────────────────────────────────────────────────────────────────
+.bk-counter {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+
+  &__btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid $gray-300;
+    background: $white;
+    color: $gray-700;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: $transition-base;
+    line-height: 1;
+
+    &:hover:not(:disabled) { border-color: $primary; color: $primary; }
+    &:disabled { opacity: 0.35; cursor: not-allowed; }
+  }
+
+  &__val {
+    min-width: 24px;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 700;
+    color: $gray-800;
+  }
+}
+
+// ─── Promo ────────────────────────────────────────────────────────────────────
+.bk-promo {
+  display: flex;
+  gap: $spacing-2;
+  margin-bottom: $spacing-3;
+
+  @include mobile { flex-direction: column; }
+
+  &__input {
+    flex: 1;
+    padding: $spacing-3 $spacing-4;
+    border: 2px solid $gray-200;
+    border-radius: $radius-lg;
+    font-size: 0.95rem;
+    font-family: monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    outline: none;
+    transition: $transition-base;
+
+    &:focus { border-color: $primary; }
+    &:disabled { background: $gray-100; cursor: not-allowed; }
+  }
+
+  &__btn {
+    padding: $spacing-3 $spacing-5;
+    background: $primary;
+    color: $white;
+    border: none;
+    border-radius: $radius-lg;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: $transition-base;
+
+    &:hover:not(:disabled) { background: $primary-dark; }
+    &:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    &--remove {
+      background: $gray-100;
+      color: $gray-600;
+      border: 1px solid $gray-300;
+      &:hover { background: #F8D7DA; color: #721C24; border-color: #F5C6CB; }
+    }
+  }
+
+  &__msg {
+    font-size: 0.88rem;
+    margin: 0;
+
+    &--success { color: #155724; }
+    &--error   { color: #721C24; }
+  }
+}
+
+// ─── Summary ──────────────────────────────────────────────────────────────────
+.bk-summary {
+  background: $white;
+  border-radius: $radius-xl;
+  border: 2px solid $primary;
+  padding: $spacing-4 $spacing-6;
+  margin-bottom: $spacing-5;
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-2 0;
+    font-size: 0.95rem;
+    color: $gray-600;
+    border-bottom: 1px solid $gray-100;
+
+    &:last-child { border-bottom: none; }
+
+    &--discount { color: #155724; }
+
+    &--total {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: $gray-900;
+      padding-top: $spacing-3;
+    }
+  }
+}
+
+// ─── Error ────────────────────────────────────────────────────────────────────
+.bk-error {
+  color: #721C24;
+  font-size: 0.88rem;
+  margin-top: $spacing-3;
+  background: #F8D7DA;
+  padding: $spacing-2 $spacing-4;
+  border-radius: $radius-md;
+}
+
+// ─── Actions ──────────────────────────────────────────────────────────────────
+.bk-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: $spacing-3;
+}
+
+.bk-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  padding: $spacing-3 $spacing-8;
+  border-radius: $radius-full;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: $transition-base;
+
+  &--primary {
+    background: $primary;
+    color: $white;
+    &:hover { background: $primary-dark; transform: translateY(-1px); box-shadow: $shadow-md; }
+  }
+
+  &--outline {
+    background: $white;
+    border: 2px solid $primary;
+    color: $primary;
+    &:hover { background: $primary; color: $white; }
+  }
+}

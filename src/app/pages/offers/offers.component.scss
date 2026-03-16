@@ -1,0 +1,564 @@
+@use '../../../assets/styles/variables' as *;
+@use '../../../assets/styles/mixins' as *;
+
+:host { display: block; overflow-x: hidden; }
+
+// ─── Page ─────────────────────────────────────────────────────────────────────
+.of-page {
+  min-height: 100vh;
+  background: $gray-100;
+}
+
+// ─── Hero ─────────────────────────────────────────────────────────────────────
+.of-hero {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, $primary-dark 0%, $primary 50%, $secondary 100%);
+  color: $white;
+  text-align: center;
+  padding: $spacing-16 $spacing-6 $spacing-12;
+
+  &__badge {
+    display: inline-block;
+    background: $secondary;
+    color: $white;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    padding: $spacing-1 $spacing-4;
+    border-radius: $radius-full;
+    margin-bottom: $spacing-4;
+    text-transform: uppercase;
+  }
+
+  &__wave-text {
+    font-size: clamp(0.7rem, 2.5vw, 0.85rem);
+    letter-spacing: 0.25em;
+    opacity: 0.75;
+    margin-bottom: $spacing-3;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: $spacing-4;
+
+    span {
+      color: $secondary;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    }
+  }
+
+  &__sub {
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+    opacity: 0.85;
+    max-width: 520px;
+    margin: 0 auto $spacing-8;
+    line-height: 1.65;
+  }
+
+  &__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-2;
+    background: $white;
+    color: $primary;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: $spacing-3 $spacing-8;
+    border-radius: $radius-full;
+    text-decoration: none;
+    transition: $transition-base;
+    box-shadow: $shadow-lg;
+
+    &:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,0,0,0.25); }
+  }
+
+  &__drop {
+    position: absolute;
+    font-size: 2.5rem;
+    opacity: 0.15;
+    animation: ofFloat 4s ease-in-out infinite;
+    pointer-events: none;
+
+    &--1 { top: 15%; left: 8%;  animation-delay: 0s;   font-size: 3rem; }
+    &--2 { top: 20%; right: 8%; animation-delay: 2s;   font-size: 2rem; }
+    &--3 { bottom: 10%; left: 55%; animation-delay: 1s; font-size: 2.5rem; }
+  }
+}
+
+@keyframes ofFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%       { transform: translateY(-18px) rotate(6deg); }
+}
+
+// ─── Container ────────────────────────────────────────────────────────────────
+.of-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: $spacing-10 $spacing-6 $spacing-16;
+
+  @include mobile { padding: $spacing-6 $spacing-4 $spacing-12; }
+}
+
+// ─── Promo Validator ──────────────────────────────────────────────────────────
+.of-promo {
+  background: $white;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-md;
+  margin-bottom: $spacing-12;
+  overflow: hidden;
+
+  &__inner {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: $spacing-6;
+    padding: $spacing-8 $spacing-8;
+
+    @include tablet { grid-template-columns: auto 1fr; gap: $spacing-4; padding: $spacing-6; }
+    @include mobile { grid-template-columns: 1fr; text-align: center; padding: $spacing-6 $spacing-4; }
+
+    > * { min-width: 0; }
+  }
+
+  &__icon {
+    font-size: 2.5rem;
+    @include mobile { font-size: 2rem; }
+  }
+
+  &__title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: $gray-800;
+    margin-bottom: $spacing-1;
+  }
+
+  &__sub {
+    font-size: 0.9rem;
+    color: $gray-500;
+  }
+
+  &__form {
+    @include tablet { grid-column: 1 / -1; }
+    @include mobile { grid-column: 1; }
+  }
+
+  &__input-wrap {
+    display: flex;
+    gap: $spacing-2;
+    @include mobile { flex-direction: column; }
+  }
+
+  &__input {
+    flex: 1;
+    padding: $spacing-3 $spacing-4;
+    border: 2px solid $gray-200;
+    border-radius: $radius-lg;
+    font-size: 0.95rem;
+    font-family: monospace;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: $transition-base;
+    outline: none;
+
+    &:focus { border-color: $primary; }
+  }
+
+  &__btn {
+    padding: $spacing-3 $spacing-6;
+    background: $primary;
+    color: $white;
+    border: none;
+    border-radius: $radius-lg;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: $transition-base;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 100px;
+
+    &:hover:not(:disabled) { background: $primary-dark; }
+    &:disabled { opacity: 0.6; cursor: not-allowed; }
+  }
+
+  &__result {
+    margin-top: $spacing-3;
+    padding: $spacing-3 $spacing-4;
+    border-radius: $radius-lg;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $spacing-4;
+
+    &--success { background: #D4EDDA; color: #155724; }
+    &--error   { background: #F8D7DA; color: #721C24; }
+  }
+
+  &__clear {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    opacity: 0.6;
+    &:hover { opacity: 1; }
+  }
+}
+
+// ─── Section ──────────────────────────────────────────────────────────────────
+.of-section {
+  margin-bottom: $spacing-12;
+
+  &__head { margin-bottom: $spacing-6; }
+
+  &__title {
+    font-size: clamp(1.25rem, 3vw, 1.6rem);
+    font-weight: 800;
+    color: $gray-800;
+    margin-bottom: $spacing-2;
+  }
+
+  &__sub { font-size: 0.95rem; color: $gray-500; }
+}
+
+// ─── Deal Cards ───────────────────────────────────────────────────────────────
+.of-deals {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+}
+
+.of-deal {
+  background: $white;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-sm;
+  border: 1px solid $gray-200;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: start;
+  gap: $spacing-5;
+  padding: $spacing-6;
+  position: relative;
+  transition: $transition-base;
+
+  &:hover { box-shadow: $shadow-md; transform: translateY(-2px); }
+
+  @include mobile {
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    gap: $spacing-4;
+  }
+
+  > * { min-width: 0; }
+
+  &__badge {
+    position: absolute;
+    top: $spacing-4;
+    right: $spacing-4;
+    background: $secondary;
+    color: $white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 2px $spacing-2;
+    border-radius: $radius-full;
+    text-transform: uppercase;
+  }
+
+  &__emoji {
+    font-size: 2.5rem;
+    line-height: 1;
+    padding-top: $spacing-1;
+  }
+
+  &__title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: $gray-800;
+    margin-bottom: $spacing-2;
+  }
+
+  &__desc {
+    font-size: 0.9rem;
+    color: $gray-500;
+    line-height: 1.6;
+    margin-bottom: $spacing-3;
+  }
+
+  &__meta {
+    display: flex;
+    gap: $spacing-4;
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+    color: $gray-400;
+  }
+
+  &__guests { color: $primary; font-weight: 600; }
+
+  &__right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: $spacing-3;
+    min-width: 130px;
+
+    @include mobile {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      min-width: 0;
+    }
+  }
+
+  &__price {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+  }
+
+  &__orig {
+    font-size: 0.82rem;
+    color: $gray-400;
+    text-decoration: line-through;
+  }
+
+  &__final {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: $gray-800;
+  }
+
+  &__discount {
+    background: linear-gradient(135deg, $primary, $secondary);
+    color: $white;
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: $spacing-1 $spacing-3;
+    border-radius: $radius-full;
+  }
+
+  &__code-row {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+  }
+
+  &__code {
+    font-family: monospace;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: $primary;
+    background: rgba($primary, 0.08);
+    padding: $spacing-1 $spacing-3;
+    border-radius: $radius-md;
+    letter-spacing: 0.1em;
+  }
+
+  &__copy {
+    font-size: 0.78rem;
+    font-weight: 600;
+    background: none;
+    border: 1px solid $gray-300;
+    border-radius: $radius-md;
+    padding: 2px $spacing-2;
+    cursor: pointer;
+    color: $gray-600;
+    transition: $transition-base;
+
+    &:hover { border-color: $primary; color: $primary; }
+
+    &--copied {
+      border-color: #28A745;
+      color: #28A745;
+    }
+  }
+
+  &__claim {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: $primary;
+    text-decoration: none;
+    transition: $transition-base;
+    &:hover { color: $primary-dark; }
+  }
+}
+
+// ─── Seasonal Cards ───────────────────────────────────────────────────────────
+.of-seasonals {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: $spacing-5;
+
+  @include mobile { grid-template-columns: 1fr; }
+}
+
+.of-seasonal {
+  background: $white;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-sm;
+  border: 1px solid $gray-200;
+  padding: $spacing-6;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+  position: relative;
+  transition: $transition-base;
+
+  &:hover { box-shadow: $shadow-md; transform: translateY(-2px); }
+
+  &__badge {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 2px $spacing-3;
+    border-radius: $radius-full;
+    text-transform: uppercase;
+    align-self: flex-start;
+
+    &--upcoming { background: #FFF3CD; color: #856404; }
+    &--active   { background: #D4EDDA; color: #155724; }
+  }
+
+  &__emoji { font-size: 2.5rem; line-height: 1; }
+
+  &__title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: $gray-800;
+    margin-bottom: $spacing-2;
+  }
+
+  &__desc {
+    font-size: 0.88rem;
+    color: $gray-500;
+    line-height: 1.6;
+  }
+
+  &__valid {
+    font-size: 0.8rem;
+    color: $gray-400;
+    margin-top: $spacing-2;
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    gap: $spacing-3;
+  }
+
+  &__discount {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: $primary;
+  }
+
+  &__btn {
+    padding: $spacing-2 $spacing-5;
+    border-radius: $radius-full;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: $transition-base;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+
+    &--claim {
+      background: $primary;
+      color: $white;
+      &:hover { background: $primary-dark; }
+    }
+
+    &--notify {
+      background: $gray-100;
+      color: $gray-700;
+      border: 1px solid $gray-300;
+      &:hover { border-color: $primary; color: $primary; background: rgba($primary, 0.05); }
+    }
+  }
+}
+
+// ─── Spinner ──────────────────────────────────────────────────────────────────
+.of-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba($white, 0.4);
+  border-top-color: $white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+// ─── Bottom CTA ───────────────────────────────────────────────────────────────
+.of-cta {
+  background: linear-gradient(135deg, $primary-dark, $primary);
+  border-radius: $radius-xl;
+  padding: $spacing-12 $spacing-8;
+  text-align: center;
+  color: $white;
+
+  @include mobile { padding: $spacing-8 $spacing-4; }
+
+  &__icon { font-size: 2.5rem; margin-bottom: $spacing-4; }
+
+  &__title {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 800;
+    margin-bottom: $spacing-3;
+  }
+
+  &__sub {
+    font-size: 1rem;
+    opacity: 0.85;
+    margin-bottom: $spacing-8;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  &__actions {
+    display: flex;
+    gap: $spacing-4;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  &__btn {
+    padding: $spacing-3 $spacing-8;
+    border-radius: $radius-full;
+    font-size: 1rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: $transition-base;
+
+    &--primary {
+      background: $white;
+      color: $primary;
+      &:hover { transform: translateY(-2px); box-shadow: $shadow-md; }
+    }
+
+    &--outline {
+      background: transparent;
+      border: 2px solid rgba($white, 0.6);
+      color: $white;
+      &:hover { background: rgba($white, 0.1); border-color: $white; }
+    }
+  }
+}

@@ -18,7 +18,7 @@ export class TicketsService {
     return this.http.get<TicketGroup>(`${this.mockPath}/tickets.json`);
   }
 
-  getByDayType(dayType: 'weekday' | 'weekend' | 'holiday'): Observable<Ticket[]> {
+  getByDayType(dayType: 'weekday' | 'sunday'): Observable<Ticket[]> {
     return this.getAll().pipe(
       map(tickets => tickets[dayType])
     );

@@ -1,0 +1,198 @@
+@use '../../../../assets/styles/variables' as *;
+@use '../../../../assets/styles/mixins' as *;
+
+.bk-card {
+  background: $white;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-sm;
+  border: 1px solid $gray-200;
+  padding: $spacing-6;
+  margin-bottom: $spacing-5;
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: $gray-800;
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    margin-bottom: $spacing-5;
+    svg { color: $primary; flex-shrink: 0; }
+  }
+}
+
+// ─── Meta row ─────────────────────────────────────────────────────────────────
+.bk-review-meta {
+  display: flex;
+  gap: $spacing-8;
+  margin-bottom: $spacing-5;
+  padding-bottom: $spacing-5;
+  border-bottom: 1px solid $gray-100;
+
+  @include mobile { gap: $spacing-5; }
+
+  &__item { display: flex; flex-direction: column; gap: $spacing-1; }
+
+  &__label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: $gray-400;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  &__val {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: $gray-800;
+
+    &--cap { text-transform: capitalize; }
+  }
+}
+
+// ─── Review Table ─────────────────────────────────────────────────────────────
+.bk-review-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+
+  th {
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: $gray-400;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding-bottom: $spacing-3;
+    border-bottom: 2px solid $gray-100;
+  }
+
+  td {
+    padding: $spacing-3 0;
+    color: $gray-700;
+    border-bottom: 1px solid $gray-100;
+    vertical-align: middle;
+  }
+
+  tfoot td { border-bottom: none; }
+
+  &__center { text-align: center; }
+  &__right  { text-align: right; font-weight: 600; }
+
+  &__discount-label { color: $gray-600; }
+  &__promo {
+    font-family: monospace;
+    font-size: 0.8rem;
+    background: rgba($primary, 0.08);
+    color: $primary;
+    padding: 1px $spacing-2;
+    border-radius: $radius-sm;
+    margin-left: $spacing-2;
+  }
+
+  &__discount { color: #155724; }
+
+  &__total-row td {
+    font-size: 1.05rem;
+    color: $gray-900;
+    padding-top: $spacing-4;
+    border-top: 2px solid $gray-200;
+  }
+}
+
+// ─── Visitor Summary ──────────────────────────────────────────────────────────
+.bk-visitor-summary {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+  margin-bottom: $spacing-4;
+
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: $spacing-4;
+  }
+
+  &__label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: $gray-400;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    min-width: 60px;
+  }
+
+  &__val {
+    font-size: 0.95rem;
+    color: $gray-800;
+  }
+}
+
+.bk-note {
+  font-size: 0.82rem;
+  color: $gray-400;
+
+  &__link {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: $primary;
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 0;
+    text-decoration: underline;
+  }
+}
+
+// ─── Disclaimer ───────────────────────────────────────────────────────────────
+.bk-disclaimer {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-2;
+  background: #FFF3CD;
+  border: 1px solid #FFEAA7;
+  border-radius: $radius-lg;
+  padding: $spacing-3 $spacing-4;
+  margin-bottom: $spacing-5;
+  font-size: 0.85rem;
+  color: #856404;
+  line-height: 1.55;
+
+  p { margin: 0; }
+}
+
+// ─── Actions ──────────────────────────────────────────────────────────────────
+.bk-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: $spacing-3;
+
+  @include mobile { flex-direction: column-reverse; }
+}
+
+.bk-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  padding: $spacing-3 $spacing-8;
+  border-radius: $radius-full;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: $transition-base;
+
+  &--primary {
+    background: $primary;
+    color: $white;
+    &:hover { background: $primary-dark; transform: translateY(-1px); box-shadow: $shadow-md; }
+  }
+
+  &--outline {
+    background: $white;
+    border: 2px solid $primary;
+    color: $primary;
+    &:hover { background: $primary; color: $white; }
+  }
+}

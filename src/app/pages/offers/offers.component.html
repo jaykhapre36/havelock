@@ -1,0 +1,145 @@
+<div class="of-page">
+
+  <!-- ── Hero ──────────────────────────────────────────────────────────── -->
+  <section class="of-hero">
+    <div class="of-hero__badge">LIMITED TIME</div>
+    <div class="of-hero__wave-text">SUMMER SPLASH FEST</div>
+    <h1 class="of-hero__title">Save Up To <span>40% OFF</span></h1>
+    <p class="of-hero__sub">Exclusive deals on tickets, family combos & group bookings. Grab yours before they're gone!</p>
+    <a routerLink="/tickets" class="of-hero__cta">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="2" y="7" width="20" height="14" rx="2"/>
+        <path d="M16 7V5a2 2 0 0 0-4 0v2M8 7V5a2 2 0 0 0-4 0"/>
+        <line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/>
+      </svg>
+      Book Now
+    </a>
+    <!-- floating drops -->
+    <span class="of-hero__drop of-hero__drop--1">💧</span>
+    <span class="of-hero__drop of-hero__drop--2">🌊</span>
+    <span class="of-hero__drop of-hero__drop--3">💧</span>
+  </section>
+
+  <div class="of-container">
+
+    <!-- ── Promo Code Validator ──────────────────────────────────────────── -->
+    <section class="of-promo">
+      <div class="of-promo__inner">
+        <div class="of-promo__icon">🎟️</div>
+        <div class="of-promo__text">
+          <h2 class="of-promo__title">Have a Promo Code?</h2>
+          <p class="of-promo__sub">Enter your code below to check the discount</p>
+        </div>
+        <div class="of-promo__form">
+          <div class="of-promo__input-wrap">
+            <input
+              class="of-promo__input"
+              type="text"
+              placeholder="e.g. EARLY10"
+              [(ngModel)]="promoCode"
+              (keyup.enter)="validatePromo()"
+            />
+            <button class="of-promo__btn" (click)="validatePromo()" [disabled]="promoLoading">
+              <span *ngIf="!promoLoading">Validate</span>
+              <span *ngIf="promoLoading" class="of-spinner"></span>
+            </button>
+          </div>
+
+          <!-- Result -->
+          <div *ngIf="promoResult" class="of-promo__result" [class.of-promo__result--success]="promoResult.valid" [class.of-promo__result--error]="!promoResult.valid">
+            <ng-container *ngIf="promoResult.valid && promoResult.offer">
+              ✅ Valid! <strong>{{ getDiscountLabel(promoResult.offer) }}</strong> — {{ promoResult.offer.title }}
+              <button class="of-promo__clear" (click)="clearPromo()">✕</button>
+            </ng-container>
+            <ng-container *ngIf="!promoResult.valid">
+              ❌ Invalid or expired promo code.
+              <button class="of-promo__clear" (click)="clearPromo()">✕</button>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Popular Deals ──────────────────────────────────────────────────── -->
+    <section class="of-section">
+      <div class="of-section__head">
+        <h2 class="of-section__title">🔥 Popular Deals</h2>
+        <p class="of-section__sub">Best-selling offers — available now</p>
+      </div>
+      <div class="of-deals">
+        <div class="of-deal" *ngFor="let offer of deals">
+          <div class="of-deal__badge" *ngIf="offer.tag">{{ offer.tag }}</div>
+          <div class="of-deal__emoji">{{ offer.emoji }}</div>
+          <div class="of-deal__body">
+            <h3 class="of-deal__title">{{ offer.title }}</h3>
+            <p class="of-deal__desc">{{ offer.description }}</p>
+            <div class="of-deal__meta">
+              <span class="of-deal__guests" *ngIf="offer.minGuests > 1">
+                Min {{ offer.minGuests }} guests
+              </span>
+              <span class="of-deal__valid">Valid till {{ offer.validUntil | date:'d MMM yyyy' }}</span>
+            </div>
+          </div>
+          <div class="of-deal__right">
+            <div class="of-deal__price" *ngIf="offer.originalPrice">
+              <span class="of-deal__orig">₹{{ offer.originalPrice }}</span>
+              <span class="of-deal__final">₹{{ offer.discountedPrice }}</span>
+            </div>
+            <div class="of-deal__discount">{{ getDiscountLabel(offer) }}</div>
+            <div class="of-deal__code-row">
+              <span class="of-deal__code">{{ offer.promoCode }}</span>
+              <button class="of-deal__copy" (click)="copyCode(offer.promoCode)" [class.of-deal__copy--copied]="copiedCode === offer.promoCode">
+                {{ copiedCode === offer.promoCode ? '✓ Copied' : 'Copy' }}
+              </button>
+            </div>
+            <a routerLink="/tickets" class="of-deal__claim">Claim →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Seasonal Specials ──────────────────────────────────────────────── -->
+    <section class="of-section">
+      <div class="of-section__head">
+        <h2 class="of-section__title">🗓️ Seasonal Specials</h2>
+        <p class="of-section__sub">Upcoming offers — notify yourself so you don't miss out</p>
+      </div>
+      <div class="of-seasonals">
+        <div class="of-seasonal" *ngFor="let offer of seasonals">
+          <div class="of-seasonal__badge" [class.of-seasonal__badge--upcoming]="!offer.isActive" [class.of-seasonal__badge--active]="offer.isActive">
+            {{ offer.isActive ? 'LIVE' : 'UPCOMING' }}
+          </div>
+          <div class="of-seasonal__emoji">{{ offer.emoji }}</div>
+          <div class="of-seasonal__body">
+            <h3 class="of-seasonal__title">{{ offer.title }}</h3>
+            <p class="of-seasonal__desc">{{ offer.description }}</p>
+            <p class="of-seasonal__valid">Valid till {{ offer.validUntil | date:'d MMM yyyy' }}</p>
+          </div>
+          <div class="of-seasonal__footer">
+            <div class="of-seasonal__discount">{{ getDiscountLabel(offer) }}</div>
+            <ng-container *ngIf="offer.isActive; else notifyBtn">
+              <a routerLink="/tickets" class="of-seasonal__btn of-seasonal__btn--claim">Claim Now</a>
+            </ng-container>
+            <ng-template #notifyBtn>
+              <button class="of-seasonal__btn of-seasonal__btn--notify">🔔 Notify Me</button>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Bottom CTA ─────────────────────────────────────────────────────── -->
+    <section class="of-cta">
+      <div class="of-cta__inner">
+        <p class="of-cta__icon">🎪</p>
+        <h2 class="of-cta__title">Ready to Splash?</h2>
+        <p class="of-cta__sub">Pick a deal, copy the promo code, and head to booking.</p>
+        <div class="of-cta__actions">
+          <a routerLink="/tickets" class="of-cta__btn of-cta__btn--primary">Book Tickets</a>
+          <a routerLink="/contact" class="of-cta__btn of-cta__btn--outline">Group Inquiry</a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>

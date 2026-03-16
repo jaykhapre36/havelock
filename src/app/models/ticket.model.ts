@@ -14,6 +14,5 @@ export interface Ticket {
 
 export interface TicketGroup {
   weekday: Ticket[];
-  weekend: Ticket[];
-  holiday: Ticket[];
+  sunday: Ticket[];
 }
