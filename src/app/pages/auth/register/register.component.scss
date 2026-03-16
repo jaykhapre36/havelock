@@ -118,3 +118,98 @@
   text-align: center; font-size: 0.9rem; color: $gray-500;
   a { color: $primary; font-weight: 600; &:hover { text-decoration: underline; } }
 }
+
+// ─── Phone prefix ─────────────────────────────────────────────────────────────
+.auth-field {
+  &__prefix {
+    position: absolute;
+    left: $spacing-3;
+    display: flex;
+    align-items: center;
+    gap: $spacing-1;
+    color: $gray-700;
+    font-size: 0.88rem;
+    font-weight: 600;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 1;
+  }
+  &__phone-input { padding-left: 4rem !important; }
+  &__required { color: $danger; margin-left: 2px; }
+  &__optional { color: $gray-400; font-weight: 400; font-size: 0.78rem; margin-left: $spacing-1; }
+}
+
+button.auth-back { background: none; border: none; cursor: pointer; padding: 0; }
+
+// ─── Gender toggle ────────────────────────────────────────────────────────────
+.auth-gender {
+  display: flex;
+  gap: $spacing-2;
+
+  &__btn {
+    flex: 1;
+    padding: $spacing-2 $spacing-3;
+    border: 1.5px solid $gray-200;
+    border-radius: $radius-lg;
+    background: $white;
+    color: $gray-600;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: $transition-base;
+    font-family: inherit;
+
+    &:hover { border-color: $primary; color: $primary; }
+    &--active { border-color: $primary; background: $primary; color: $white; }
+  }
+}
+
+// ─── OTP boxes ────────────────────────────────────────────────────────────────
+.otp-boxes {
+  display: flex;
+  gap: $spacing-3;
+  justify-content: center;
+  margin: $spacing-6 0;
+  @include mobile { gap: $spacing-2; }
+}
+
+.otp-box {
+  width: 48px;
+  height: 56px;
+  border: 2px solid $gray-300;
+  border-radius: $radius-lg;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: $gray-800;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: $white;
+  padding: 0;
+
+  &:focus { border-color: $primary; box-shadow: 0 0 0 3px rgba($primary, 0.15); }
+  @include mobile { width: 40px; height: 48px; font-size: 1.2rem; }
+}
+
+// ─── Resend ───────────────────────────────────────────────────────────────────
+.auth-resend {
+  text-align: center;
+  margin-top: $spacing-4;
+
+  &__timer { font-size: 0.875rem; color: $gray-500; }
+
+  &__btn {
+    background: none;
+    border: none;
+    color: $primary;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+    font-family: inherit;
+
+    &:hover { color: $primary-dark; }
+    &:disabled { opacity: 0.5; cursor: not-allowed; }
+  }
+}

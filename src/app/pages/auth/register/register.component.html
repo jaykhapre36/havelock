@@ -1,11 +1,11 @@
 <div class="auth-page">
 
-  <!-- Left branding panel -->
+  <!-- ── Left branding panel ─────────────────────────────────────────────── -->
   <div class="auth-brand">
     <div class="auth-brand__inner">
       <div class="auth-brand__logo">
-        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 2C6 8 4 12 4 15a8 8 0 0 0 16 0c0-3-2-7-8-13z"/>
+        <svg width="36" height="36" viewBox="0 0 32 32" fill="none">
+          <path d="M16 2C16 2 6 12 6 20C6 25.523 10.477 30 16 30C21.523 30 26 25.523 26 20C26 12 16 2 16 2Z" fill="white"/>
         </svg>
         <span>Havelock</span>
       </div>
@@ -28,22 +28,27 @@
     </div>
   </div>
 
-  <!-- Right form panel -->
+  <!-- ── Right form panel ────────────────────────────────────────────────── -->
   <div class="auth-form-panel">
     <div class="auth-form-wrap">
 
+      <!-- Back button -->
       <div class="auth-form-wrap__header">
-        <a routerLink="/" class="auth-back">
+        <a routerLink="/" class="auth-back" *ngIf="stage === 'details'">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
           </svg>
           Back to Home
         </a>
+        <button type="button" class="auth-back" *ngIf="stage === 'otp'" (click)="goBack()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+          </svg>
+          Edit details
+        </button>
       </div>
 
-      <h1 class="auth-form-wrap__title">Create Account</h1>
-      <p class="auth-form-wrap__sub">Free forever. No credit card required.</p>
-
+      <!-- Error banner -->
       <div class="auth-error" *ngIf="error">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
@@ -51,94 +56,155 @@
         {{ error }}
       </div>
 
-      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-form" novalidate>
+      <!-- ══ Stage 1 — Details ═══════════════════════════════════════════════ -->
+      <ng-container *ngIf="stage === 'details'">
 
-        <!-- Name -->
-        <div class="auth-field" [class.auth-field--error]="isInvalid('name')">
-          <label>Full Name</label>
+        <h1 class="auth-form-wrap__title">Create Account</h1>
+        <p class="auth-form-wrap__sub">Free forever. Verify via WhatsApp OTP.</p>
+
+        <!-- Full Name -->
+        <div class="auth-field" [class.auth-field--error]="nameError">
+          <label>Full Name <span class="auth-field__required">*</span></label>
           <div class="auth-field__input-wrap">
             <svg class="auth-field__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
             </svg>
-            <input type="text" formControlName="name" placeholder="Your full name" />
+            <input type="text" placeholder="Your full name" [(ngModel)]="name" />
           </div>
-          <p class="auth-field__error" *ngIf="isInvalid('name')">Name must be at least 2 characters.</p>
+          <p class="auth-field__error" *ngIf="nameError">{{ nameError }}</p>
         </div>
 
-        <!-- Email -->
-        <div class="auth-field" [class.auth-field--error]="isInvalid('email')">
-          <label>Email Address</label>
+        <!-- WhatsApp number -->
+        <div class="auth-field" [class.auth-field--error]="phoneError">
+          <label>WhatsApp Number <span class="auth-field__required">*</span></label>
+          <div class="auth-field__input-wrap">
+            <span class="auth-field__prefix">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+              </svg>
+              +91
+            </span>
+            <input
+              class="auth-field__phone-input"
+              type="tel"
+              inputmode="numeric"
+              maxlength="10"
+              placeholder="98765 43210"
+              [(ngModel)]="phone"
+            />
+          </div>
+          <p class="auth-field__error" *ngIf="phoneError">{{ phoneError }}</p>
+        </div>
+
+        <!-- Email (optional) -->
+        <div class="auth-field">
+          <label>Email Address <span class="auth-field__optional">(optional)</span></label>
           <div class="auth-field__input-wrap">
             <svg class="auth-field__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
               <polyline points="22,6 12,13 2,6"/>
             </svg>
-            <input type="email" formControlName="email" placeholder="you@example.com" />
+            <input type="email" placeholder="you@example.com" [(ngModel)]="email" />
           </div>
-          <p class="auth-field__error" *ngIf="isInvalid('email')">Please enter a valid email.</p>
         </div>
 
-        <!-- Phone -->
-        <div class="auth-field" [class.auth-field--error]="isInvalid('phone')">
-          <label>Phone Number</label>
-          <div class="auth-field__input-wrap">
-            <svg class="auth-field__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.81a16 16 0 0 0 6.29 6.29l.95-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
-            </svg>
-            <input type="tel" formControlName="phone" placeholder="+91 99999 00000" />
-          </div>
-          <p class="auth-field__error" *ngIf="isInvalid('phone')">Please enter a valid phone number.</p>
-        </div>
-
-        <!-- Password row -->
+        <!-- Age + Gender row -->
         <div class="auth-form__row">
-          <!-- Password -->
-          <div class="auth-field" [class.auth-field--error]="isInvalid('password')">
-            <label>Password</label>
+
+          <!-- Age -->
+          <div class="auth-field" [class.auth-field--error]="ageError">
+            <label>Age <span class="auth-field__required">*</span></label>
             <div class="auth-field__input-wrap">
               <svg class="auth-field__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
               </svg>
-              <input [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="Min. 6 chars" />
-              <button type="button" class="auth-field__toggle" (click)="togglePassword()">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-              </button>
+              <input
+                type="number"
+                inputmode="numeric"
+                min="1"
+                max="120"
+                placeholder="25"
+                [(ngModel)]="age"
+              />
             </div>
-            <p class="auth-field__error" *ngIf="isInvalid('password')">Min. 6 characters.</p>
+            <p class="auth-field__error" *ngIf="ageError">{{ ageError }}</p>
           </div>
 
-          <!-- Confirm password -->
-          <div class="auth-field" [class.auth-field--error]="isInvalid('confirm') || mismatch">
-            <label>Confirm Password</label>
-            <div class="auth-field__input-wrap">
-              <svg class="auth-field__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-              </svg>
-              <input [type]="showConfirm ? 'text' : 'password'" formControlName="confirm" placeholder="Repeat password" />
-              <button type="button" class="auth-field__toggle" (click)="toggleConfirm()">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-              </button>
+          <!-- Gender -->
+          <div class="auth-field" [class.auth-field--error]="genderError">
+            <label>Gender <span class="auth-field__required">*</span></label>
+            <div class="auth-gender">
+              <button type="button" class="auth-gender__btn"
+                [class.auth-gender__btn--active]="gender === 'male'"
+                (click)="gender = 'male'">Male</button>
+              <button type="button" class="auth-gender__btn"
+                [class.auth-gender__btn--active]="gender === 'female'"
+                (click)="gender = 'female'">Female</button>
+              <button type="button" class="auth-gender__btn"
+                [class.auth-gender__btn--active]="gender === 'other'"
+                (click)="gender = 'other'">Other</button>
             </div>
-            <p class="auth-field__error" *ngIf="mismatch">Passwords do not match.</p>
+            <p class="auth-field__error" *ngIf="genderError">{{ genderError }}</p>
           </div>
+
         </div>
 
-        <!-- Terms -->
-        <label class="auth-remember" [class.auth-remember--error]="isInvalid('agree')">
-          <input type="checkbox" formControlName="agree" />
-          <span class="auth-remember__box"></span>
-          <span>I agree to the <a routerLink="/faq-safety">Terms & Conditions</a> and <a routerLink="/faq-safety">Privacy Policy</a></span>
-        </label>
-
-        <button type="submit" class="auth-submit" [disabled]="loading">
+        <button class="auth-submit" [disabled]="loading" (click)="onSendOtp()">
           <span class="auth-submit__spinner" *ngIf="loading"></span>
-          {{ loading ? 'Creating account...' : 'Create Account' }}
+          {{ loading ? 'Sending OTP...' : 'Send OTP on WhatsApp' }}
         </button>
 
-      </form>
+      </ng-container>
 
+      <!-- ══ Stage 2 — OTP ══════════════════════════════════════════════════ -->
+      <ng-container *ngIf="stage === 'otp'">
+
+        <h1 class="auth-form-wrap__title">Verify Number</h1>
+        <p class="auth-form-wrap__sub">
+          6-digit code sent to <strong>+91 {{ phone }}</strong> via WhatsApp.
+        </p>
+
+        <!-- 6-box OTP input -->
+        <div class="otp-boxes">
+          <input
+            #otpBox
+            *ngFor="let digit of otpDigits; let i = index"
+            class="otp-box"
+            type="text"
+            inputmode="numeric"
+            maxlength="1"
+            [value]="otpDigits[i]"
+            (input)="onOtpInput(i, $event)"
+            (keydown)="onOtpKeydown(i, $event)"
+            (paste)="onOtpPaste($event)"
+            autocomplete="one-time-code"
+          />
+        </div>
+
+        <button class="auth-submit" [disabled]="loading || otpValue.length < 6" (click)="onCreateAccount()">
+          <span class="auth-submit__spinner" *ngIf="loading"></span>
+          {{ loading ? 'Creating account...' : 'Verify & Create Account' }}
+        </button>
+
+        <div class="auth-resend">
+          <span *ngIf="resendCountdown > 0" class="auth-resend__timer">
+            Resend OTP in <strong>{{ resendCountdown }}s</strong>
+          </span>
+          <button
+            type="button"
+            class="auth-resend__btn"
+            *ngIf="resendCountdown === 0"
+            (click)="resendOtp()"
+            [disabled]="loading"
+          >
+            Resend OTP
+          </button>
+        </div>
+
+      </ng-container>
+
+      <!-- Divider + switch -->
       <div class="auth-divider"><span>or</span></div>
-
       <p class="auth-switch">
         Already have an account?
         <a routerLink="/auth/login">Sign in →</a>

@@ -5,9 +5,7 @@ import { tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { User } from '../models/user.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
 
   private apiUrl = environment.apiUrl;
@@ -16,24 +14,73 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  login(email: string, password: string): Observable<{ token: string; user: User }> {
-    return this.http.post<{ token: string; user: User }>(`${this.apiUrl}/auth/login`, { email, password }).pipe(
-      tap(response => {
-        localStorage.setItem('token', response.token);
-        localStorage.setItem('user', JSON.stringify(response.user));
-        this.currentUserSubject.next(response.user);
+  // ── Send OTP ────────────────────────────────────────────────────────────────
+  sendOtp(phone: string, otpType: 'login' | 'register' = 'login'): Observable<{ success: boolean; message: string }> {
+    return this.http.post<any>(`${this.apiUrl}/auth/send-otp`, {
+      phone,
+      otp_type: otpType
+    });
+  }
+
+  // ── Verify OTP (standalone check) ───────────────────────────────────────────
+  verifyOtp(phone: string, otp: string): Observable<{ success: boolean; message: string }> {
+    return this.http.post<any>(`${this.apiUrl}/auth/verify-otp`, { phone, otp });
+  }
+
+  // ── Login (called after OTP verified) ───────────────────────────────────────
+  login(phone: string, otp: string): Observable<{ success: boolean; token: string; user: User }> {
+    return this.http.post<any>(`${this.apiUrl}/auth/login`, { phone, otp }).pipe(
+      tap(res => {
+        if (res.success) {
+          localStorage.setItem('token', res.token);
+          localStorage.setItem('user', JSON.stringify(res.user));
+          this.currentUserSubject.next(res.user);
+        }
       })
     );
   }
 
+  // ── Register (called after OTP verified) ────────────────────────────────────
+  register(data: {
+    name: string;
+    phone: string;
+    email: string;
+    age: number;
+    gender: string;
+    otp: string;
+  }): Observable<{ success: boolean; token: string; user: User }> {
+    return this.http.post<any>(`${this.apiUrl}/auth/register`, data).pipe(
+      tap(res => {
+        if (res.success) {
+          localStorage.setItem('token', res.token);
+          localStorage.setItem('user', JSON.stringify(res.user));
+          this.currentUserSubject.next(res.user);
+        }
+      })
+    );
+  }
+
+  // ── Logout ──────────────────────────────────────────────────────────────────
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     this.currentUserSubject.next(null);
   }
 
+  // ── Check login (also validates token expiry) ────────────────────────────────
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('token');
+    const token = localStorage.getItem('token');
+    if (!token) return false;
+    return !this.isTokenExpired(token);
+  }
+
+  isTokenExpired(token: string): boolean {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.exp * 1000 < Date.now();
+    } catch {
+      return true;
+    }
   }
 
   getToken(): string | null {
@@ -45,7 +92,7 @@ export class AuthService {
   }
 
   private getUserFromStorage(): User | null {
-    const user = localStorage.getItem('user');
-    return user ? JSON.parse(user) : null;
+    const stored = localStorage.getItem('user');
+    return stored ? JSON.parse(stored) : null;
   }
 }
