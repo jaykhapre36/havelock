@@ -62,7 +62,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     if (!this.validateDetails()) return;
 
     this.loading = true;
-    this.authService.sendOtp(this.phoneValue, 'register').subscribe({
+    this.authService.sendOtp(this.phoneValue, 'registration').subscribe({
       next: (res) => {
         this.loading = false;
         this.otpId = res.data.otp_id;
@@ -128,7 +128,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     if (this.resendCountdown > 0) return;
     this.loading = true;
     this.error = '';
-    this.authService.sendOtp(this.phoneValue, 'register').subscribe({
+    this.authService.sendOtp(this.phoneValue, 'registration').subscribe({
       next: (res) => {
         this.loading = false;
         this.otpId = res.data.otp_id;

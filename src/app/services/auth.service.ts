@@ -15,7 +15,7 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   // ── Send OTP ────────────────────────────────────────────────────────────────
-  sendOtp(phone: string, otpType: 'login' | 'register' = 'login'): Observable<{ success: boolean; message: string; data: { otp_id: number; phone: string } }> {
+  sendOtp(phone: string, otpType: 'login' | 'registration' | 'verification' | 'password_reset' = 'login'): Observable<{ success: boolean; message: string; data: { otp_id: number; phone: string } }> {
     return this.http.post<any>(`${this.apiUrl}/auth/send-otp`, {
       phone,
       otp_type: otpType
