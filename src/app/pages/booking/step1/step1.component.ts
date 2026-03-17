@@ -1,11 +1,13 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { forkJoin } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 import { TicketsService } from '../../../services/tickets.service';
-import { OffersService } from '../../../services/offers.service';
-import { BookingStateService, DayType, TicketSelection } from '../booking-state.service';
-
-const BOOKABLE_TYPES = ['general', 'group'];
-const GROUP_MIN_QTY = 10;
+import { BookingService, Slot } from '../../../services/booking.service';
+import { BookingStateService, DayType } from '../booking-state.service';
+import { AuthService } from '../../../services/auth.service';
+import { Ticket } from '../../../models/ticket.model';
 
 @Component({
   standalone: false,
@@ -17,178 +19,178 @@ export class Step1Component implements OnInit {
 
   @Output() next = new EventEmitter<void>();
 
-  loading = false;
-  selections: TicketSelection[] = [];
-  activeDayType: DayType = 'weekday';
+  loading      = true;   // overall page skeleton
+  slotsLoading = true;   // date chips loading state
+  slotsError   = false;  // date chips error state
+
+  selectedTicket: Ticket | null = null;
   selectedDate = '';
-  promoCode = '';
-  promoLoading = false;
-  promoSuccess = '';
-  promoError = '';
-  noTicketError = false;
+  activeDayType: DayType = 'weekday';
 
-  dayTypes = [
-    { key: 'weekday' as DayType, label: 'Mon – Sat' },
-    { key: 'sunday'  as DayType, label: 'Sunday'    }
-  ];
+  slots: Slot[] = [];
+  availableDates  = new Set<string>();
+  fullDates       = new Set<string>();
+  bookedDates     = new Set<string>();   // dates user has already booked
+  dateError       = '';
 
-  private preSelectType = '';
+  // Month navigation
+  monthGroups: { key: string; label: string; slots: Slot[] }[] = [];
+  activeMonthIndex = 0;
+
+  private ticketType = 'general';
 
   constructor(
     private route: ActivatedRoute,
     private ticketsService: TicketsService,
-    private offersService: OffersService,
-    private stateService: BookingStateService
+    private bookingService: BookingService,
+    private stateService: BookingStateService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    const today = new Date();
-    this.selectedDate = this.formatDate(today);
-
     const params = this.route.snapshot.queryParams;
+    this.ticketType = params['type'] || 'general';
+
     if (params['dayType'] && ['weekday', 'sunday'].includes(params['dayType'])) {
       this.activeDayType = params['dayType'] as DayType;
-    } else {
-      this.activeDayType = this.detectDayType(today);
-    }
-    if (params['type']) {
-      this.preSelectType = params['type'];
     }
 
-    // Restore state if returning from step 2
     const snap = this.stateService.snapshot;
-    if (snap.selectedDate) this.selectedDate = snap.selectedDate;
-    if (snap.dayType)      this.activeDayType = snap.dayType;
-    if (snap.promoCode)    this.promoCode = snap.promoCode;
-
-    this.loadTickets();
-  }
-
-  setDayType(type: DayType): void {
-    this.activeDayType = type;
-    this.loadTickets();
-  }
-
-  onDateChange(): void {
-    const d = new Date(this.selectedDate);
-    this.activeDayType = this.detectDayType(d);
-    this.loadTickets();
-  }
-
-  private loadTickets(): void {
-    this.loading = true;
-    const prevSelections = this.stateService.snapshot.selections;
+    if (snap.dayType) this.activeDayType = snap.dayType;
 
     this.ticketsService.getByDayType(this.activeDayType).subscribe(tickets => {
-      const bookable = tickets.filter(t => BOOKABLE_TYPES.includes(t.type));
-
-      this.selections = bookable.map(ticket => {
-        const prev = prevSelections.find(s => s.ticket.type === ticket.type);
-        const qty = prev ? prev.qty : (ticket.type === this.preSelectType ? 1 : 0);
-        return { ticket, qty, lineTotal: ticket.price * qty };
-      });
-
+      this.selectedTicket = tickets.find(t => t.type === this.ticketType) || tickets[0];
       this.loading = false;
-      this.syncState();
     });
+
+    this.loadSlots();
   }
 
-  increment(type: string): void {
-    this.updateQty(type, 1);
-  }
+  loadSlots(): void {
+    this.slotsLoading = true;
+    this.slotsError   = false;
 
-  decrement(type: string): void {
-    this.updateQty(type, -1);
-  }
+    const phone = this.authService.getCurrentUser()?.phone ?? '';
 
-  private updateQty(type: string, delta: number): void {
-    this.selections = this.selections.map(sel => {
-      if (sel.ticket.type === type) {
-        const min = type === 'group' ? GROUP_MIN_QTY : 0;
-        const max = type === 'group' ? 200 : 50;
-        let qty = sel.qty + delta;
-        // When incrementing from 0 for group, jump straight to minimum
-        if (type === 'group' && sel.qty === 0 && delta > 0) qty = GROUP_MIN_QTY;
-        qty = Math.max(delta < 0 && qty < min ? 0 : min, Math.min(max, qty));
-        return { ...sel, qty, lineTotal: sel.ticket.price * qty };
+    const slots$ = this.bookingService.getSlots();
+    const booked$ = phone
+      ? this.bookingService.getBookedDates(phone).pipe(catchError(() => of(new Set<string>())))
+      : of(new Set<string>());
+
+    forkJoin({ slots: slots$, booked: booked$ }).subscribe({
+      next: ({ slots, booked }) => {
+        this.bookedDates = booked;
+
+        this.slots = slots.data.slots.map(s => ({
+          ...s,
+          slot_date: s.slot_date.slice(0, 10)
+        }));
+
+        this.availableDates = new Set(
+          this.slots.filter(s => s.remaining > 0 && !this.bookedDates.has(s.slot_date.slice(0, 10))).map(s => s.slot_date)
+        );
+        this.fullDates = new Set(
+          this.slots.filter(s => s.remaining === 0).map(s => s.slot_date)
+        );
+
+        // Set initial selected date — skip already-booked ones
+        const snap = this.stateService.snapshot;
+        const sortedAvailable = [...this.availableDates].sort();
+        if (snap.selectedDate && this.availableDates.has(snap.selectedDate)) {
+          this.selectedDate = snap.selectedDate;
+        } else {
+          this.selectedDate = sortedAvailable[0] ?? '';
+        }
+
+        this.buildMonthGroups();
+
+        const selMonth = this.selectedDate.slice(0, 7);
+        const idx = this.monthGroups.findIndex(g => g.key === selMonth);
+        this.activeMonthIndex = idx >= 0 ? idx : 0;
+
+        this.slotsLoading = false;
+        this.syncState();
+      },
+      error: () => {
+        this.slotsLoading = false;
+        this.slotsError   = true;
       }
-      return sel;
     });
-    this.noTicketError = false;
+  }
+
+  isBooked(slot: Slot): boolean {
+    return this.bookedDates.has(slot.slot_date);
+  }
+
+  isDisabled(slot: Slot): boolean {
+    return slot.remaining === 0 || this.isBooked(slot);
+  }
+
+  private buildMonthGroups(): void {
+    const map = new Map<string, Slot[]>();
+    for (const slot of this.slots) {
+      const key = slot.slot_date.slice(0, 7); // 'YYYY-MM'
+      if (!map.has(key)) map.set(key, []);
+      map.get(key)!.push(slot);
+    }
+    this.monthGroups = Array.from(map.entries()).map(([key, slots]) => {
+      const [y, m] = key.split('-');
+      const label = new Date(+y, +m - 1, 1)
+        .toLocaleString('default', { month: 'long', year: 'numeric' });
+      return { key, label, slots };
+    });
+  }
+
+  get activeMonthSlots(): Slot[] {
+    return this.monthGroups[this.activeMonthIndex]?.slots ?? [];
+  }
+
+  get canGoPrev(): boolean { return this.activeMonthIndex > 0; }
+  get canGoNext(): boolean { return this.activeMonthIndex < this.monthGroups.length - 1; }
+
+  prevMonth(): void { if (this.canGoPrev) this.activeMonthIndex--; }
+  nextMonth(): void { if (this.canGoNext) this.activeMonthIndex++; }
+
+  selectDate(slot: Slot): void {
+    if (this.isDisabled(slot)) return;
+    this.dateError    = '';
+    this.selectedDate = slot.slot_date;
+    const parts = slot.slot_date.split('-');
+    const d = new Date(+parts[0], +parts[1] - 1, +parts[2]);
+    this.activeDayType = this.detectDayType(d);
     this.syncState();
   }
 
-  applyPromo(): void {
-    if (!this.promoCode.trim()) return;
-    this.promoLoading = true;
-    this.promoSuccess = '';
-    this.promoError = '';
-
-    this.offersService.validatePromoCode(this.promoCode.trim()).subscribe(offer => {
-      this.promoLoading = false;
-      if (offer) {
-        this.promoSuccess = `${offer.title} applied!`;
-        this.stateService.patchState({ appliedOffer: offer, promoCode: this.promoCode.trim() });
-      } else {
-        this.promoError = 'Invalid or expired promo code.';
-        this.stateService.patchState({ appliedOffer: null, promoCode: '' });
-      }
-    });
+  get selectedSlot(): Slot | undefined {
+    return this.slots.find(s => s.slot_date === this.selectedDate);
   }
 
-  removePromo(): void {
-    this.promoCode = '';
-    this.promoSuccess = '';
-    this.promoError = '';
-    this.stateService.patchState({ appliedOffer: null, promoCode: '' });
+  get totalPrice(): number {
+    return this.selectedTicket?.price ?? 0;
   }
 
   onNext(): void {
-    const hasTicket = this.selections.some(s => s.qty > 0);
-    if (!hasTicket) {
-      this.noTicketError = true;
+    if (!this.selectedDate || !this.selectedSlot) {
+      this.dateError = 'Please select a visit date.';
       return;
     }
+    this.syncState();
     this.next.emit();
   }
 
-  getSubtotal(): number {
-    return this.stateService.snapshot.subtotal;
-  }
-
-  getDiscount(): number {
-    return this.stateService.snapshot.discountAmount;
-  }
-
-  getTotal(): number {
-    return this.stateService.snapshot.grandTotal;
-  }
-
-  get hasAppliedOffer(): boolean {
-    return !!this.stateService.snapshot.appliedOffer;
-  }
-
-  getTodayDate(): string {
-    return this.formatDate(new Date());
-  }
-
   private syncState(): void {
+    if (!this.selectedTicket) return;
+    const slot = this.selectedSlot;
+    const qty  = 1;
     this.stateService.patchState({
       selectedDate: this.selectedDate,
-      dayType: this.activeDayType,
-      selections: this.selections
+      dayType:      this.activeDayType,
+      slotId:       slot?.id ?? null,
+      selections:   [{ ticket: this.selectedTicket, qty, lineTotal: this.selectedTicket.price * qty }]
     });
   }
 
   private detectDayType(date: Date): DayType {
-    const day = date.getDay();
-    return day === 0 ? 'sunday' : 'weekday';
-  }
-
-  private formatDate(d: Date): string {
-    const y = d.getFullYear();
-    const m = String(d.getMonth() + 1).padStart(2, '0');
-    const dd = String(d.getDate()).padStart(2, '0');
-    return `${y}-${m}-${dd}`;
+    return date.getDay() === 0 ? 'sunday' : 'weekday';
   }
 }

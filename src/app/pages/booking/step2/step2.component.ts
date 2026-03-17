@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BookingStateService } from '../booking-state.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   standalone: false,
@@ -14,18 +15,28 @@ export class Step2Component implements OnInit {
   @Output() back = new EventEmitter<void>();
 
   form!: FormGroup;
+  prefilled = false;
 
   constructor(
     private fb: FormBuilder,
-    private stateService: BookingStateService
+    private stateService: BookingStateService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     const saved = this.stateService.snapshot.visitor;
+    const user  = this.authService.getCurrentUser();
+
+    const fullName = saved.fullName || user?.name  || '';
+    const email    = saved.email    || user?.email || '';
+    const phone    = saved.phone    || user?.phone || '';
+
+    this.prefilled = !!(user?.name && user?.email && user?.phone);
+
     this.form = this.fb.group({
-      fullName: [saved.fullName || '', [Validators.required, Validators.minLength(2), Validators.maxLength(60)]],
-      email:    [saved.email    || '', [Validators.required, Validators.email]],
-      phone:    [saved.phone    || '', [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]]
+      fullName: [{ value: fullName, disabled: this.prefilled }, [Validators.required, Validators.minLength(2), Validators.maxLength(60)]],
+      email:    [{ value: email,    disabled: this.prefilled }, [Validators.required, Validators.email]],
+      phone:    [{ value: phone,    disabled: this.prefilled }, [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]]
     });
   }
 
@@ -41,7 +52,7 @@ export class Step2Component implements OnInit {
       this.form.markAllAsTouched();
       return;
     }
-    this.stateService.patchState({ visitor: this.form.value });
+    this.stateService.patchState({ visitor: this.form.getRawValue() });
     this.next.emit();
   }
 

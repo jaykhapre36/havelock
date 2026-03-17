@@ -20,6 +20,7 @@ export interface VisitorDetails {
 export interface BookingState {
   selectedDate: string;
   dayType: DayType;
+  slotId: number | null;
   selections: TicketSelection[];
   promoCode: string;
   appliedOffer: Offer | null;
@@ -33,6 +34,7 @@ export interface BookingState {
 const initialState: BookingState = {
   selectedDate: '',
   dayType: 'weekday',
+  slotId: null,
   selections: [],
   promoCode: '',
   appliedOffer: null,

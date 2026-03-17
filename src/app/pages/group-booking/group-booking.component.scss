@@ -1,0 +1,632 @@
+@use '../../../assets/styles/variables' as *;
+@use '../../../assets/styles/mixins' as *;
+
+// ─── Page ─────────────────────────────────────────────────────────────────────
+.gb-page {
+  min-height: 100vh;
+  background: $gray-50;
+}
+
+// ─── Hero ─────────────────────────────────────────────────────────────────────
+.gb-hero {
+  background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
+  padding: $spacing-16 0 $spacing-12;
+  color: $white;
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $spacing-8;
+    @include mobile { flex-direction: column; align-items: flex-start; }
+  }
+
+  &__eyebrow {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: rgba($white, 0.15);
+    padding: 4px 12px;
+    border-radius: 50px;
+    margin-bottom: $spacing-4;
+  }
+
+  &__title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: $spacing-4;
+  }
+
+  &__sub {
+    font-size: 1.05rem;
+    opacity: 0.88;
+    max-width: 480px;
+    line-height: 1.6;
+  }
+
+  &__badges {
+    display: flex;
+    gap: $spacing-3;
+    flex-wrap: wrap;
+    @include mobile { margin-top: $spacing-4; }
+  }
+}
+
+.gb-badge {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  background: rgba($white, 0.15);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba($white, 0.25);
+  border-radius: $radius-xl;
+  padding: $spacing-2 $spacing-4;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: $white;
+  white-space: nowrap;
+}
+
+// ─── Progress ─────────────────────────────────────────────────────────────────
+.gb-progress {
+  background: $white;
+  border-bottom: 1px solid $gray-200;
+  padding: $spacing-4 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.gb-steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+
+.gb-step {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+
+  &__circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: $gray-200;
+    color: $gray-500;
+    font-size: 0.88rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: $transition-base;
+  }
+
+  &__label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $gray-500;
+    transition: $transition-base;
+    @include mobile { display: none; }
+  }
+
+  &--active {
+    .gb-step__circle {
+      background: $primary;
+      color: $white;
+      box-shadow: 0 0 0 4px rgba($primary, 0.2);
+    }
+    .gb-step__label { color: $primary; }
+  }
+
+  &--done {
+    .gb-step__circle { background: $success; color: $white; }
+    .gb-step__label { color: $success; }
+  }
+
+  &__line {
+    width: 60px;
+    height: 2px;
+    background: $gray-200;
+    margin: 0 $spacing-2;
+    transition: $transition-base;
+    @include mobile { width: 32px; }
+
+    &--done { background: $success; }
+  }
+}
+
+// ─── Content wrapper ──────────────────────────────────────────────────────────
+.gb-content {
+  padding-top: $spacing-8;
+  padding-bottom: $spacing-12;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+// ─── Card ─────────────────────────────────────────────────────────────────────
+.gb-card {
+  background: $white;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-sm;
+  border: 1px solid $gray-200;
+  padding: $spacing-6;
+  margin-bottom: $spacing-5;
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: $gray-800;
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    margin-bottom: $spacing-5;
+    svg { color: $primary; flex-shrink: 0; }
+  }
+}
+
+// ─── Date chips ───────────────────────────────────────────────────────────────
+.gb-date-chips {
+  display: flex;
+  gap: $spacing-2;
+  flex-wrap: wrap;
+  margin-top: $spacing-2;
+}
+
+.gb-date-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 60px;
+  padding: $spacing-2 $spacing-3;
+  border: 2px solid $gray-200;
+  border-radius: $radius-lg;
+  background: $white;
+  cursor: pointer;
+  transition: $transition-base;
+  gap: 2px;
+
+  &:hover { border-color: $primary; background: rgba($primary, 0.04); }
+
+  &--selected {
+    border-color: $primary !important;
+    background: $primary !important;
+    .gb-date-chip__day,
+    .gb-date-chip__num { color: $white !important; }
+  }
+
+  &__day { font-size: 0.68rem; font-weight: 600; color: $gray-400; text-transform: uppercase; letter-spacing: 0.05em; }
+  &__num { font-size: 1.3rem; font-weight: 800; color: $gray-800; line-height: 1; }
+}
+
+.gb-chip-skeleton {
+  min-width: 60px;
+  height: 72px;
+  border-radius: $radius-lg;
+}
+
+.gb-slots-error {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  margin-top: $spacing-4;
+  font-size: 0.875rem;
+  color: #DC3545;
+
+  &__retry {
+    background: none;
+    border: 1px solid #DC3545;
+    color: #DC3545;
+    border-radius: $radius-md;
+    padding: 2px $spacing-3;
+    font-size: 0.8rem;
+    cursor: pointer;
+    font-family: inherit;
+    margin-left: $spacing-1;
+    &:hover { background: rgba(#DC3545, 0.08); }
+  }
+}
+
+// ─── Month navigator ──────────────────────────────────────────────────────────
+.gb-month-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-3;
+
+  &__label { font-size: 0.95rem; font-weight: 700; color: $gray-800; }
+
+  &__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px; height: 32px;
+    border: 1.5px solid $gray-200;
+    border-radius: $radius-lg;
+    background: $white;
+    color: $gray-600;
+    cursor: pointer;
+    transition: $transition-base;
+
+    &:hover:not(:disabled) { border-color: $primary; color: $primary; }
+    &:disabled { opacity: 0.35; cursor: not-allowed; }
+  }
+}
+
+// ─── Slot info ────────────────────────────────────────────────────────────────
+.gb-slot-info {
+  display: flex; align-items: center; gap: $spacing-2;
+  margin-top: $spacing-3; font-size: 0.82rem; color: $gray-600;
+  svg { color: $primary; flex-shrink: 0; }
+}
+
+// ─── Group size ───────────────────────────────────────────────────────────────
+.gb-size-row {
+  display: flex;
+  align-items: center;
+  gap: $spacing-4;
+  margin-bottom: $spacing-4;
+}
+
+.gb-size-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid $gray-300;
+  background: $white;
+  color: $gray-700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: $transition-base;
+  flex-shrink: 0;
+
+  &:hover:not(:disabled) { border-color: $primary; color: $primary; }
+  &:disabled { opacity: 0.35; cursor: not-allowed; }
+}
+
+.gb-size-display {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  flex: 1;
+}
+
+.gb-size-input {
+  width: 80px;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: $gray-900;
+  border: 2px solid $gray-200;
+  border-radius: $radius-lg;
+  padding: $spacing-2;
+  outline: none;
+  transition: $transition-base;
+  font-family: inherit;
+
+  &:focus { border-color: $primary; }
+
+  // Hide spinners
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  -moz-appearance: textfield;
+}
+
+.gb-size-label {
+  font-size: 0.95rem;
+  color: $gray-600;
+  font-weight: 500;
+}
+
+// ─── Discount tiers ───────────────────────────────────────────────────────────
+.gb-discount-tiers {
+  display: flex;
+  gap: $spacing-3;
+  flex-wrap: wrap;
+  margin-top: $spacing-2;
+}
+
+.gb-tier {
+  flex: 1;
+  min-width: 120px;
+  padding: $spacing-3;
+  border: 2px solid $gray-200;
+  border-radius: $radius-lg;
+  text-align: center;
+  transition: $transition-base;
+
+  &--active {
+    border-color: $primary;
+    background: rgba($primary, 0.05);
+
+    .gb-tier__disc { color: $primary; }
+  }
+
+  &__range { display: block; font-size: 0.78rem; color: $gray-500; font-weight: 600; margin-bottom: 2px; }
+  &__disc  { display: block; font-size: 0.9rem; font-weight: 700; color: $gray-700; }
+}
+
+// ─── Summary ──────────────────────────────────────────────────────────────────
+.gb-summary {
+  background: $white;
+  border-radius: $radius-xl;
+  border: 2px solid $primary;
+  padding: $spacing-4 $spacing-6;
+  margin-bottom: $spacing-5;
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-2 0;
+    font-size: 0.95rem;
+    color: $gray-600;
+    border-bottom: 1px solid $gray-100;
+
+    &:last-child { border-bottom: none; }
+    &--discount { color: #155724; }
+    &--total { font-size: 1.1rem; font-weight: 800; color: $gray-900; padding-top: $spacing-3; }
+  }
+}
+
+// ─── Form ─────────────────────────────────────────────────────────────────────
+.gb-form { display: flex; flex-direction: column; gap: $spacing-4; }
+
+.gb-field { display: flex; flex-direction: column; gap: $spacing-1; }
+
+.gb-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: $gray-700;
+
+  .req { color: #DC3545; }
+}
+
+.gb-optional { font-size: 0.78rem; font-weight: 400; color: $gray-400; }
+
+.gb-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: $spacing-3 $spacing-4;
+  border: 2px solid $gray-200;
+  border-radius: $radius-lg;
+  font-size: 0.95rem;
+  color: $gray-800;
+  background: $white;
+  outline: none;
+  transition: $transition-base;
+  font-family: inherit;
+
+  &:focus { border-color: $primary; box-shadow: 0 0 0 3px rgba($primary, 0.12); }
+  &--error { border-color: #DC3545 !important; box-shadow: 0 0 0 3px rgba(#DC3545, 0.1) !important; }
+  &--phone { border-left: none; border-radius: 0 $radius-lg $radius-lg 0; }
+}
+
+.gb-phone-row {
+  display: flex;
+  align-items: stretch;
+}
+
+.gb-phone-prefix {
+  display: flex;
+  align-items: center;
+  padding: 0 $spacing-3;
+  background: $gray-100;
+  border: 2px solid $gray-200;
+  border-right: none;
+  border-radius: $radius-lg 0 0 $radius-lg;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: $gray-600;
+  white-space: nowrap;
+}
+
+.gb-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: $spacing-3 $spacing-4;
+  border: 2px solid $gray-200;
+  border-radius: $radius-lg;
+  font-size: 0.95rem;
+  color: $gray-800;
+  background: $white;
+  outline: none;
+  transition: $transition-base;
+  font-family: inherit;
+  resize: vertical;
+  line-height: 1.5;
+
+  &:focus { border-color: $primary; box-shadow: 0 0 0 3px rgba($primary, 0.12); }
+}
+
+.gb-field-error {
+  font-size: 0.8rem;
+  color: #DC3545;
+  margin: 0;
+}
+
+.gb-error {
+  font-size: 0.85rem;
+  color: #DC3545;
+  background: #F8D7DA;
+  padding: $spacing-2 $spacing-3;
+  border-radius: $radius-md;
+  margin-top: $spacing-2;
+}
+
+// ─── Review table ─────────────────────────────────────────────────────────────
+.gb-review-meta {
+  display: flex;
+  gap: $spacing-6;
+  flex-wrap: wrap;
+  margin-bottom: $spacing-5;
+  padding-bottom: $spacing-4;
+  border-bottom: 1px solid $gray-100;
+
+  &__item { display: flex; flex-direction: column; gap: 2px; }
+  &__label { font-size: 0.78rem; font-weight: 600; color: $gray-400; text-transform: uppercase; letter-spacing: 0.05em; }
+  &__val { font-size: 0.95rem; font-weight: 700; color: $gray-800; }
+}
+
+.gb-review-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+
+  th, td { padding: $spacing-2 $spacing-3; text-align: left; }
+  th { font-size: 0.78rem; font-weight: 700; color: $gray-400; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 2px solid $gray-100; }
+  td { border-bottom: 1px solid $gray-100; color: $gray-700; }
+  .center { text-align: center; }
+  .right  { text-align: right; }
+  .discount { color: #155724; }
+  .total-row td { border-bottom: none; font-size: 1rem; color: $gray-900; padding-top: $spacing-3; }
+  tfoot tr:first-child td { border-top: 2px solid $gray-200; }
+}
+
+.gb-visitor-summary { display: flex; flex-direction: column; gap: $spacing-3; }
+
+.gb-vs {
+  &__row { display: flex; align-items: flex-start; gap: $spacing-4; flex-wrap: wrap; }
+  &__label { font-size: 0.8rem; font-weight: 700; color: $gray-400; text-transform: uppercase; letter-spacing: 0.04em; min-width: 90px; padding-top: 1px; }
+  &__val { font-size: 0.9rem; color: $gray-800; flex: 1; }
+}
+
+.gb-note { font-size: 0.85rem; color: $gray-500; margin-top: $spacing-4; margin-bottom: 0; }
+.gb-note__link { background: none; border: none; color: $primary; font-size: 0.85rem; cursor: pointer; padding: 0; text-decoration: underline; font-family: inherit; }
+
+// ─── Error banner ─────────────────────────────────────────────────────────────
+.gb-error-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-3;
+  background: #F8D7DA;
+  color: #721C24;
+  border: 1px solid #F5C6CB;
+  border-radius: $radius-lg;
+  padding: $spacing-4;
+  font-size: 0.9rem;
+  margin-bottom: $spacing-5;
+}
+
+// ─── Actions ──────────────────────────────────────────────────────────────────
+.gb-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: $spacing-3;
+  margin-top: $spacing-2;
+
+  &--split { justify-content: space-between; }
+}
+
+.gb-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  padding: $spacing-3 $spacing-7;
+  border-radius: $radius-full;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: $transition-base;
+  font-family: inherit;
+
+  &--primary {
+    background: $primary;
+    color: $white;
+    &:hover:not(:disabled) { background: $primary-dark; transform: translateY(-1px); box-shadow: $shadow-md; }
+  }
+
+  &--outline {
+    background: $white;
+    border: 2px solid $primary;
+    color: $primary;
+    &:hover:not(:disabled) { background: $primary; color: $white; }
+  }
+
+  &:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
+}
+
+.gb-spinner {
+  width: 18px; height: 18px;
+  border: 2.5px solid rgba($white, 0.4);
+  border-top-color: $white;
+  border-radius: 50%;
+  animation: gb-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes gb-spin { to { transform: rotate(360deg); } }
+
+// ─── Success ──────────────────────────────────────────────────────────────────
+.gb-success {
+  background: $white;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-md;
+  border: 1px solid $gray-200;
+  padding: $spacing-10 $spacing-8;
+  text-align: center;
+  max-width: 540px;
+  margin: 0 auto;
+
+  @include mobile { padding: $spacing-8 $spacing-5; }
+
+  &__icon {
+    width: 80px; height: 80px;
+    background: rgba($success, 0.1);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto $spacing-5;
+    svg { color: $success; }
+  }
+
+  &__title { font-size: 1.75rem; font-weight: 900; color: $gray-900; margin-bottom: $spacing-2; }
+  &__sub { font-size: 1rem; color: $gray-500; margin-bottom: $spacing-6; }
+
+  &__ref {
+    background: $gray-50;
+    border: 2px dashed $gray-300;
+    border-radius: $radius-xl;
+    padding: $spacing-4 $spacing-6;
+    display: inline-flex;
+    flex-direction: column;
+    gap: $spacing-1;
+    margin-bottom: $spacing-6;
+  }
+  &__ref-label { font-size: 0.72rem; font-weight: 700; color: $gray-400; text-transform: uppercase; letter-spacing: 0.1em; }
+  &__ref-code { font-size: 1.5rem; font-weight: 900; color: $primary; letter-spacing: 0.08em; font-family: monospace; }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-3;
+    align-items: center;
+    margin-bottom: $spacing-6;
+  }
+
+  &__detail-row {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    font-size: 0.95rem;
+    color: $gray-700;
+    svg { color: $primary; }
+  }
+
+  &__note { font-size: 0.85rem; color: $gray-500; line-height: 1.6; margin-bottom: $spacing-8; }
+
+  &__actions {
+    display: flex;
+    gap: $spacing-3;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}

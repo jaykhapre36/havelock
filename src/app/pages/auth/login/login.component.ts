@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   loading = false;
   error   = '';
+  successMessage = '';
   resendCountdown = 0;
 
   private countdownRef?: ReturnType<typeof setInterval>;
@@ -91,9 +92,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.authService.verifyOtp(this.otpId, otp).subscribe({
       next: () => {
         this.authService.login(phone).subscribe({
-          next: () => {
+          next: (res) => {
             this.loading = false;
-            this.router.navigateByUrl(this.returnUrl);
+            this.successMessage = res.message || 'Login successful!';
+            setTimeout(() => this.router.navigateByUrl(this.returnUrl), 1000);
           },
           error: (err) => {
             this.loading = false;

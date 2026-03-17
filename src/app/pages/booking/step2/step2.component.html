@@ -8,6 +8,14 @@
       Visitor Details
     </h2>
 
+    <!-- Pre-filled banner -->
+    <div class="bk-prefilled-banner" *ngIf="prefilled">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+      </svg>
+      Using your registered profile details.
+    </div>
+
     <form [formGroup]="form" (ngSubmit)="onNext()" novalidate>
 
       <!-- Full Name -->
@@ -15,6 +23,7 @@
         <label class="bk-field__label">Full Name <span class="bk-field__req">*</span></label>
         <input
           class="bk-field__input"
+          [class.bk-field__input--prefilled]="prefilled"
           type="text"
           formControlName="fullName"
           placeholder="e.g. Rahul Sharma"
@@ -31,6 +40,7 @@
         <label class="bk-field__label">Email Address <span class="bk-field__req">*</span></label>
         <input
           class="bk-field__input"
+          [class.bk-field__input--prefilled]="prefilled"
           type="email"
           formControlName="email"
           placeholder="e.g. rahul@email.com"
@@ -49,6 +59,7 @@
           <span class="bk-field__prefix">+91</span>
           <input
             class="bk-field__input"
+            [class.bk-field__input--prefilled]="prefilled"
             type="tel"
             formControlName="phone"
             placeholder="9876543210"

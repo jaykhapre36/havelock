@@ -20,6 +20,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/tickets/tickets.module').then(m => m.TicketsModule)
   },
   {
+    path: 'group-booking',
+    loadChildren: () => import('./pages/group-booking/group-booking.module').then(m => m.GroupBookingModule),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'availability',
     loadChildren: () => import('./pages/availability/availability.module').then(m => m.AvailabilityModule)
   },

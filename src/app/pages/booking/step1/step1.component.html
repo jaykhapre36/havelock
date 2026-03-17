@@ -1,122 +1,142 @@
 <div class="bk-step1">
 
-  <!-- ── Date ──────────────────────────────────────────────────────────────── -->
-  <div class="bk-card">
-    <h2 class="bk-card__title">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-      </svg>
-      Select Visit Date
-    </h2>
-    <input
-      class="bk-date-input"
-      type="date"
-      [(ngModel)]="selectedDate"
-      [min]="getTodayDate()"
-      (change)="onDateChange()"
-    />
+  <!-- Skeleton -->
+  <ng-container *ngIf="loading">
+    <div class="bk-card">
+      <div class="skeleton" style="height:22px;width:40%;border-radius:4px;margin-bottom:1rem"></div>
+      <div class="skeleton" style="height:44px;border-radius:8px"></div>
+    </div>
+    <div class="bk-card">
+      <div class="skeleton" style="height:22px;width:50%;border-radius:4px;margin-bottom:1rem"></div>
+      <div class="skeleton" style="height:80px;border-radius:8px"></div>
+    </div>
+  </ng-container>
 
-    <!-- Day type tabs -->
-    <div class="bk-day-tabs">
+  <ng-container *ngIf="!loading && selectedTicket">
+
+    <!-- ── Selected Ticket ───────────────────────────────────────────────────── -->
+    <div class="bk-card bk-ticket-info">
+      <div class="bk-ticket-info__badge" *ngIf="selectedTicket.badge">{{ selectedTicket.badge }}</div>
+      <h2 class="bk-ticket-info__name">{{ selectedTicket.label }}</h2>
+      <p class="bk-ticket-info__sub">{{ selectedTicket.subtitle }}</p>
+      <div class="bk-ticket-info__price">
+        <span class="bk-ticket-info__currency">₹</span>
+        <span class="bk-ticket-info__amount">{{ selectedTicket.price | number }}</span>
+        <span class="bk-ticket-info__unit">/ person</span>
+      </div>
+      <ul class="bk-ticket-info__features">
+        <li *ngFor="let f of selectedTicket.features">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          {{ f }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- ── Select Visit Date ─────────────────────────────────────────────────── -->
+    <div class="bk-card">
+      <h2 class="bk-card__title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+        Select Visit Date
+      </h2>
+
+      <!-- Loading shimmer -->
+      <div class="bk-date-chips" *ngIf="slotsLoading">
+        <div class="bk-date-chip-skeleton skeleton" *ngFor="let i of [1,2,3,4,5,6]"></div>
+      </div>
+
+      <!-- Error with retry -->
+      <div class="bk-slots-error" *ngIf="slotsError && !slotsLoading">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <span>Could not load available dates.</span>
+        <button type="button" class="bk-slots-error__retry" (click)="loadSlots()">Retry</button>
+      </div>
+
+      <!-- Month navigator + date chips -->
+      <ng-container *ngIf="!slotsLoading && !slotsError">
+
+        <!-- Month header -->
+        <div class="bk-month-nav">
+          <button type="button" class="bk-month-nav__btn" (click)="prevMonth()" [disabled]="!canGoPrev">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6"/>
+            </svg>
+          </button>
+          <span class="bk-month-nav__label">{{ monthGroups[activeMonthIndex]?.label }}</span>
+          <button type="button" class="bk-month-nav__btn" (click)="nextMonth()" [disabled]="!canGoNext">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Chips for active month only -->
+        <div class="bk-date-chips">
+          <button
+            *ngFor="let slot of activeMonthSlots"
+            type="button"
+            class="bk-date-chip"
+            [class.bk-date-chip--selected]="selectedDate === slot.slot_date"
+            [class.bk-date-chip--full]="slot.remaining === 0"
+            [class.bk-date-chip--booked]="isBooked(slot)"
+            [disabled]="isDisabled(slot)"
+            (click)="selectDate(slot)"
+          >
+            <span class="bk-date-chip__day">{{ slot.slot_date | date:'EEE' }}</span>
+            <span class="bk-date-chip__num">{{ slot.slot_date | date:'d' }}</span>
+            <span class="bk-date-chip__full" *ngIf="slot.remaining === 0">Full</span>
+            <span class="bk-date-chip__full" *ngIf="isBooked(slot)">Booked</span>
+          </button>
+        </div>
+
+      </ng-container>
+
+      <!-- Slot info for selected date -->
+      <div class="bk-slot-info" *ngIf="selectedSlot && !slotsLoading && !slotsError">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+        <span>
+          Park hours: {{ selectedSlot.slot_start | slice:0:5 }} – {{ selectedSlot.slot_end | slice:0:5 }}
+          &nbsp;·&nbsp;
+          <strong>{{ selectedSlot.remaining }}</strong> spots remaining
+        </span>
+      </div>
+
+      <p class="bk-error" *ngIf="dateError">{{ dateError }}</p>
+    </div>
+
+    <!-- ── Price Summary ─────────────────────────────────────────────────────── -->
+    <div class="bk-summary" *ngIf="!dateError">
+      <div class="bk-summary__row bk-summary__row--total">
+        <span>Total (1 person)</span>
+        <span>₹{{ totalPrice | number }}</span>
+      </div>
+    </div>
+
+    <!-- ── Actions ───────────────────────────────────────────────────────────── -->
+    <div class="bk-actions">
       <button
-        class="bk-day-tab"
-        *ngFor="let d of dayTypes"
-        [class.bk-day-tab--active]="activeDayType === d.key"
-        (click)="setDayType(d.key)"
-      >{{ d.label }}</button>
-    </div>
-  </div>
-
-  <!-- ── Ticket Counters ────────────────────────────────────────────────────── -->
-  <div class="bk-card">
-    <h2 class="bk-card__title">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-4 0v2"/>
-      </svg>
-      Select Tickets
-    </h2>
-
-    <!-- Skeleton -->
-    <div *ngIf="loading" class="bk-ticket-list">
-      <div class="bk-ticket-row bk-ticket-row--skeleton" *ngFor="let i of [1,2,3,4]">
-        <div class="skeleton" style="height:18px;width:40%;border-radius:4px"></div>
-        <div class="skeleton" style="height:18px;width:20%;border-radius:4px"></div>
-        <div class="skeleton" style="height:36px;width:110px;border-radius:50px"></div>
-      </div>
-    </div>
-
-    <!-- Rows -->
-    <div class="bk-ticket-list" *ngIf="!loading">
-      <div class="bk-ticket-row" *ngFor="let sel of selections">
-        <div class="bk-ticket-row__info">
-          <span class="bk-ticket-row__label">{{ sel.ticket.label }}</span>
-          <span class="bk-ticket-row__sub">{{ sel.ticket.subtitle }}</span>
-          <span class="bk-ticket-row__min-note" *ngIf="sel.ticket.type === 'group'">Min 10 persons required</span>
-        </div>
-        <span class="bk-ticket-row__price">₹{{ sel.ticket.price | number }}<span class="bk-ticket-row__per"> /person</span></span>
-        <div class="bk-counter">
-          <button class="bk-counter__btn" (click)="decrement(sel.ticket.type)" [disabled]="sel.qty === 0">−</button>
-          <span class="bk-counter__val">{{ sel.qty }}</span>
-          <button class="bk-counter__btn" (click)="increment(sel.ticket.type)">+</button>
-        </div>
-      </div>
-    </div>
-
-    <p class="bk-error" *ngIf="noTicketError">Please select at least one ticket.</p>
-  </div>
-
-  <!-- ── Promo Code ─────────────────────────────────────────────────────────── -->
-  <div class="bk-card bk-card--promo">
-    <h2 class="bk-card__title">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/>
-      </svg>
-      Promo Code (optional)
-    </h2>
-    <div class="bk-promo">
-      <input
-        class="bk-promo__input"
-        type="text"
-        placeholder="e.g. EARLY10"
-        [(ngModel)]="promoCode"
-        [disabled]="hasAppliedOffer"
-        (keyup.enter)="applyPromo()"
-      />
-      <button class="bk-promo__btn" (click)="applyPromo()" *ngIf="!hasAppliedOffer" [disabled]="promoLoading">
-        {{ promoLoading ? '...' : 'Apply' }}
-      </button>
-      <button class="bk-promo__btn bk-promo__btn--remove" (click)="removePromo()" *ngIf="hasAppliedOffer">
-        ✕ Remove
+        class="bk-btn bk-btn--primary"
+        (click)="onNext()"
+        [disabled]="!!dateError || !selectedSlot"
+      >
+        Continue to Details
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
       </button>
     </div>
-    <p class="bk-promo__msg bk-promo__msg--success" *ngIf="promoSuccess">✓ {{ promoSuccess }}</p>
-    <p class="bk-promo__msg bk-promo__msg--error"   *ngIf="promoError">✗ {{ promoError }}</p>
-  </div>
 
-  <!-- ── Summary ────────────────────────────────────────────────────────────── -->
-  <div class="bk-summary" *ngIf="getSubtotal() > 0">
-    <div class="bk-summary__row" *ngIf="getDiscount() > 0">
-      <span>Subtotal</span>
-      <span>₹{{ getSubtotal() | number }}</span>
-    </div>
-    <div class="bk-summary__row bk-summary__row--discount" *ngIf="getDiscount() > 0">
-      <span>Discount</span>
-      <span>−₹{{ getDiscount() | number }}</span>
-    </div>
-    <div class="bk-summary__row bk-summary__row--total">
-      <span>Total</span>
-      <span>₹{{ getTotal() | number }}</span>
-    </div>
-  </div>
-
-  <!-- ── Actions ────────────────────────────────────────────────────────────── -->
-  <div class="bk-actions">
-    <button class="bk-btn bk-btn--primary" (click)="onNext()">
-      Continue to Details
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polyline points="9 18 15 12 9 6"/>
-      </svg>
-    </button>
-  </div>
+  </ng-container>
 
 </div>

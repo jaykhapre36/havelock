@@ -24,6 +24,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   // Validation errors
   nameError   = '';
   phoneError  = '';
+  emailError  = '';
   ageError    = '';
   genderError = '';
 
@@ -33,6 +34,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   loading = false;
   error   = '';
+  successMessage = '';
   resendCountdown = 0;
 
   private countdownRef?: ReturnType<typeof setInterval>;
@@ -56,22 +58,35 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.otpInput?.nativeElement.focus();
   }
 
-  // ── Step 1: validate then send OTP ─────────────────────────────────────────
+  // ── Step 1: validate then check customer then send OTP ─────────────────────
   onSendOtp(): void {
     this.error = '';
     if (!this.validateDetails()) return;
 
     this.loading = true;
-    this.authService.sendOtp(this.phoneValue, 'registration').subscribe({
+    this.authService.checkCustomer(this.phoneValue).subscribe({
       next: (res) => {
-        this.loading = false;
-        this.otpId = res.data.otp_id;
-        this.stage = 'otp';
-        this.startCountdown();
+        if (res.data.exists) {
+          this.loading = false;
+          this.error = 'already_exists';
+          return;
+        }
+        this.authService.sendOtp(this.phoneValue, 'registration').subscribe({
+          next: (otpRes) => {
+            this.loading = false;
+            this.otpId = otpRes.data.otp_id;
+            this.stage = 'otp';
+            this.startCountdown();
+          },
+          error: (err) => {
+            this.loading = false;
+            this.error = err?.error?.message || 'Failed to send OTP. Please try again.';
+          }
+        });
       },
       error: (err) => {
         this.loading = false;
-        this.error = err?.error?.message || 'Failed to send OTP. Please try again.';
+        this.error = err?.error?.message || 'Failed to verify phone. Please try again.';
       }
     });
   }
@@ -97,9 +112,24 @@ export class RegisterComponent implements OnInit, OnDestroy {
           gender: this.gender!,
           otp
         }).subscribe({
-          next: () => {
-            this.loading = false;
-            this.router.navigate(['/']);
+          next: (registerRes) => {
+            if (!registerRes.success) {
+              this.loading = false;
+              this.error = registerRes.message || 'Registration failed. Please try again.';
+              return;
+            }
+            // Registration successful — now login to get token
+            this.authService.login(phone).subscribe({
+              next: (loginRes) => {
+                this.loading = false;
+                this.successMessage = loginRes.message || 'Registration successful! Welcome to Havelock.';
+                setTimeout(() => this.router.navigate(['/tickets']), 1500);
+              },
+              error: (err) => {
+                this.loading = false;
+                this.error = err?.error?.message || 'Registered but login failed. Please login manually.';
+              }
+            });
           },
           error: (err) => {
             this.loading = false;
@@ -152,7 +182,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   private validateDetails(): boolean {
-    this.nameError = this.phoneError = this.ageError = this.genderError = '';
+    this.nameError = this.phoneError = this.emailError = this.ageError = this.genderError = '';
     let valid = true;
 
     if (!this.name.trim() || this.name.trim().length < 2) {
@@ -161,6 +191,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
     }
     if (!/^[6-9]\d{9}$/.test(this.phoneValue)) {
       this.phoneError = 'Enter a valid 10-digit WhatsApp number.';
+      valid = false;
+    }
+    if (!this.email.trim()) {
+      this.emailError = 'Email address is required.';
+      valid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email.trim())) {
+      this.emailError = 'Enter a valid email address.';
       valid = false;
     }
     if (!this.age || this.age < 1 || this.age > 120) {

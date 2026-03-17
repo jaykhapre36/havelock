@@ -296,3 +296,180 @@
     &:hover { background: $primary; color: $white; }
   }
 }
+
+// ─── Ticket Info Card ─────────────────────────────────────────────────────────
+.bk-ticket-info {
+  position: relative;
+  &__badge {
+    display: inline-block; padding: 3px 10px;
+    background: $secondary; color: $white;
+    font-size: 0.72rem; font-weight: 700; border-radius: 50px;
+    margin-bottom: $spacing-2; text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  &__name { font-size: 1.2rem; font-weight: 800; color: $gray-800; margin-bottom: $spacing-1; }
+  &__sub  { font-size: 0.875rem; color: $gray-500; margin-bottom: $spacing-3; }
+  &__price {
+    display: flex; align-items: baseline; gap: 4px; margin-bottom: $spacing-4;
+  }
+  &__currency { font-size: 1rem; font-weight: 700; color: $primary; }
+  &__amount   { font-size: 2rem; font-weight: 800; color: $primary; line-height: 1; }
+  &__unit     { font-size: 0.85rem; color: $gray-500; }
+  &__features {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: $spacing-2;
+    li { display: flex; align-items: center; gap: $spacing-2; font-size: 0.875rem; color: $gray-600; }
+    svg { color: $primary; flex-shrink: 0; }
+  }
+}
+
+// ─── Slot info ────────────────────────────────────────────────────────────────
+.bk-slot-info {
+  display: flex; align-items: center; gap: $spacing-2;
+  margin-top: $spacing-3; font-size: 0.82rem; color: $gray-600;
+  svg { color: $primary; flex-shrink: 0; }
+  &--warn { color: #DC3545; svg { color: #DC3545; } }
+}
+
+// ─── Date error ───────────────────────────────────────────────────────────────
+.bk-date-input--error { border-color: #DC3545 !important; box-shadow: 0 0 0 3px rgba(#DC3545, 0.1) !important; }
+
+.bk-date-hint {
+  font-size: 0.78rem;
+  color: $gray-400;
+  margin-top: $spacing-2;
+}
+
+// ─── Date Chips ───────────────────────────────────────────────────────────────
+.bk-date-chips {
+  display: flex;
+  gap: $spacing-2;
+  flex-wrap: wrap;
+  margin-top: $spacing-4;
+}
+
+.bk-date-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 60px;
+  padding: $spacing-2 $spacing-3;
+  border: 2px solid $gray-200;
+  border-radius: $radius-lg;
+  background: $white;
+  cursor: pointer;
+  transition: $transition-base;
+  gap: 2px;
+  position: relative;
+
+  &:hover:not(:disabled) {
+    border-color: $primary;
+    background: rgba($primary, 0.04);
+  }
+
+  &--selected {
+    border-color: $primary !important;
+    background: $primary !important;
+    .bk-date-chip__day,
+    .bk-date-chip__num,
+    .bk-date-chip__mon { color: $white !important; }
+  }
+
+  &--full {
+    opacity: 0.45;
+    cursor: not-allowed;
+    background: $gray-100;
+  }
+
+  &--booked {
+    opacity: 0.55;
+    cursor: not-allowed;
+    background: #FFF3CD;
+    border-color: #FFC107 !important;
+    .bk-date-chip__day,
+    .bk-date-chip__num { color: #856404 !important; }
+  }
+
+  &:disabled { cursor: not-allowed; }
+
+  &__day { font-size: 0.68rem; font-weight: 600; color: $gray-400; text-transform: uppercase; letter-spacing: 0.05em; }
+  &__num { font-size: 1.3rem; font-weight: 800; color: $gray-800; line-height: 1; }
+  &__mon { font-size: 0.72rem; font-weight: 600; color: $gray-500; }
+  &__full {
+    position: absolute;
+    bottom: -10px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: #DC3545;
+    background: $white;
+    padding: 0 4px;
+    border-radius: 4px;
+  }
+}
+
+.bk-date-chip-skeleton {
+  min-width: 60px;
+  height: 72px;
+  border-radius: $radius-lg;
+}
+
+.bk-slots-error {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  margin-top: $spacing-4;
+  font-size: 0.875rem;
+  color: #DC3545;
+
+  &__retry {
+    background: none;
+    border: 1px solid #DC3545;
+    color: #DC3545;
+    border-radius: $radius-md;
+    padding: 2px $spacing-3;
+    font-size: 0.8rem;
+    cursor: pointer;
+    font-family: inherit;
+    margin-left: $spacing-1;
+    &:hover { background: rgba(#DC3545, 0.08); }
+  }
+}
+
+// ─── Month navigator ──────────────────────────────────────────────────────────
+.bk-month-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: $spacing-4;
+  margin-bottom: $spacing-3;
+
+  &__label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: $gray-800;
+  }
+
+  &__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 1.5px solid $gray-200;
+    border-radius: $radius-lg;
+    background: $white;
+    color: $gray-600;
+    cursor: pointer;
+    transition: $transition-base;
+
+    &:hover:not(:disabled) {
+      border-color: $primary;
+      color: $primary;
+    }
+
+    &:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+  }
+}

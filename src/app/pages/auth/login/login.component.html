@@ -48,6 +48,14 @@
         </button>
       </div>
 
+      <!-- Success banner -->
+      <div class="auth-success" *ngIf="successMessage">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        {{ successMessage }}
+      </div>
+
       <!-- Error banner -->
       <div class="auth-error" *ngIf="error">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

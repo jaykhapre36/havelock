@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { TicketsService } from '../../services/tickets.service';
 import { OffersService }  from '../../services/offers.service';
 import { FaqService }     from '../../services/faq.service';
+import { AuthService }    from '../../services/auth.service';
 import { Ticket }         from '../../models/ticket.model';
 import { Offer }          from '../../models/offer.model';
 import { FaqCategory }    from '../../models/faq.model';
@@ -43,8 +45,23 @@ export class TicketsComponent implements OnInit {
   constructor(
     private ticketsService: TicketsService,
     private offersService:  OffersService,
-    private faqService:     FaqService
+    private faqService:     FaqService,
+    private authService:    AuthService,
+    private router:         Router
   ) {}
+
+  selectPlan(ticket: Ticket): void {
+    if (ticket.ctaType !== 'primary') {
+      this.router.navigate(['/contact']);
+      return;
+    }
+    const target = `/booking?type=${ticket.type}&dayType=${this.activeDayType}`;
+    if (!this.authService.isLoggedIn()) {
+      this.router.navigate(['/auth/login'], { queryParams: { returnUrl: target } });
+      return;
+    }
+    this.router.navigateByUrl(target);
+  }
 
   ngOnInit(): void {
     this.loadTickets();

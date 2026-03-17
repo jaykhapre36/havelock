@@ -20,6 +20,9 @@
           class="navbar__link"
         >{{ link.label }}</a>
       </li>
+      <li *ngIf="currentUser">
+        <a routerLink="/my-tickets" routerLinkActive="active" class="navbar__link">Your Tickets</a>
+      </li>
     </ul>
 
     <!-- Desktop Right Actions -->
@@ -63,6 +66,9 @@
           class="navbar__mobile-link"
           (click)="closeMenu()"
         >{{ link.label }}</a>
+      </li>
+      <li *ngIf="currentUser">
+        <a routerLink="/my-tickets" routerLinkActive="active" class="navbar__mobile-link" (click)="closeMenu()">Your Tickets</a>
       </li>
     </ul>
     <div class="navbar__mobile-actions">

@@ -20,13 +20,13 @@ interface NavLink {
 export class NavbarComponent implements OnInit, OnDestroy {
 
   navLinks: NavLink[] = [
-    { label: 'Home',        route: '/',            exact: true  },
-    { label: 'Attractions', route: '/attractions',  exact: false },
-    { label: 'Map',         route: '/map',          exact: false },
-    { label: 'Availability',route: '/availability', exact: false },
-    { label: 'Offers',      route: '/offers',       exact: false },
-    { label: 'FAQ & Safety',route: '/faq-safety',   exact: false },
-    { label: 'Contact',     route: '/contact',      exact: false }
+    { label: 'Home',               route: '/',                   exact: true  },
+    { label: 'Attractions',        route: '/attractions',         exact: false },
+    { label: 'Restaurants',        route: '/restaurants',         exact: false },
+    { label: 'Individual Booking', route: '/tickets',             exact: false },
+    { label: 'Group Booking',      route: '/group-booking',       exact: false },
+    { label: 'Map',                route: '/map',                 exact: false },
+    { label: 'Inquiry',            route: '/contact',             exact: false }
   ];
 
   isMenuOpen = false;
@@ -62,8 +62,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/']);
+    this.authService.logout().subscribe({
+      next: () => this.router.navigate(['/']),
+      error: () => {
+        // Even if API fails, clear session and redirect
+        this.authService.clearSession();
+        this.router.navigate(['/']);
+      }
+    });
   }
 
   ngOnDestroy(): void {

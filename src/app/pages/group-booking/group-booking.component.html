@@ -1,0 +1,449 @@
+<div class="gb-page">
+
+  <!-- ── Hero ────────────────────────────────────────────────────────────── -->
+  <section class="gb-hero">
+    <div class="container gb-hero__inner">
+      <div class="gb-hero__text">
+        <span class="gb-hero__eyebrow">GROUP BOOKINGS</span>
+        <h1 class="gb-hero__title">Plan a Group Visit</h1>
+        <p class="gb-hero__sub">
+          Bringing 10 or more? Enjoy exclusive group pricing, priority entry,
+          and a dedicated support coordinator for your visit.
+        </p>
+      </div>
+      <div class="gb-hero__badges">
+        <div class="gb-badge">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+          <span>Min. 10 persons</span>
+        </div>
+        <div class="gb-badge">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="1" x2="12" y2="23"/>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+          <span>Up to 10% discount</span>
+        </div>
+        <div class="gb-badge">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          <span>Priority entry</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Progress steps ───────────────────────────────────────────────────── -->
+  <div class="gb-progress" *ngIf="currentStep < 4">
+    <div class="container">
+      <div class="gb-steps">
+        <div class="gb-step" [class.gb-step--active]="currentStep === 1" [class.gb-step--done]="currentStep > 1">
+          <div class="gb-step__circle">
+            <svg *ngIf="currentStep > 1" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            <span *ngIf="currentStep <= 1">1</span>
+          </div>
+          <span class="gb-step__label">Date & Group</span>
+        </div>
+        <div class="gb-step__line" [class.gb-step__line--done]="currentStep > 1"></div>
+        <div class="gb-step" [class.gb-step--active]="currentStep === 2" [class.gb-step--done]="currentStep > 2">
+          <div class="gb-step__circle">
+            <svg *ngIf="currentStep > 2" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            <span *ngIf="currentStep <= 2">2</span>
+          </div>
+          <span class="gb-step__label">Contact</span>
+        </div>
+        <div class="gb-step__line" [class.gb-step__line--done]="currentStep > 2"></div>
+        <div class="gb-step" [class.gb-step--active]="currentStep === 3" [class.gb-step--done]="currentStep > 3">
+          <div class="gb-step__circle">
+            <svg *ngIf="currentStep > 3" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            <span *ngIf="currentStep <= 3">3</span>
+          </div>
+          <span class="gb-step__label">Review</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Content ───────────────────────────────────────────────────────────── -->
+  <div class="container gb-content">
+
+    <!-- ══ STEP 1 ══ Date & Group Size ═══════════════════════════════════════ -->
+    <ng-container *ngIf="currentStep === 1">
+
+      <!-- Select Date -->
+      <div class="gb-card">
+        <h2 class="gb-card__title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          Select Visit Date
+        </h2>
+
+        <!-- Loading shimmer -->
+        <div class="gb-date-chips" *ngIf="slotsLoading">
+          <div class="gb-chip-skeleton skeleton" *ngFor="let i of [1,2,3,4,5,6]"></div>
+        </div>
+
+        <!-- Error -->
+        <div class="gb-slots-error" *ngIf="slotsError && !slotsLoading">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          <span>Could not load available dates.</span>
+          <button type="button" class="gb-slots-error__retry" (click)="loadSlots()">Retry</button>
+        </div>
+
+        <!-- Month navigator + chips -->
+        <ng-container *ngIf="!slotsLoading && !slotsError">
+          <div class="gb-month-nav">
+            <button type="button" class="gb-month-nav__btn" (click)="prevMonth()" [disabled]="!canGoPrev">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"/>
+              </svg>
+            </button>
+            <span class="gb-month-nav__label">{{ monthGroups[activeMonthIndex]?.label }}</span>
+            <button type="button" class="gb-month-nav__btn" (click)="nextMonth()" [disabled]="!canGoNext">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"/>
+              </svg>
+            </button>
+          </div>
+
+          <div class="gb-date-chips">
+            <button
+              *ngFor="let slot of activeMonthSlots"
+              type="button"
+              class="gb-date-chip"
+              [class.gb-date-chip--selected]="selectedSlot?.slot_date === slot.slot_date"
+              (click)="selectSlot(slot)"
+            >
+              <span class="gb-date-chip__day">{{ slot.slot_date | date:'EEE' }}</span>
+              <span class="gb-date-chip__num">{{ slot.slot_date | date:'d' }}</span>
+            </button>
+          </div>
+
+          <!-- Slot info -->
+          <div class="gb-slot-info" *ngIf="selectedSlot">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+            <span>
+              Park hours: {{ selectedSlot.slot_start | slice:0:5 }} – {{ selectedSlot.slot_end | slice:0:5 }}
+              &nbsp;·&nbsp;
+              <strong>{{ selectedSlot.remaining }}</strong> spots remaining
+            </span>
+          </div>
+        </ng-container>
+      </div>
+
+      <!-- Group Size -->
+      <div class="gb-card">
+        <h2 class="gb-card__title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+          Group Size
+        </h2>
+
+        <div class="gb-size-row">
+          <button type="button" class="gb-size-btn" (click)="onGroupSizeChange((groupSize - 1).toString())" [disabled]="groupSize <= MIN_GROUP">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <div class="gb-size-display">
+            <input
+              type="number"
+              class="gb-size-input"
+              [value]="groupSize"
+              [min]="MIN_GROUP"
+              (change)="onGroupSizeChange($any($event.target).value)"
+              (input)="onGroupSizeChange($any($event.target).value)"
+            />
+            <span class="gb-size-label">persons</span>
+          </div>
+          <button type="button" class="gb-size-btn" (click)="onGroupSizeChange((groupSize + 1).toString())">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+          </button>
+        </div>
+        <p class="gb-error" *ngIf="groupSizeError">{{ groupSizeError }}</p>
+
+        <!-- Discount tiers -->
+        <div class="gb-discount-tiers">
+          <div class="gb-tier" [class.gb-tier--active]="groupSize >= 10 && groupSize < 20">
+            <span class="gb-tier__range">10–19 persons</span>
+            <span class="gb-tier__disc">Standard rate</span>
+          </div>
+          <div class="gb-tier" [class.gb-tier--active]="groupSize >= 20 && groupSize < 50">
+            <span class="gb-tier__range">20–49 persons</span>
+            <span class="gb-tier__disc">5% off</span>
+          </div>
+          <div class="gb-tier" [class.gb-tier--active]="groupSize >= 50">
+            <span class="gb-tier__range">50+ persons</span>
+            <span class="gb-tier__disc">10% off</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Price preview -->
+      <div class="gb-summary" *ngIf="!ticketsLoading && baseTicket && selectedSlot">
+        <div class="gb-summary__row">
+          <span>₹{{ pricePerPerson | number }} × {{ groupSize }} persons</span>
+          <span>₹{{ subtotal | number }}</span>
+        </div>
+        <div class="gb-summary__row gb-summary__row--discount" *ngIf="discountPercent > 0">
+          <span>Group discount ({{ discountPercent }}%)</span>
+          <span>−₹{{ discountAmount | number }}</span>
+        </div>
+        <div class="gb-summary__row gb-summary__row--total">
+          <span>Total</span>
+          <span>₹{{ grandTotal | number }}</span>
+        </div>
+      </div>
+
+      <div class="gb-actions">
+        <button class="gb-btn gb-btn--primary" (click)="onStep1Next()" [disabled]="!selectedSlot || slotsLoading || groupSize < MIN_GROUP">
+          Continue to Contact Details
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </button>
+      </div>
+    </ng-container>
+
+    <!-- ══ STEP 2 ══ Contact Details ═════════════════════════════════════════ -->
+    <ng-container *ngIf="currentStep === 2">
+      <div class="gb-card">
+        <h2 class="gb-card__title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+          </svg>
+          Contact Details
+        </h2>
+
+        <form [formGroup]="form" class="gb-form" novalidate>
+
+          <div class="gb-field">
+            <label class="gb-label">Full Name <span class="req">*</span></label>
+            <input formControlName="fullName" type="text" class="gb-input" [class.gb-input--error]="isInvalid('fullName')" placeholder="Your full name" />
+            <p class="gb-field-error" *ngIf="isInvalid('fullName')">
+              <ng-container *ngIf="f('fullName')?.errors?.['required']">Name is required.</ng-container>
+              <ng-container *ngIf="f('fullName')?.errors?.['minlength']">At least 2 characters.</ng-container>
+            </p>
+          </div>
+
+          <div class="gb-field">
+            <label class="gb-label">Organisation / School / Company <span class="gb-optional">(optional)</span></label>
+            <input formControlName="orgName" type="text" class="gb-input" [class.gb-input--error]="isInvalid('orgName')" placeholder="Eg. ABC School, XYZ Corp" />
+          </div>
+
+          <div class="gb-field">
+            <label class="gb-label">Phone Number <span class="req">*</span></label>
+            <div class="gb-phone-row">
+              <span class="gb-phone-prefix">+91</span>
+              <input formControlName="phone" type="tel" class="gb-input gb-input--phone" [class.gb-input--error]="isInvalid('phone')" placeholder="10-digit mobile number" maxlength="10" />
+            </div>
+            <p class="gb-field-error" *ngIf="isInvalid('phone')">Enter a valid 10-digit Indian mobile number.</p>
+          </div>
+
+          <div class="gb-field">
+            <label class="gb-label">Email Address <span class="req">*</span></label>
+            <input formControlName="email" type="email" class="gb-input" [class.gb-input--error]="isInvalid('email')" placeholder="you@example.com" />
+            <p class="gb-field-error" *ngIf="isInvalid('email')">Enter a valid email address.</p>
+          </div>
+
+          <div class="gb-field">
+            <label class="gb-label">Special Requirements <span class="gb-optional">(optional)</span></label>
+            <textarea formControlName="specialNote" class="gb-textarea" rows="3" placeholder="Any special requirements, accessibility needs, or notes for our team…"></textarea>
+          </div>
+
+        </form>
+      </div>
+
+      <div class="gb-actions gb-actions--split">
+        <button class="gb-btn gb-btn--outline" (click)="currentStep = 1">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+          Back
+        </button>
+        <button class="gb-btn gb-btn--primary" (click)="onStep2Next()">
+          Review Booking
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </ng-container>
+
+    <!-- ══ STEP 3 ══ Review & Confirm ════════════════════════════════════════ -->
+    <ng-container *ngIf="currentStep === 3">
+
+      <div class="gb-card">
+        <h2 class="gb-card__title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+          </svg>
+          Review Your Booking
+        </h2>
+
+        <!-- Visit date & group -->
+        <div class="gb-review-meta">
+          <div class="gb-review-meta__item">
+            <span class="gb-review-meta__label">Visit Date</span>
+            <span class="gb-review-meta__val">{{ selectedSlot?.slot_date | date:'d MMMM yyyy' }}</span>
+          </div>
+          <div class="gb-review-meta__item">
+            <span class="gb-review-meta__label">Park Hours</span>
+            <span class="gb-review-meta__val">{{ selectedSlot?.slot_start | slice:0:5 }} – {{ selectedSlot?.slot_end | slice:0:5 }}</span>
+          </div>
+          <div class="gb-review-meta__item">
+            <span class="gb-review-meta__label">Group Size</span>
+            <span class="gb-review-meta__val">{{ groupSize }} persons</span>
+          </div>
+        </div>
+
+        <!-- Price breakdown -->
+        <table class="gb-review-table">
+          <thead>
+            <tr><th>Ticket</th><th>Qty</th><th>Unit</th><th>Subtotal</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ baseTicket?.label }}</td>
+              <td class="center">{{ groupSize }}</td>
+              <td>₹{{ pricePerPerson | number }}</td>
+              <td class="right">₹{{ subtotal | number }}</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr *ngIf="discountPercent > 0">
+              <td colspan="3">Group Discount ({{ discountPercent }}%)</td>
+              <td class="right discount">−₹{{ discountAmount | number }}</td>
+            </tr>
+            <tr class="total-row">
+              <td colspan="3"><strong>Grand Total</strong></td>
+              <td class="right"><strong>₹{{ grandTotal | number }}</strong></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <!-- Contact summary -->
+      <div class="gb-card">
+        <h2 class="gb-card__title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+          </svg>
+          Contact Information
+        </h2>
+        <div class="gb-visitor-summary">
+          <div class="gb-vs__row">
+            <span class="gb-vs__label">Name</span>
+            <span class="gb-vs__val">{{ form.value.fullName }}</span>
+          </div>
+          <div class="gb-vs__row" *ngIf="form.value.orgName">
+            <span class="gb-vs__label">Organisation</span>
+            <span class="gb-vs__val">{{ form.value.orgName }}</span>
+          </div>
+          <div class="gb-vs__row">
+            <span class="gb-vs__label">Phone</span>
+            <span class="gb-vs__val">+91 {{ form.value.phone }}</span>
+          </div>
+          <div class="gb-vs__row">
+            <span class="gb-vs__label">Email</span>
+            <span class="gb-vs__val">{{ form.value.email }}</span>
+          </div>
+          <div class="gb-vs__row" *ngIf="form.value.specialNote">
+            <span class="gb-vs__label">Notes</span>
+            <span class="gb-vs__val">{{ form.value.specialNote }}</span>
+          </div>
+        </div>
+        <p class="gb-note">Need to change? <button class="gb-note__link" (click)="currentStep = 2">Go back</button></p>
+      </div>
+
+      <!-- Error banner -->
+      <div class="gb-error-banner" *ngIf="error">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        {{ error }}
+      </div>
+
+      <div class="gb-actions gb-actions--split">
+        <button class="gb-btn gb-btn--outline" (click)="currentStep = 2" [disabled]="loading">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+          Back
+        </button>
+        <button class="gb-btn gb-btn--primary" (click)="onConfirm()" [disabled]="loading">
+          <span class="gb-spinner" *ngIf="loading"></span>
+          {{ loading ? 'Confirming...' : 'Confirm & Book' }}
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" *ngIf="!loading">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </button>
+      </div>
+    </ng-container>
+
+    <!-- ══ STEP 4 ══ Success ══════════════════════════════════════════════════ -->
+    <ng-container *ngIf="currentStep === 4">
+      <div class="gb-success">
+        <div class="gb-success__icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <h2 class="gb-success__title">Booking Confirmed!</h2>
+        <p class="gb-success__sub">Your group visit has been booked successfully.</p>
+        <div class="gb-success__ref">
+          <span class="gb-success__ref-label">Booking Reference</span>
+          <span class="gb-success__ref-code">{{ bookingReference }}</span>
+        </div>
+        <div class="gb-success__details">
+          <div class="gb-success__detail-row">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+            <span>{{ selectedSlot?.slot_date | date:'EEEE, d MMMM yyyy' }}</span>
+          </div>
+          <div class="gb-success__detail-row">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            <span>{{ groupSize }} persons</span>
+          </div>
+          <div class="gb-success__detail-row">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="1" x2="12" y2="23"/>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+            <span>₹{{ grandTotal | number }} total</span>
+          </div>
+        </div>
+        <p class="gb-success__note">
+          A confirmation will be sent to <strong>{{ form.value.email }}</strong>. Our team will contact you at <strong>+91 {{ form.value.phone }}</strong> with further details.
+        </p>
+        <div class="gb-success__actions">
+          <button class="gb-btn gb-btn--outline" (click)="newBooking()">Book Another Group</button>
+          <button class="gb-btn gb-btn--primary" (click)="goHome()">Back to Home</button>
+        </div>
+      </div>
+    </ng-container>
+
+  </div>
+</div>

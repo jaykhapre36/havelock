@@ -101,13 +101,12 @@
             </ul>
 
             <!-- CTA -->
-            <a
-              [routerLink]="ticket.ctaType === 'primary' ? ['/booking'] : ['/contact']"
-              [queryParams]="ticket.ctaType === 'primary' ? { type: ticket.type, dayType: activeDayType } : {}"
+            <button
               class="tk-card__btn"
               [class.tk-card__btn--popular]="ticket.popular"
               [class.tk-card__btn--outline]="ticket.ctaType === 'outline'"
-            >{{ ticket.ctaLabel }}</a>
+              (click)="selectPlan(ticket)"
+            >{{ ticket.ctaLabel }}</button>
           </div>
         </div>
 
@@ -135,7 +134,7 @@
         </div>
 
         <!-- Cancellation Policy -->
-        <div class="tk-info-card">
+        <!-- <div class="tk-info-card">
           <div class="tk-info-card__icon tk-info-card__icon--yellow">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
@@ -150,7 +149,7 @@
           <div class="tk-info-card__expand" [class.open]="policyOpen">
             <p>In case of park closure due to weather or unforeseen events, a full refund is processed within 5–7 business days to your original payment method.</p>
           </div>
-        </div>
+        </div> -->
 
         <!-- Need Help -->
         <div class="tk-info-card tk-info-card--help">

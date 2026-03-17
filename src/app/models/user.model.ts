@@ -3,5 +3,9 @@ export interface User {
   name: string;
   email: string;
   phone: string;
-  role: 'customer' | 'admin';
+  age: number;
+  gender: boolean;
+  status: string;
+  logged_in: boolean;
+  role?: 'customer' | 'admin';
 }
