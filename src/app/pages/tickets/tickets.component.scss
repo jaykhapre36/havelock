@@ -150,7 +150,7 @@
   &__label {
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
-    color: $gray-500;
+    color: $gray-700;
     text-transform: uppercase;
     letter-spacing: .08em;
   }
@@ -262,7 +262,7 @@
     text-transform: uppercase;
   }
 
-  &__subtitle { font-size: $font-size-xs; color: $gray-400; }
+  &__subtitle { font-size: $font-size-xs; color: $gray-600; }
 
   &__price {
     display: flex;
@@ -277,7 +277,7 @@
 
   &__price-original {
     font-size: $font-size-sm;
-    color: $gray-400;
+    color: $gray-600;
     text-decoration: line-through;
     width: 100%;
     margin-bottom: 2px;
@@ -289,7 +289,7 @@
     gap: 2px;
   }
 
-  &__currency { font-size: $font-size-xl; font-weight: $font-weight-bold; color: $gray-600; }
+  &__currency { font-size: $font-size-xl; font-weight: $font-weight-bold; color: $gray-800; }
 
   &__amount {
     font-family: $font-family-heading;
@@ -301,7 +301,7 @@
 
   &--popular &__amount { color: $primary; }
 
-  &__unit { font-size: $font-size-sm; color: $gray-400; align-self: flex-end; padding-bottom: 4px; }
+  &__unit { font-size: $font-size-sm; color: $gray-600; align-self: flex-end; padding-bottom: 4px; }
 
   &__features {
     list-style: none;
@@ -370,7 +370,7 @@
     color: $gray-900;
   }
 
-  &__text { font-size: $font-size-sm; color: $gray-500; line-height: 1.6; }
+  &__text { font-size: $font-size-sm; color: $gray-700; line-height: 1.6; }
 
   &__list {
     list-style: none; padding: 0; margin: 0;
@@ -388,7 +388,7 @@
 
   &__expand {
     max-height: 0; overflow: hidden; transition: max-height .3s ease;
-    p { font-size: $font-size-xs; color: $gray-500; line-height: 1.6; }
+    p { font-size: $font-size-xs; color: $gray-700; line-height: 1.6; }
     &.open { max-height: 120px; }
   }
 
@@ -433,7 +433,7 @@
     gap: $spacing-4;
   }
 
-  &__icon { flex-shrink: 0; color: $gray-400; transition: transform $transition-base; }
+  &__icon { flex-shrink: 0; color: $gray-600; transition: transform $transition-base; }
   &--open &__icon { transform: rotate(180deg); color: $primary; }
 
   &__answer {

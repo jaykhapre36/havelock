@@ -108,7 +108,7 @@
 
   &__sub {
     font-size: 0.8rem;
-    color: $gray-400;
+    color: $gray-600;
   }
 
   &__min-note {
@@ -120,7 +120,7 @@
   &__per {
     font-size: 0.75rem;
     font-weight: 400;
-    color: $gray-400;
+    color: $gray-600;
   }
 
   &__price {
@@ -248,7 +248,9 @@
       font-size: 1.1rem;
       font-weight: 800;
       color: $gray-900;
+      border-top: 2px solid $gray-100;
       padding-top: $spacing-3;
+      margin-top: $spacing-1;
     }
   }
 }
@@ -307,19 +309,85 @@
     margin-bottom: $spacing-2; text-transform: uppercase; letter-spacing: 0.05em;
   }
   &__name { font-size: 1.2rem; font-weight: 800; color: $gray-800; margin-bottom: $spacing-1; }
-  &__sub  { font-size: 0.875rem; color: $gray-500; margin-bottom: $spacing-3; }
+  &__sub  { font-size: 0.875rem; color: $gray-700; margin-bottom: $spacing-3; }
   &__price {
     display: flex; align-items: baseline; gap: 4px; margin-bottom: $spacing-4;
   }
   &__currency { font-size: 1rem; font-weight: 700; color: $primary; }
   &__amount   { font-size: 2rem; font-weight: 800; color: $primary; line-height: 1; }
-  &__unit     { font-size: 0.85rem; color: $gray-500; }
+  &__unit     { font-size: 0.85rem; color: $gray-700; }
   &__features {
     list-style: none; padding: 0; margin: 0;
     display: flex; flex-direction: column; gap: $spacing-2;
     li { display: flex; align-items: center; gap: $spacing-2; font-size: 0.875rem; color: $gray-600; }
     svg { color: $primary; flex-shrink: 0; }
   }
+}
+
+// ─── Qty counter ──────────────────────────────────────────────────────────────
+.bk-qty-row {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+}
+
+.bk-qty-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid $gray-300;
+  background: $white;
+  color: $gray-700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: $transition-base;
+  flex-shrink: 0;
+
+  &:hover:not(:disabled) { border-color: $primary; color: $primary; }
+  &:disabled { opacity: 0.35; cursor: not-allowed; }
+}
+
+.bk-qty-display {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+}
+
+.bk-qty-input {
+  width: 68px;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: $gray-900;
+  border: 2px solid $gray-200;
+  border-radius: $radius-lg;
+  padding: $spacing-1 $spacing-2;
+  outline: none;
+  transition: $transition-base;
+  font-family: inherit;
+
+  &:focus { border-color: $primary; }
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  -moz-appearance: textfield;
+}
+
+.bk-qty-label {
+  font-size: 0.95rem;
+  color: $gray-600;
+  font-weight: 500;
+}
+
+.bk-qty-max {
+  margin-left: auto;
+  font-size: 0.78rem;
+  color: $gray-600;
+  font-weight: 500;
+  background: $gray-100;
+  padding: 3px 8px;
+  border-radius: $radius-md;
 }
 
 // ─── Slot info ────────────────────────────────────────────────────────────────
@@ -335,7 +403,7 @@
 
 .bk-date-hint {
   font-size: 0.78rem;
-  color: $gray-400;
+  color: $gray-600;
   margin-top: $spacing-2;
 }
 
@@ -392,9 +460,9 @@
 
   &:disabled { cursor: not-allowed; }
 
-  &__day { font-size: 0.68rem; font-weight: 600; color: $gray-400; text-transform: uppercase; letter-spacing: 0.05em; }
+  &__day { font-size: 0.68rem; font-weight: 600; color: $gray-600; text-transform: uppercase; letter-spacing: 0.05em; }
   &__num { font-size: 1.3rem; font-weight: 800; color: $gray-800; line-height: 1; }
-  &__mon { font-size: 0.72rem; font-weight: 600; color: $gray-500; }
+  &__mon { font-size: 0.72rem; font-weight: 600; color: $gray-700; }
   &__full {
     position: absolute;
     bottom: -10px;

@@ -99,7 +99,7 @@
     display: block;
     font-size: 0.8rem;
     font-weight: 600;
-    color: $gray-500;
+    color: $gray-700;
     margin-bottom: $spacing-2;
   }
 
@@ -170,7 +170,7 @@
     margin: 0 0 2px;
   }
 
-  &__label { font-size: 0.8rem; color: $gray-500; margin: 0; }
+  &__label { font-size: 0.8rem; color: $gray-700; margin: 0; }
 
   &__right {
     display: flex;
@@ -208,7 +208,7 @@
     &.warn { background: #F59E0B; }
   }
 
-  &__seats { font-size: 0.78rem; color: $gray-500; }
+  &__seats { font-size: 0.78rem; color: $gray-700; }
 }
 
 // ─── Proceed ──────────────────────────────────────────────────────────────────
@@ -258,7 +258,7 @@
     margin-bottom: $spacing-4;
   }
 
-  &__text { font-size: 0.875rem; color: $gray-500; line-height: 1.6; margin-bottom: $spacing-3; }
+  &__text { font-size: 0.875rem; color: $gray-700; line-height: 1.6; margin-bottom: $spacing-3; }
   &--tips { background: #f0fdf4; border-color: #bbf7d0; }
 }
 
@@ -288,7 +288,7 @@
   padding: $spacing-2 0;
   border-bottom: 1px solid $gray-100;
   &:last-of-type { border-bottom: none; }
-  span { color: $gray-500; }
+  span { color: $gray-700; }
   strong { font-weight: 600; color: $gray-700; }
 }
 
@@ -299,7 +299,7 @@
     display: flex;
     justify-content: space-between;
     font-size: 0.82rem;
-    color: $gray-500;
+    color: $gray-700;
     margin-bottom: $spacing-2;
   }
 
@@ -318,7 +318,7 @@
     transition: width 0.5s ease;
   }
 
-  &__text { font-size: 0.78rem; color: $gray-400; text-align: right; margin: 0; }
+  &__text { font-size: 0.78rem; color: $gray-600; text-align: right; margin: 0; }
 }
 
 .av-tips-list {

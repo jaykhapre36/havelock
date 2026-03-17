@@ -4,7 +4,7 @@
 // ─── Page ─────────────────────────────────────────────────────────────────────
 .gb-page {
   min-height: 100vh;
-  background: $gray-50;
+  background: $gray-100;
 }
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
@@ -97,7 +97,7 @@
     height: 32px;
     border-radius: 50%;
     background: $gray-200;
-    color: $gray-500;
+    color: $gray-700;
     font-size: 0.88rem;
     font-weight: 700;
     display: flex;
@@ -109,7 +109,7 @@
   &__label {
     font-size: 0.875rem;
     font-weight: 600;
-    color: $gray-500;
+    color: $gray-700;
     transition: $transition-base;
     @include mobile { display: none; }
   }
@@ -190,8 +190,10 @@
   cursor: pointer;
   transition: $transition-base;
   gap: 2px;
+  position: relative;
 
-  &:hover { border-color: $primary; background: rgba($primary, 0.04); }
+  &:hover:not(:disabled) { border-color: $primary; background: rgba($primary, 0.04); }
+  &:disabled { cursor: not-allowed; }
 
   &--selected {
     border-color: $primary !important;
@@ -200,8 +202,33 @@
     .gb-date-chip__num { color: $white !important; }
   }
 
-  &__day { font-size: 0.68rem; font-weight: 600; color: $gray-400; text-transform: uppercase; letter-spacing: 0.05em; }
+  &--full {
+    opacity: 0.45;
+    cursor: not-allowed;
+    background: $gray-100;
+  }
+
+  &--booked {
+    opacity: 0.55;
+    cursor: not-allowed;
+    background: #FFF3CD;
+    border-color: #FFC107 !important;
+    .gb-date-chip__day,
+    .gb-date-chip__num { color: #856404 !important; }
+  }
+
+  &__day { font-size: 0.68rem; font-weight: 600; color: $gray-600; text-transform: uppercase; letter-spacing: 0.05em; }
   &__num { font-size: 1.3rem; font-weight: 800; color: $gray-800; line-height: 1; }
+  &__tag {
+    position: absolute;
+    bottom: -10px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: #DC3545;
+    background: $white;
+    padding: 0 4px;
+    border-radius: 4px;
+  }
 }
 
 .gb-chip-skeleton {
@@ -325,6 +352,17 @@
   font-weight: 500;
 }
 
+.gb-size-max {
+  margin-left: auto;
+  font-size: 0.78rem;
+  color: $gray-600;
+  font-weight: 500;
+  background: $gray-100;
+  padding: 3px 8px;
+  border-radius: $radius-md;
+  white-space: nowrap;
+}
+
 // ─── Discount tiers ───────────────────────────────────────────────────────────
 .gb-discount-tiers {
   display: flex;
@@ -349,7 +387,7 @@
     .gb-tier__disc { color: $primary; }
   }
 
-  &__range { display: block; font-size: 0.78rem; color: $gray-500; font-weight: 600; margin-bottom: 2px; }
+  &__range { display: block; font-size: 0.78rem; color: $gray-700; font-weight: 600; margin-bottom: 2px; }
   &__disc  { display: block; font-size: 0.9rem; font-weight: 700; color: $gray-700; }
 }
 
@@ -389,7 +427,23 @@
   .req { color: #DC3545; }
 }
 
-.gb-optional { font-size: 0.78rem; font-weight: 400; color: $gray-400; }
+.gb-optional { font-size: 0.78rem; font-weight: 400; color: $gray-600; }
+
+// ─── Pre-filled banner ────────────────────────────────────────────────────────
+.gb-prefilled-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-2;
+  background: rgba(#0D9488, 0.08);
+  border: 1px solid rgba(#0D9488, 0.25);
+  border-radius: $radius-lg;
+  padding: $spacing-3 $spacing-4;
+  font-size: 0.85rem;
+  color: #0D7870;
+  font-weight: 500;
+  line-height: 1.5;
+  svg { flex-shrink: 0; color: #0D9488; margin-top: 1px; }
+}
 
 .gb-input {
   width: 100%;
@@ -407,6 +461,7 @@
   &:focus { border-color: $primary; box-shadow: 0 0 0 3px rgba($primary, 0.12); }
   &--error { border-color: #DC3545 !important; box-shadow: 0 0 0 3px rgba(#DC3545, 0.1) !important; }
   &--phone { border-left: none; border-radius: 0 $radius-lg $radius-lg 0; }
+  &--prefilled { background: $gray-100; color: $gray-600; cursor: default; }
 }
 
 .gb-phone-row {
@@ -471,8 +526,8 @@
   border-bottom: 1px solid $gray-100;
 
   &__item { display: flex; flex-direction: column; gap: 2px; }
-  &__label { font-size: 0.78rem; font-weight: 600; color: $gray-400; text-transform: uppercase; letter-spacing: 0.05em; }
-  &__val { font-size: 0.95rem; font-weight: 700; color: $gray-800; }
+  &__label { font-size: 0.78rem; font-weight: 600; color: $gray-600; text-transform: uppercase; letter-spacing: 0.05em; }
+  &__val { font-size: 0.95rem; font-weight: 700; color: $gray-900; }
 }
 
 .gb-review-table {
@@ -481,7 +536,7 @@
   font-size: 0.9rem;
 
   th, td { padding: $spacing-2 $spacing-3; text-align: left; }
-  th { font-size: 0.78rem; font-weight: 700; color: $gray-400; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 2px solid $gray-100; }
+  th { font-size: 0.78rem; font-weight: 700; color: $gray-600; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 2px solid $gray-100; }
   td { border-bottom: 1px solid $gray-100; color: $gray-700; }
   .center { text-align: center; }
   .right  { text-align: right; }
@@ -494,11 +549,11 @@
 
 .gb-vs {
   &__row { display: flex; align-items: flex-start; gap: $spacing-4; flex-wrap: wrap; }
-  &__label { font-size: 0.8rem; font-weight: 700; color: $gray-400; text-transform: uppercase; letter-spacing: 0.04em; min-width: 90px; padding-top: 1px; }
-  &__val { font-size: 0.9rem; color: $gray-800; flex: 1; }
+  &__label { font-size: 0.8rem; font-weight: 700; color: $gray-600; text-transform: uppercase; letter-spacing: 0.04em; min-width: 90px; padding-top: 1px; }
+  &__val { font-size: 0.9rem; color: $gray-900; flex: 1; }
 }
 
-.gb-note { font-size: 0.85rem; color: $gray-500; margin-top: $spacing-4; margin-bottom: 0; }
+.gb-note { font-size: 0.85rem; color: $gray-700; margin-top: $spacing-4; margin-bottom: 0; }
 .gb-note__link { background: none; border: none; color: $primary; font-size: 0.85rem; cursor: pointer; padding: 0; text-decoration: underline; font-family: inherit; }
 
 // ─── Error banner ─────────────────────────────────────────────────────────────
@@ -529,7 +584,7 @@
   display: inline-flex;
   align-items: center;
   gap: $spacing-2;
-  padding: $spacing-3 $spacing-7;
+  padding: $spacing-3 $spacing-6;
   border-radius: $radius-full;
   font-size: 1rem;
   font-weight: 700;
@@ -589,10 +644,10 @@
   }
 
   &__title { font-size: 1.75rem; font-weight: 900; color: $gray-900; margin-bottom: $spacing-2; }
-  &__sub { font-size: 1rem; color: $gray-500; margin-bottom: $spacing-6; }
+  &__sub { font-size: 1rem; color: $gray-700; margin-bottom: $spacing-6; }
 
   &__ref {
-    background: $gray-50;
+    background: $gray-100;
     border: 2px dashed $gray-300;
     border-radius: $radius-xl;
     padding: $spacing-4 $spacing-6;
@@ -601,7 +656,7 @@
     gap: $spacing-1;
     margin-bottom: $spacing-6;
   }
-  &__ref-label { font-size: 0.72rem; font-weight: 700; color: $gray-400; text-transform: uppercase; letter-spacing: 0.1em; }
+  &__ref-label { font-size: 0.72rem; font-weight: 700; color: $gray-600; text-transform: uppercase; letter-spacing: 0.1em; }
   &__ref-code { font-size: 1.5rem; font-weight: 900; color: $primary; letter-spacing: 0.08em; font-family: monospace; }
 
   &__details {
@@ -621,7 +676,7 @@
     svg { color: $primary; }
   }
 
-  &__note { font-size: 0.85rem; color: $gray-500; line-height: 1.6; margin-bottom: $spacing-8; }
+  &__note { font-size: 0.85rem; color: $gray-700; line-height: 1.6; margin-bottom: $spacing-8; }
 
   &__actions {
     display: flex;

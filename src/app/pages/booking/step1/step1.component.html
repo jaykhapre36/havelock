@@ -63,14 +63,13 @@
       <!-- Month navigator + date chips -->
       <ng-container *ngIf="!slotsLoading && !slotsError">
 
-        <!-- Month header -->
         <div class="bk-month-nav">
           <button type="button" class="bk-month-nav__btn" (click)="prevMonth()" [disabled]="!canGoPrev">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="15 18 9 12 15 6"/>
             </svg>
           </button>
-          <span class="bk-month-nav__label">{{ monthGroups[activeMonthIndex]?.label }}</span>
+          <span class="bk-month-nav__label">{{ activeMonthLabel }}</span>
           <button type="button" class="bk-month-nav__btn" (click)="nextMonth()" [disabled]="!canGoNext">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="9 18 15 12 9 6"/>
@@ -78,7 +77,6 @@
           </button>
         </div>
 
-        <!-- Chips for active month only -->
         <div class="bk-date-chips">
           <button
             *ngFor="let slot of activeMonthSlots"
@@ -115,10 +113,69 @@
       <p class="bk-error" *ngIf="dateError">{{ dateError }}</p>
     </div>
 
+    <!-- ── Ticket Quantity ────────────────────────────────────────────────────── -->
+    <div class="bk-card" *ngIf="selectedSlot && !slotsLoading && !slotsError">
+      <h2 class="bk-card__title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        Number of Tickets
+      </h2>
+
+      <div class="bk-qty-row">
+        <button
+          type="button"
+          class="bk-qty-btn"
+          (click)="changeQty(-1)"
+          [disabled]="qty <= 1"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+        </button>
+
+        <div class="bk-qty-display">
+          <input
+            type="number"
+            class="bk-qty-input"
+            [value]="qty"
+            min="1"
+            [max]="maxQty"
+            (change)="onQtyInput($any($event.target).value)"
+            (input)="onQtyInput($any($event.target).value)"
+          />
+          <!-- <span class="bk-qty-label">{{ qty }}</span> -->
+        </div>
+
+        <button
+          type="button"
+          class="bk-qty-btn"
+          (click)="changeQty(1)"
+          [disabled]="qty >= maxQty"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+        </button>
+
+        <span class="bk-qty-max">max {{ maxQty }}</span>
+      </div>
+
+      <p class="bk-error" *ngIf="qtyError">{{ qtyError }}</p>
+    </div>
+
     <!-- ── Price Summary ─────────────────────────────────────────────────────── -->
-    <div class="bk-summary" *ngIf="!dateError">
+    <div class="bk-summary" *ngIf="!dateError && selectedSlot">
+      <div class="bk-summary__row">
+        <span>₹{{ selectedTicket.price | number }} × {{ qty }} {{ qty === 1 ? 'person' : 'persons' }}</span>
+        <span>₹{{ totalPrice | number }}</span>
+      </div>
       <div class="bk-summary__row bk-summary__row--total">
-        <span>Total (1 person)</span>
+        <span>Total</span>
         <span>₹{{ totalPrice | number }}</span>
       </div>
     </div>
@@ -128,7 +185,7 @@
       <button
         class="bk-btn bk-btn--primary"
         (click)="onNext()"
-        [disabled]="!!dateError || !selectedSlot"
+        [disabled]="!!dateError || !selectedSlot || !!qtyError"
       >
         Continue to Details
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

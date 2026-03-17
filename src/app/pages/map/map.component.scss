@@ -197,7 +197,7 @@
 
 .map-sidebar__sub {
   font-size: 0.875rem;
-  color: $gray-500;
+  color: $gray-700;
   margin-bottom: $spacing-5;
 }
 
@@ -239,7 +239,7 @@
 
   &__desc {
     font-size: 0.78rem;
-    color: $gray-500;
+    color: $gray-700;
     margin-bottom: 2px;
   }
 
@@ -252,7 +252,7 @@
 
   &__arrow {
     font-size: 1.2rem;
-    color: $gray-300;
+    color: $gray-600;
     transition: color 0.2s;
   }
 
@@ -293,7 +293,7 @@
     margin-bottom: $spacing-1;
   }
 
-  &__desc { font-size: 0.85rem; color: $gray-500; margin: 0; }
+  &__desc { font-size: 0.85rem; color: $gray-700; margin: 0; }
 
   &__close {
     background: $gray-100;
@@ -303,7 +303,7 @@
     border-radius: 50%;
     font-size: 0.75rem;
     cursor: pointer;
-    color: $gray-500;
+    color: $gray-700;
     flex-shrink: 0;
     transition: $transition-base;
     display: flex;
@@ -320,7 +320,7 @@
     gap: $spacing-2;
     font-size: 0.8rem;
     font-weight: 700;
-    color: $gray-500;
+    color: $gray-700;
     text-transform: uppercase;
     letter-spacing: 0.07em;
     margin-bottom: $spacing-4;
@@ -330,7 +330,7 @@
   &__empty {
     text-align: center;
     padding: $spacing-6;
-    color: $gray-400;
+    color: $gray-600;
     font-size: 0.875rem;
   }
 }
@@ -363,13 +363,13 @@
 
   &__meta {
     font-size: 0.78rem;
-    color: $gray-500;
+    color: $gray-700;
     margin: 0;
   }
 
   &__arrow {
     font-size: 1rem;
-    color: $gray-400;
+    color: $gray-600;
     transition: color 0.2s, transform 0.2s;
   }
 
@@ -395,7 +395,7 @@
 
   &__addr {
     font-size: 0.82rem;
-    color: $gray-500;
+    color: $gray-700;
     line-height: 1.6;
     margin-bottom: $spacing-5;
   }

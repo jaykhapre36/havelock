@@ -112,7 +112,7 @@
                 <polyline points="15 18 9 12 15 6"/>
               </svg>
             </button>
-            <span class="gb-month-nav__label">{{ monthGroups[activeMonthIndex]?.label }}</span>
+            <span class="gb-month-nav__label">{{ activeMonthLabel }}</span>
             <button type="button" class="gb-month-nav__btn" (click)="nextMonth()" [disabled]="!canGoNext">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="9 18 15 12 9 6"/>
@@ -126,10 +126,15 @@
               type="button"
               class="gb-date-chip"
               [class.gb-date-chip--selected]="selectedSlot?.slot_date === slot.slot_date"
+              [class.gb-date-chip--full]="slot.remaining === 0"
+              [class.gb-date-chip--booked]="isBooked(slot)"
+              [disabled]="isDisabled(slot)"
               (click)="selectSlot(slot)"
             >
               <span class="gb-date-chip__day">{{ slot.slot_date | date:'EEE' }}</span>
               <span class="gb-date-chip__num">{{ slot.slot_date | date:'d' }}</span>
+              <span class="gb-date-chip__tag" *ngIf="slot.remaining === 0 && !isBooked(slot)">Full</span>
+              <span class="gb-date-chip__tag" *ngIf="isBooked(slot)">Booked</span>
             </button>
           </div>
 
@@ -169,34 +174,20 @@
               class="gb-size-input"
               [value]="groupSize"
               [min]="MIN_GROUP"
+              [max]="maxGroupSize"
               (change)="onGroupSizeChange($any($event.target).value)"
               (input)="onGroupSizeChange($any($event.target).value)"
             />
-            <span class="gb-size-label">persons</span>
           </div>
-          <button type="button" class="gb-size-btn" (click)="onGroupSizeChange((groupSize + 1).toString())">
+          <button type="button" class="gb-size-btn" (click)="onGroupSizeChange((groupSize + 1).toString())" [disabled]="groupSize >= maxGroupSize">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
             </svg>
           </button>
+          <span class="gb-size-max" *ngIf="selectedSlot">max {{ maxGroupSize }}</span>
         </div>
         <p class="gb-error" *ngIf="groupSizeError">{{ groupSizeError }}</p>
 
-        <!-- Discount tiers -->
-        <div class="gb-discount-tiers">
-          <div class="gb-tier" [class.gb-tier--active]="groupSize >= 10 && groupSize < 20">
-            <span class="gb-tier__range">10–19 persons</span>
-            <span class="gb-tier__disc">Standard rate</span>
-          </div>
-          <div class="gb-tier" [class.gb-tier--active]="groupSize >= 20 && groupSize < 50">
-            <span class="gb-tier__range">20–49 persons</span>
-            <span class="gb-tier__disc">5% off</span>
-          </div>
-          <div class="gb-tier" [class.gb-tier--active]="groupSize >= 50">
-            <span class="gb-tier__range">50+ persons</span>
-            <span class="gb-tier__disc">10% off</span>
-          </div>
-        </div>
       </div>
 
       <!-- Price preview -->
@@ -237,9 +228,18 @@
 
         <form [formGroup]="form" class="gb-form" novalidate>
 
+          <!-- Pre-filled banner -->
+          <div class="gb-prefilled-banner" *ngIf="prefilled">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            Using your registered profile details. Organisation and special requirements are optional.
+          </div>
+
           <div class="gb-field">
             <label class="gb-label">Full Name <span class="req">*</span></label>
-            <input formControlName="fullName" type="text" class="gb-input" [class.gb-input--error]="isInvalid('fullName')" placeholder="Your full name" />
+            <input formControlName="fullName" type="text" class="gb-input" [class.gb-input--error]="isInvalid('fullName')" [class.gb-input--prefilled]="prefilled" placeholder="Your full name" />
             <p class="gb-field-error" *ngIf="isInvalid('fullName')">
               <ng-container *ngIf="f('fullName')?.errors?.['required']">Name is required.</ng-container>
               <ng-container *ngIf="f('fullName')?.errors?.['minlength']">At least 2 characters.</ng-container>
@@ -247,28 +247,18 @@
           </div>
 
           <div class="gb-field">
-            <label class="gb-label">Organisation / School / Company <span class="gb-optional">(optional)</span></label>
-            <input formControlName="orgName" type="text" class="gb-input" [class.gb-input--error]="isInvalid('orgName')" placeholder="Eg. ABC School, XYZ Corp" />
-          </div>
-
-          <div class="gb-field">
             <label class="gb-label">Phone Number <span class="req">*</span></label>
             <div class="gb-phone-row">
               <span class="gb-phone-prefix">+91</span>
-              <input formControlName="phone" type="tel" class="gb-input gb-input--phone" [class.gb-input--error]="isInvalid('phone')" placeholder="10-digit mobile number" maxlength="10" />
+              <input formControlName="phone" type="tel" class="gb-input gb-input--phone" [class.gb-input--error]="isInvalid('phone')" [class.gb-input--prefilled]="prefilled" placeholder="10-digit mobile number" maxlength="10" />
             </div>
             <p class="gb-field-error" *ngIf="isInvalid('phone')">Enter a valid 10-digit Indian mobile number.</p>
           </div>
 
           <div class="gb-field">
             <label class="gb-label">Email Address <span class="req">*</span></label>
-            <input formControlName="email" type="email" class="gb-input" [class.gb-input--error]="isInvalid('email')" placeholder="you@example.com" />
+            <input formControlName="email" type="email" class="gb-input" [class.gb-input--error]="isInvalid('email')" [class.gb-input--prefilled]="prefilled" placeholder="you@example.com" />
             <p class="gb-field-error" *ngIf="isInvalid('email')">Enter a valid email address.</p>
-          </div>
-
-          <div class="gb-field">
-            <label class="gb-label">Special Requirements <span class="gb-optional">(optional)</span></label>
-            <textarea formControlName="specialNote" class="gb-textarea" rows="3" placeholder="Any special requirements, accessibility needs, or notes for our team…"></textarea>
           </div>
 
         </form>

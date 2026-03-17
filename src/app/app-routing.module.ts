@@ -21,8 +21,7 @@ const routes: Routes = [
   },
   {
     path: 'group-booking',
-    loadChildren: () => import('./pages/group-booking/group-booking.module').then(m => m.GroupBookingModule),
-    canActivate: [AuthGuard]
+    loadChildren: () => import('./pages/group-booking/group-booking.module').then(m => m.GroupBookingModule)
   },
   {
     path: 'availability',
@@ -47,6 +46,11 @@ const routes: Routes = [
   {
     path: 'offers',
     loadChildren: () => import('./pages/offers/offers.module').then(m => m.OffersModule)
+  },
+  {
+    path: 'my-bookings',
+    loadChildren: () => import('./pages/my-bookings/my-bookings.module').then(m => m.MyBookingsModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'booking',

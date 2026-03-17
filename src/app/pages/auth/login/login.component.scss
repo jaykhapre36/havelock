@@ -92,7 +92,7 @@
 
   &__sub {
     font-size: 0.95rem;
-    color: $gray-500;
+    color: $gray-700;
     margin-bottom: $spacing-6;
   }
 }
@@ -102,7 +102,7 @@
   align-items: center;
   gap: $spacing-2;
   font-size: 0.875rem;
-  color: $gray-500;
+  color: $gray-700;
   text-decoration: none;
   transition: color 0.2s;
   &:hover { color: $primary; }
@@ -185,7 +185,7 @@
   &__icon {
     position: absolute;
     left: $spacing-3;
-    color: $gray-400;
+    color: $gray-600;
     pointer-events: none;
     flex-shrink: 0;
   }
@@ -202,7 +202,7 @@
     transition: border-color 0.2s, box-shadow 0.2s;
     font-family: inherit;
 
-    &::placeholder { color: $gray-400; }
+    &::placeholder { color: $gray-600; }
     &:focus { border-color: $primary; box-shadow: 0 0 0 3px rgba($primary, 0.12); }
   }
 
@@ -211,7 +211,7 @@
     right: $spacing-3;
     background: none;
     border: none;
-    color: $gray-400;
+    color: $gray-600;
     cursor: pointer;
     padding: 0;
     display: flex;
@@ -299,7 +299,7 @@
   align-items: center;
   gap: $spacing-3;
   margin: $spacing-5 0;
-  color: $gray-400;
+  color: $gray-600;
   font-size: 0.82rem;
 
   &::before, &::after {
@@ -314,7 +314,7 @@
 .auth-switch {
   text-align: center;
   font-size: 0.9rem;
-  color: $gray-500;
+  color: $gray-700;
 
   a { color: $primary; font-weight: 600; &:hover { text-decoration: underline; } }
 }
@@ -345,7 +345,7 @@
   }
 
   &__optional {
-    color: $gray-400;
+    color: $gray-600;
     font-weight: 400;
     font-size: 0.78rem;
     margin-left: $spacing-1;
@@ -410,7 +410,7 @@ button.auth-back {
 
   &__timer {
     font-size: 0.875rem;
-    color: $gray-500;
+    color: $gray-700;
   }
 
   &__btn {

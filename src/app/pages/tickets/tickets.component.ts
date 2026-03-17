@@ -55,6 +55,13 @@ export class TicketsComponent implements OnInit {
       this.router.navigate(['/contact']);
       return;
     }
+
+    // Group ticket → dedicated group booking page
+    if (ticket.type === 'group') {
+      this.router.navigate(['/group-booking']);
+      return;
+    }
+
     const target = `/booking?type=${ticket.type}&dayType=${this.activeDayType}`;
     if (!this.authService.isLoggedIn()) {
       this.router.navigate(['/auth/login'], { queryParams: { returnUrl: target } });

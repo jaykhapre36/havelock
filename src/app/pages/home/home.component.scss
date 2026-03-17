@@ -175,7 +175,7 @@
     label {
       font-size: $font-size-xs;
       font-weight: $font-weight-semi;
-      color: $gray-500;
+      color: $gray-700;
       text-transform: uppercase;
       letter-spacing: 0.06em;
     }
@@ -298,7 +298,7 @@
 
   &__desc {
     font-size: $font-size-sm;
-    color: $gray-500;
+    color: $gray-700;
     line-height: 1.6;
   }
 }
@@ -362,7 +362,7 @@
 
   &__desc {
     font-size: $font-size-sm;
-    color: $gray-500;
+    color: $gray-700;
     @include text-clamp(2);
     line-height: 1.5;
   }
@@ -378,7 +378,7 @@
     align-items: center;
     gap: $spacing-1;
     font-size: $font-size-xs;
-    color: $gray-500;
+    color: $gray-700;
     font-weight: $font-weight-medium;
   }
 
@@ -408,7 +408,7 @@
     text-align: center;
     margin-top: $spacing-8;
     font-size: $font-size-sm;
-    color: $gray-500;
+    color: $gray-700;
 
     a { color: $primary; font-weight: $font-weight-semi; }
   }
@@ -458,7 +458,7 @@
 
   &__subtitle {
     font-size: $font-size-xs;
-    color: $gray-500;
+    color: $gray-700;
     margin-bottom: $spacing-5;
   }
 
@@ -486,7 +486,7 @@
 
   &__unit {
     font-size: $font-size-sm;
-    color: $gray-500;
+    color: $gray-700;
   }
 
   &__features {
@@ -548,7 +548,7 @@
   }
 
   &__subtitle {
-    color: $gray-400;
+    color: $gray-600;
     font-size: $font-size-base;
     line-height: 1.7;
     margin-bottom: $spacing-8;
@@ -579,7 +579,7 @@
   &__type-label {
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
-    color: $gray-300;
+    color: $gray-600;
   }
 
   &__cta { @include btn-secondary; }
@@ -606,7 +606,7 @@
     span { font-size: 4rem; }
 
     p {
-      color: $gray-400;
+      color: $gray-600;
       font-size: $font-size-sm;
       font-weight: $font-weight-medium;
       max-width: 160px;
@@ -632,7 +632,7 @@
 
   &__rating-label {
     font-size: $font-size-sm;
-    color: $gray-500;
+    color: $gray-700;
     font-weight: $font-weight-medium;
     margin-left: $spacing-2;
   }
@@ -660,7 +660,7 @@
 
   &__stars {
     font-size: 1.1rem;
-    color: $gray-300;
+    color: $gray-600;
 
     .filled { color: $secondary; }
   }
@@ -701,7 +701,7 @@
 
   &__type {
     font-size: $font-size-xs;
-    color: $gray-400;
+    color: $gray-600;
     margin-top: 2px;
   }
 }
@@ -754,7 +754,7 @@
 
   &__icon {
     flex-shrink: 0;
-    color: $gray-400;
+    color: $gray-600;
     transition: transform $transition-base;
   }
 

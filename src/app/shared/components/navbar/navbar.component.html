@@ -21,7 +21,7 @@
         >{{ link.label }}</a>
       </li>
       <li *ngIf="currentUser">
-        <a routerLink="/my-tickets" routerLinkActive="active" class="navbar__link">Your Tickets</a>
+        <a routerLink="/my-bookings" routerLinkActive="active" class="navbar__link">Your Bookings</a>
       </li>
     </ul>
 
@@ -68,7 +68,7 @@
         >{{ link.label }}</a>
       </li>
       <li *ngIf="currentUser">
-        <a routerLink="/my-tickets" routerLinkActive="active" class="navbar__mobile-link" (click)="closeMenu()">Your Tickets</a>
+        <a routerLink="/my-bookings" routerLinkActive="active" class="navbar__mobile-link" (click)="closeMenu()">Your Bookings</a>
       </li>
     </ul>
     <div class="navbar__mobile-actions">

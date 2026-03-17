@@ -1,0 +1,153 @@
+<div class="mb-page">
+
+  <!-- ── Hero ──────────────────────────────────────────────────────────────── -->
+  <section class="mb-hero">
+    <div class="container mb-hero__inner">
+      <div>
+        <span class="mb-hero__eyebrow">MY ACCOUNT</span>
+        <h1 class="mb-hero__title">Your Bookings</h1>
+        <p class="mb-hero__sub" *ngIf="customerName">Welcome back, {{ customerName }}</p>
+      </div>
+      <svg class="mb-hero__icon" width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M15 5v2"/><path d="M15 11v2"/><path d="M15 17v2"/>
+        <path d="M5 5h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4V7a2 2 0 0 1 2-2z"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ── Content ───────────────────────────────────────────────────────────── -->
+  <div class="container mb-content">
+
+    <!-- Loading -->
+    <ng-container *ngIf="loading">
+      <div class="mb-skeleton-card" *ngFor="let i of [1,2,3]">
+        <div class="skeleton" style="height:20px;width:40%;border-radius:4px;margin-bottom:12px"></div>
+        <div class="skeleton" style="height:14px;width:60%;border-radius:4px;margin-bottom:8px"></div>
+        <div class="skeleton" style="height:14px;width:50%;border-radius:4px"></div>
+      </div>
+    </ng-container>
+
+    <!-- Error -->
+    <div class="mb-error-banner" *ngIf="error && !loading">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      <span>{{ error }}</span>
+      <button class="mb-error-banner__retry" (click)="retry()">Retry</button>
+    </div>
+
+    <!-- Main content -->
+    <ng-container *ngIf="!loading && !error">
+
+      <!-- Tabs -->
+      <div class="mb-tabs">
+        <button
+          class="mb-tab"
+          [class.mb-tab--active]="activeTab === 'active'"
+          (click)="setTab('active')"
+        >
+          Upcoming
+          <span class="mb-tab__count">{{ activeBookings.length }}</span>
+        </button>
+        <button
+          class="mb-tab"
+          [class.mb-tab--active]="activeTab === 'past'"
+          (click)="setTab('past')"
+        >
+          Past
+          <span class="mb-tab__count">{{ pastBookings.length }}</span>
+        </button>
+      </div>
+
+      <!-- Empty state -->
+      <div class="mb-empty" *ngIf="currentList.length === 0">
+        <div class="mb-empty__icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M15 5v2"/><path d="M15 11v2"/><path d="M15 17v2"/>
+            <path d="M5 5h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4V7a2 2 0 0 1 2-2z"/>
+          </svg>
+        </div>
+        <p class="mb-empty__title">No {{ activeTab === 'active' ? 'upcoming' : 'past' }} bookings</p>
+        <p class="mb-empty__sub" *ngIf="activeTab === 'active'">Plan your next visit to Havelock Water Park!</p>
+        <p class="mb-empty__sub" *ngIf="activeTab === 'past'">Your past visits will appear here.</p>
+        <button class="mb-btn mb-btn--primary" (click)="bookNow()" *ngIf="activeTab === 'active'">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          Book Now
+        </button>
+      </div>
+
+      <!-- Booking cards -->
+      <div class="mb-cards" *ngIf="currentList.length > 0">
+        <div class="mb-card" *ngFor="let b of currentList">
+
+          <!-- Card header -->
+          <div class="mb-card__header">
+            <div class="mb-card__header-left">
+              <h3 class="mb-card__pkg">{{ b.package_name }}</h3>
+              <span class="mb-card__id">Order #{{ bookingId(b) }}</span>
+            </div>
+            <div class="mb-card__badges">
+              <span class="mb-badge mb-badge--type" [class.mb-badge--group]="b.is_group">
+                {{ b.is_group ? 'Group' : 'Individual' }}
+              </span>
+              <span class="mb-badge mb-badge--source" *ngIf="!b.is_online">Counter</span>
+            </div>
+          </div>
+
+          <!-- Date & time row -->
+          <div class="mb-card__date-row">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+            <span class="mb-card__date">{{ formatDate(b.slot_date) }}</span>
+            <span class="mb-card__time">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+              </svg>
+              {{ formatTime(b.slot_start) }} – {{ formatTime(b.slot_end) }}
+            </span>
+          </div>
+
+          <!-- Details grid -->
+          <div class="mb-card__details">
+            <div class="mb-card__detail">
+              <span class="mb-card__detail-label">Persons</span>
+              <span class="mb-card__detail-val">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                {{ b.count }}
+              </span>
+            </div>
+            <div class="mb-card__detail">
+              <span class="mb-card__detail-label">Total Paid</span>
+              <span class="mb-card__detail-val mb-card__detail-val--amount">₹{{ formatAmount(b.total_amount) }}</span>
+            </div>
+            <div class="mb-card__detail">
+              <span class="mb-card__detail-label">Booking Status</span>
+              <span class="mb-status" [ngClass]="'mb-status--' + b.booking_status">{{ b.booking_status }}</span>
+            </div>
+            <div class="mb-card__detail">
+              <span class="mb-card__detail-label">Payment</span>
+              <span class="mb-status" [ngClass]="'mb-status--' + b.payment_status">{{ b.payment_status }}</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </ng-container>
+  </div>
+
+</div>

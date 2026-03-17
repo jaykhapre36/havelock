@@ -32,6 +32,8 @@ export interface BookOnlineResponse {
 
 export interface MyBooking {
   id: number;
+  customer_id: number;
+  ticket_type_id: number;
   slot_id: number;
   slot_date: string;
   slot_start: string;
@@ -41,7 +43,12 @@ export interface MyBooking {
   payment_status: string;
   booking_status: string;
   is_group: boolean;
+  is_online: boolean;
+  source: string;
+  created_at: string;
   package_name: string;
+  category_name: string;
+  price: string;
 }
 
 export interface MyBookingsResponse {

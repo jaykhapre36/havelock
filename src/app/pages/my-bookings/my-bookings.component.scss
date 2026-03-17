@@ -1,0 +1,382 @@
+@use '../../../assets/styles/variables' as *;
+@use '../../../assets/styles/mixins' as *;
+
+// ─── Page ─────────────────────────────────────────────────────────────────────
+.mb-page {
+  min-height: 100vh;
+  background: $gray-100;
+}
+
+// ─── Hero ─────────────────────────────────────────────────────────────────────
+.mb-hero {
+  background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
+  padding: $spacing-12 0 $spacing-10;
+  color: $white;
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__eyebrow {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: rgba($white, 0.15);
+    padding: 4px 12px;
+    border-radius: 50px;
+    margin-bottom: $spacing-3;
+  }
+
+  &__title {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: $spacing-2;
+  }
+
+  &__sub {
+    font-size: 1rem;
+    opacity: 0.85;
+  }
+
+  &__icon {
+    opacity: 0.2;
+    @include mobile { display: none; }
+  }
+}
+
+// ─── Content ──────────────────────────────────────────────────────────────────
+.mb-content {
+  padding-top: $spacing-8;
+  padding-bottom: $spacing-12;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+// ─── Skeleton ─────────────────────────────────────────────────────────────────
+.mb-skeleton-card {
+  background: $white;
+  border-radius: $radius-xl;
+  border: 1px solid $gray-200;
+  padding: $spacing-5 $spacing-6;
+  margin-bottom: $spacing-4;
+}
+
+// ─── Error banner ─────────────────────────────────────────────────────────────
+.mb-error-banner {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  background: #F8D7DA;
+  color: #721C24;
+  border: 1px solid #F5C6CB;
+  border-radius: $radius-lg;
+  padding: $spacing-4;
+  font-size: 0.9rem;
+  margin-bottom: $spacing-5;
+
+  &__retry {
+    background: none;
+    border: 1px solid #721C24;
+    color: #721C24;
+    border-radius: $radius-md;
+    padding: 2px $spacing-3;
+    font-size: 0.8rem;
+    cursor: pointer;
+    font-family: inherit;
+    margin-left: auto;
+    &:hover { background: rgba(#721C24, 0.08); }
+  }
+}
+
+// ─── Tabs ─────────────────────────────────────────────────────────────────────
+.mb-tabs {
+  display: flex;
+  gap: $spacing-2;
+  margin-bottom: $spacing-5;
+  background: $white;
+  border-radius: $radius-xl;
+  padding: $spacing-1;
+  border: 1px solid $gray-200;
+  box-shadow: $shadow-sm;
+}
+
+.mb-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-2;
+  padding: $spacing-3 $spacing-4;
+  border: none;
+  border-radius: $radius-lg;
+  background: transparent;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: $gray-700;
+  cursor: pointer;
+  transition: $transition-base;
+  font-family: inherit;
+
+  &:hover:not(.mb-tab--active) { color: $primary; }
+
+  &--active {
+    background: $primary;
+    color: $white;
+    box-shadow: $shadow-sm;
+
+    &:hover { color: $white; }
+
+    .mb-tab__count {
+      background: rgba($white, 0.25);
+      color: $white;
+    }
+  }
+
+  &__count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    border-radius: 50px;
+    background: $gray-100;
+    color: $gray-600;
+    font-size: 0.78rem;
+    font-weight: 700;
+    transition: $transition-base;
+  }
+}
+
+// ─── Empty state ──────────────────────────────────────────────────────────────
+.mb-empty {
+  background: $white;
+  border-radius: $radius-xl;
+  border: 1px solid $gray-200;
+  padding: $spacing-12 $spacing-8;
+  text-align: center;
+  box-shadow: $shadow-sm;
+
+  &__icon {
+    width: 72px;
+    height: 72px;
+    background: $gray-100;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto $spacing-5;
+    svg { color: $gray-600; }
+  }
+
+  &__title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: $gray-800;
+    margin-bottom: $spacing-2;
+  }
+
+  &__sub {
+    font-size: 0.9rem;
+    color: $gray-700;
+    margin-bottom: $spacing-6;
+  }
+}
+
+// ─── Cards list ───────────────────────────────────────────────────────────────
+.mb-cards {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+}
+
+// ─── Booking card ─────────────────────────────────────────────────────────────
+.mb-card {
+  background: $white;
+  border-radius: $radius-xl;
+  border: 1px solid $gray-200;
+  box-shadow: $shadow-sm;
+  overflow: hidden;
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: $spacing-3;
+    padding: $spacing-5 $spacing-5 $spacing-4;
+    border-bottom: 1px solid $gray-100;
+    @include mobile { flex-direction: column; gap: $spacing-2; }
+  }
+
+  &__header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__pkg {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: $gray-900;
+  }
+
+  &__id {
+    font-size: 0.78rem;
+    color: $gray-600;
+    font-weight: 600;
+    font-family: monospace;
+    letter-spacing: 0.04em;
+  }
+
+  &__badges {
+    display: flex;
+    gap: $spacing-2;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+  }
+
+  &__date-row {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    padding: $spacing-3 $spacing-5;
+    background: rgba($primary, 0.04);
+    border-bottom: 1px solid $gray-100;
+    flex-wrap: wrap;
+    svg { color: $primary; flex-shrink: 0; }
+  }
+
+  &__date {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: $gray-900;
+    flex: 1;
+  }
+
+  &__time {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.85rem;
+    color: $gray-700;
+    font-weight: 600;
+    svg { color: $gray-600; }
+  }
+
+  &__details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    padding: $spacing-4 $spacing-5;
+
+    @include mobile { grid-template-columns: 1fr 1fr; }
+  }
+
+  &__detail {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: $spacing-3 $spacing-2;
+    border-right: 1px solid $gray-100;
+    border-bottom: 1px solid $gray-100;
+
+    &:nth-child(even) { border-right: none; }
+    &:nth-last-child(-n+2) { border-bottom: none; }
+  }
+
+  &__detail-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: $gray-600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  &__detail-val {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: $gray-900;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    svg { color: $primary; }
+
+    &--amount {
+      font-size: 1.05rem;
+      color: $primary;
+    }
+  }
+}
+
+// ─── Badges ───────────────────────────────────────────────────────────────────
+.mb-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 50px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+
+  &--type {
+    background: rgba($primary, 0.1);
+    color: $primary;
+  }
+
+  &--group {
+    background: rgba(#7C3AED, 0.1);
+    color: #7C3AED;
+  }
+
+  &--source {
+    background: $gray-200;
+    color: $gray-700;
+  }
+}
+
+// ─── Status badges ────────────────────────────────────────────────────────────
+.mb-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 50px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  letter-spacing: 0.04em;
+  width: fit-content;
+
+  &--confirmed { background: #D1FAE5; color: #065F46; }
+  &--done      { background: #D1FAE5; color: #065F46; }
+  &--pending   { background: #FEF3C7; color: #92400E; }
+  &--cancelled { background: #FEE2E2; color: #991B1B; }
+  &--failed    { background: #FEE2E2; color: #991B1B; }
+}
+
+// ─── Button ───────────────────────────────────────────────────────────────────
+.mb-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  padding: $spacing-3 $spacing-6;
+  border-radius: $radius-full;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: $transition-base;
+  font-family: inherit;
+
+  &--primary {
+    background: $primary;
+    color: $white;
+    &:hover { background: $primary-dark; transform: translateY(-1px); box-shadow: $shadow-md; }
+  }
+}

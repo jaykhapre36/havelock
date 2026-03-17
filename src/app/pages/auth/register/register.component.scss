@@ -45,12 +45,12 @@
   max-width: 440px;
   &__header { margin-bottom: $spacing-6; }
   &__title { font-size: 1.75rem; font-weight: 800; color: $gray-800; margin-bottom: $spacing-2; }
-  &__sub { font-size: 0.95rem; color: $gray-500; margin-bottom: $spacing-6; }
+  &__sub { font-size: 0.95rem; color: $gray-700; margin-bottom: $spacing-6; }
 }
 
 .auth-back {
   display: inline-flex; align-items: center; gap: $spacing-2;
-  font-size: 0.875rem; color: $gray-500; text-decoration: none; transition: color 0.2s;
+  font-size: 0.875rem; color: $gray-700; text-decoration: none; transition: color 0.2s;
   &:hover { color: $primary; }
 }
 
@@ -88,18 +88,18 @@
   &__label-row { display: flex; align-items: center; justify-content: space-between; label { margin: 0; } }
   &__forgot { font-size: 0.8rem; color: $primary; text-decoration: none; &:hover { text-decoration: underline; } }
   &__input-wrap { position: relative; display: flex; align-items: center; }
-  &__icon { position: absolute; left: $spacing-3; color: $gray-400; pointer-events: none; flex-shrink: 0; }
+  &__icon { position: absolute; left: $spacing-3; color: $gray-600; pointer-events: none; flex-shrink: 0; }
 
   input {
     width: 100%; padding: $spacing-3 $spacing-10 $spacing-3 $spacing-10;
     border: 1.5px solid $gray-200; border-radius: $radius-lg;
     font-size: 0.9rem; color: $gray-800; background: $white;
     outline: none; transition: border-color 0.2s, box-shadow 0.2s; font-family: inherit;
-    &::placeholder { color: $gray-400; }
+    &::placeholder { color: $gray-600; }
     &:focus { border-color: $primary; box-shadow: 0 0 0 3px rgba($primary, 0.12); }
   }
 
-  &__toggle { position: absolute; right: $spacing-3; background: none; border: none; color: $gray-400; cursor: pointer; padding: 0; display: flex; align-items: center; &:hover { color: $gray-600; } }
+  &__toggle { position: absolute; right: $spacing-3; background: none; border: none; color: $gray-600; cursor: pointer; padding: 0; display: flex; align-items: center; &:hover { color: $gray-600; } }
   &__error { font-size: 0.78rem; color: #DC3545; }
   &--error input { border-color: #DC3545; box-shadow: 0 0 0 3px rgba(#DC3545, 0.1); }
 }
@@ -126,12 +126,12 @@
 
 .auth-divider {
   display: flex; align-items: center; gap: $spacing-3; margin: $spacing-5 0;
-  color: $gray-400; font-size: 0.82rem;
+  color: $gray-600; font-size: 0.82rem;
   &::before, &::after { content: ''; flex: 1; height: 1px; background: $gray-200; }
 }
 
 .auth-switch {
-  text-align: center; font-size: 0.9rem; color: $gray-500;
+  text-align: center; font-size: 0.9rem; color: $gray-700;
   a { color: $primary; font-weight: 600; &:hover { text-decoration: underline; } }
 }
 
@@ -152,7 +152,7 @@
   }
   &__phone-input { padding-left: 4rem !important; }
   &__required { color: $danger; margin-left: 2px; }
-  &__optional { color: $gray-400; font-weight: 400; font-size: 0.78rem; margin-left: $spacing-1; }
+  &__optional { color: $gray-600; font-weight: 400; font-size: 0.78rem; margin-left: $spacing-1; }
 }
 
 button.auth-back { background: none; border: none; cursor: pointer; padding: 0; }
@@ -223,7 +223,7 @@ button.auth-back { background: none; border: none; cursor: pointer; padding: 0; 
   text-align: center;
   margin-top: $spacing-4;
 
-  &__timer { font-size: 0.875rem; color: $gray-500; }
+  &__timer { font-size: 0.875rem; color: $gray-700; }
 
   &__btn {
     background: none;
