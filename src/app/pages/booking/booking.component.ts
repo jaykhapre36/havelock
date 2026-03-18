@@ -28,11 +28,8 @@ export class BookingComponent implements OnDestroy {
   onStep2Next(): void { this.currentStep = 3; }
   onStep3Back(): void { this.currentStep = 2; }
 
-  onStep3Confirm(): void {
-    const ref = 'HVL-' + Math.random().toString(36).slice(2, 8).toUpperCase();
-    this.stateService.patchState({ bookingReference: ref });
-    this.currentStep = 4;
-  }
+  // Step3 now navigates to /my-bookings directly after payment — this is unused
+  onStep3Confirm(): void {}
 
   ngOnDestroy(): void {
     this.stateService.reset();

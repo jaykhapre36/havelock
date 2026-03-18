@@ -1,7 +1,9 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 import { BookingStateService, BookingState } from '../booking-state.service';
 import { BookingService } from '../../../services/booking.service';
 import { AuthService } from '../../../services/auth.service';
+import { PaymentService } from '../../../services/payment.service';
 
 @Component({
   standalone: false,
@@ -21,7 +23,9 @@ export class Step3Component implements OnInit {
   constructor(
     private stateService: BookingStateService,
     private bookingService: BookingService,
-    private authService: AuthService
+    private authService: AuthService,
+    private paymentService: PaymentService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -46,26 +50,40 @@ export class Step3Component implements OnInit {
     }
 
     this.loading = true;
-    this.bookingService.bookOnline({
-      ticket_type_id: 1,
-      slot_id: snap.slotId,
-      phone: user.phone,
-      count: selection.qty
-    }).subscribe({
-      next: (res) => {
-        this.loading = false;
-        if (res.success) {
-          const ref = res.data?.booking_reference
-            || (res.data?.booking_id ? `HVL-${res.data.booking_id}` : 'HVL-' + Math.random().toString(36).slice(2, 8).toUpperCase());
-          this.stateService.patchState({ bookingReference: ref });
-          this.confirm.emit();
-        } else {
-          this.error = res.message || 'Booking failed. Please try again.';
+
+    this.paymentService.openCheckout(
+      snap.grandTotal,
+      { name: snap.visitor.fullName || user.name, email: snap.visitor.email || user.email, contact: user.phone },
+      'Havelock Water Park Entry'
+    ).then((payment) => {
+      // Payment succeeded — now confirm booking
+      this.bookingService.bookOnline({
+        ticket_type_id: 1,
+        slot_id: snap.slotId!,
+        phone: user.phone,
+        count: selection.qty,
+        is_group: false,
+        amount: snap.grandTotal,
+        payment_method: 'upi',
+        transaction_id: payment.razorpay_payment_id
+      }).subscribe({
+        next: (res) => {
+          this.loading = false;
+          if (res.success) {
+            this.router.navigate(['/my-bookings']);
+          } else {
+            this.error = res.message || 'Booking failed after payment. Please contact support.';
+          }
+        },
+        error: (err) => {
+          this.loading = false;
+          this.error = err?.error?.message || 'Booking failed after payment. Please contact support.';
         }
-      },
-      error: (err) => {
-        this.loading = false;
-        this.error = err?.error?.message || 'Booking failed. Please try again.';
+      });
+    }).catch((err) => {
+      this.loading = false;
+      if (err.message !== 'cancelled') {
+        this.error = err.message || 'Payment failed. Please try again.';
       }
     });
   }

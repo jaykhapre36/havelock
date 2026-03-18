@@ -6,6 +6,7 @@ import { catchError } from 'rxjs/operators';
 import { BookingService, Slot } from '../../services/booking.service';
 import { TicketsService } from '../../services/tickets.service';
 import { AuthService } from '../../services/auth.service';
+import { PaymentService } from '../../services/payment.service';
 import { Ticket } from '../../models/ticket.model';
 
 interface MonthGroup {
@@ -59,6 +60,7 @@ export class GroupBookingComponent implements OnInit {
     private bookingService: BookingService,
     private ticketsService: TicketsService,
     private authService: AuthService,
+    private paymentService: PaymentService,
     private router: Router
   ) {}
 
@@ -69,20 +71,18 @@ export class GroupBookingComponent implements OnInit {
     this.prefilled = hasFull;
 
     this.form = this.fb.group({
-      fullName:    [
+      fullName: [
         { value: user?.name  ?? '', disabled: hasFull },
         [Validators.required, Validators.minLength(2), Validators.maxLength(60)]
       ],
-      email:       [
+      email: [
         { value: user?.email ?? '', disabled: hasFull },
         [Validators.required, Validators.email]
       ],
-      phone:       [
+      phone: [
         { value: user?.phone ?? '', disabled: hasFull },
         [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]
-      ],
-      orgName:     [''],
-      specialNote: ['']
+      ]
     });
 
     this.loadSlots();
@@ -260,25 +260,40 @@ export class GroupBookingComponent implements OnInit {
     this.loading = true;
     this.error = '';
 
-    this.bookingService.bookOnline({
-      ticket_type_id: 1,
-      slot_id: this.selectedSlot.id,
-      phone: this.form.getRawValue().phone,
-      count: this.groupSize
-    }).subscribe({
-      next: (res) => {
-        this.loading = false;
-        if (res.success) {
-          this.bookingReference = res.data?.booking_reference
-            || (res.data?.booking_id ? `HVL-G${res.data.booking_id}` : 'HVL-G' + Math.random().toString(36).slice(2, 8).toUpperCase());
-          this.currentStep = 4;
-        } else {
-          this.error = res.message || 'Booking failed. Please try again.';
+    const fv = this.form.getRawValue();
+
+    this.paymentService.openCheckout(
+      this.grandTotal,
+      { name: fv.fullName, email: fv.email, contact: fv.phone },
+      'Havelock Water Park — Group Booking'
+    ).then((payment) => {
+      this.bookingService.bookOnline({
+        ticket_type_id: 1,
+        slot_id: this.selectedSlot!.id,
+        phone: fv.phone,
+        count: this.groupSize,
+        is_group: true,
+        amount: this.grandTotal,
+        payment_method: 'upi',
+        transaction_id: payment.razorpay_payment_id
+      }).subscribe({
+        next: (res) => {
+          this.loading = false;
+          if (res.success) {
+            this.router.navigate(['/my-bookings']);
+          } else {
+            this.error = res.message || 'Booking failed after payment. Please contact support.';
+          }
+        },
+        error: (err) => {
+          this.loading = false;
+          this.error = err?.error?.message || 'Booking failed after payment. Please contact support.';
         }
-      },
-      error: (err) => {
-        this.loading = false;
-        this.error = err?.error?.message || 'Booking failed. Please try again.';
+      });
+    }).catch((err) => {
+      this.loading = false;
+      if (err.message !== 'cancelled') {
+        this.error = err.message || 'Payment failed. Please try again.';
       }
     });
   }
@@ -320,11 +335,9 @@ export class GroupBookingComponent implements OnInit {
     this.bookingReference = '';
     const user = this.authService.getCurrentUser();
     this.form.reset({
-      fullName:    user?.name  ?? '',
-      email:       user?.email ?? '',
-      phone:       user?.phone ?? '',
-      orgName:     '',
-      specialNote: ''
+      fullName: user?.name  ?? '',
+      email:    user?.email ?? '',
+      phone:    user?.phone ?? ''
     });
   }
 }

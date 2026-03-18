@@ -19,6 +19,10 @@ export interface BookOnlineRequest {
   slot_id: number;
   phone: string;
   count: number;
+  is_group?: boolean;
+  amount?: number;
+  payment_method?: string;
+  transaction_id?: string;
 }
 
 export interface BookOnlineResponse {

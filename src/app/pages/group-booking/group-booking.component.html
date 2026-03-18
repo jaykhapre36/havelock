@@ -340,23 +340,15 @@
         <div class="gb-visitor-summary">
           <div class="gb-vs__row">
             <span class="gb-vs__label">Name</span>
-            <span class="gb-vs__val">{{ form.value.fullName }}</span>
-          </div>
-          <div class="gb-vs__row" *ngIf="form.value.orgName">
-            <span class="gb-vs__label">Organisation</span>
-            <span class="gb-vs__val">{{ form.value.orgName }}</span>
+            <span class="gb-vs__val">{{ formValue.fullName }}</span>
           </div>
           <div class="gb-vs__row">
             <span class="gb-vs__label">Phone</span>
-            <span class="gb-vs__val">+91 {{ form.value.phone }}</span>
+            <span class="gb-vs__val">+91 {{ formValue.phone }}</span>
           </div>
           <div class="gb-vs__row">
             <span class="gb-vs__label">Email</span>
-            <span class="gb-vs__val">{{ form.value.email }}</span>
-          </div>
-          <div class="gb-vs__row" *ngIf="form.value.specialNote">
-            <span class="gb-vs__label">Notes</span>
-            <span class="gb-vs__val">{{ form.value.specialNote }}</span>
+            <span class="gb-vs__val">{{ formValue.email }}</span>
           </div>
         </div>
         <p class="gb-note">Need to change? <button class="gb-note__link" (click)="currentStep = 2">Go back</button></p>
@@ -377,7 +369,7 @@
         </button>
         <button class="gb-btn gb-btn--primary" (click)="onConfirm()" [disabled]="loading">
           <span class="gb-spinner" *ngIf="loading"></span>
-          {{ loading ? 'Confirming...' : 'Confirm & Book' }}
+          {{ loading ? 'Processing...' : 'Confirm & Pay' }}
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" *ngIf="!loading">
             <polyline points="9 18 15 12 9 6"/>
           </svg>
@@ -426,7 +418,7 @@
           </div>
         </div>
         <p class="gb-success__note">
-          A confirmation will be sent to <strong>{{ form.value.email }}</strong>. Our team will contact you at <strong>+91 {{ form.value.phone }}</strong> with further details.
+          A confirmation will be sent to <strong>{{ formValue.email }}</strong>. Our team will contact you at <strong>+91 {{ formValue.phone }}</strong> with further details.
         </p>
         <div class="gb-success__actions">
           <button class="gb-btn gb-btn--outline" (click)="newBooking()">Book Another Group</button>
