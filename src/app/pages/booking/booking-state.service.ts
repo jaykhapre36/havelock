@@ -18,9 +18,14 @@ export interface VisitorDetails {
 }
 
 export interface BookingState {
+  packageId: number | null;
+  packagePrice: number;
+  bulkDiscount: boolean;
   selectedDate: string;
   dayType: DayType;
   slotId: number | null;
+  slotStart: string;
+  slotEnd: string;
   selections: TicketSelection[];
   promoCode: string;
   appliedOffer: Offer | null;
@@ -32,9 +37,14 @@ export interface BookingState {
 }
 
 const initialState: BookingState = {
+  packageId: null,
+  packagePrice: 0,
+  bulkDiscount: false,
   selectedDate: '',
   dayType: 'weekday',
   slotId: null,
+  slotStart: '',
+  slotEnd: '',
   selections: [],
   promoCode: '',
   appliedOffer: null,
@@ -68,7 +78,9 @@ export class BookingStateService {
     const s = this.state.getValue();
     const subtotal = s.selections.reduce((sum, sel) => sum + sel.lineTotal, 0);
     let discountAmount = 0;
-    if (s.appliedOffer) {
+    if (s.bulkDiscount) {
+      discountAmount = Math.round(subtotal * 10 / 100);
+    } else if (s.appliedOffer) {
       discountAmount = s.appliedOffer.discountType === 'percentage'
         ? Math.round(subtotal * s.appliedOffer.discount / 100)
         : s.appliedOffer.discount;

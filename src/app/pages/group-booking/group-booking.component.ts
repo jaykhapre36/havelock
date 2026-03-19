@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { forkJoin, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subject, forkJoin, of } from 'rxjs';
+import { catchError, filter, takeUntil } from 'rxjs/operators';
 import { BookingService, Slot } from '../../services/booking.service';
-import { TicketsService } from '../../services/tickets.service';
+import { PackageService } from '../../services/package.service';
 import { AuthService } from '../../services/auth.service';
 import { PaymentService } from '../../services/payment.service';
-import { Ticket } from '../../models/ticket.model';
+import { BookingSuccessData } from '../booking-success/booking-success.component';
 
 interface MonthGroup {
   key: string;
@@ -21,7 +21,9 @@ interface MonthGroup {
   templateUrl: './group-booking.component.html',
   styleUrls: ['./group-booking.component.scss']
 })
-export class GroupBookingComponent implements OnInit {
+export class GroupBookingComponent implements OnInit, OnDestroy {
+
+  private destroy$ = new Subject<void>();
 
   currentStep: 1 | 2 | 3 | 4 = 1;
 
@@ -41,8 +43,9 @@ export class GroupBookingComponent implements OnInit {
   groupSize = 10;
   groupSizeError = '';
 
-  baseTicket: Ticket | null = null;
-  ticketsLoading = true;
+  packagePrice = 0;
+  packageTicketTypeId = 1;
+  packageLoading = true;
 
   // Step 2 — Contact details
   form!: FormGroup;
@@ -52,41 +55,61 @@ export class GroupBookingComponent implements OnInit {
   loading = false;
   error = '';
   bookingReference = '';
+  paymentFailed = false;
+  paymentFailedMsg = '';
 
   readonly MIN_GROUP = 10;
 
   constructor(
     private fb: FormBuilder,
     private bookingService: BookingService,
-    private ticketsService: TicketsService,
+    private packageService: PackageService,
     private authService: AuthService,
     private paymentService: PaymentService,
+    private route: ActivatedRoute,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    const user = this.authService.getCurrentUser();
-    const hasFull = !!(user?.name && user?.email && user?.phone);
+    // Real-time session guard: if user logs out or token expires mid-booking, redirect immediately
+    this.authService.currentUser$
+      .pipe(
+        filter(user => user === null),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        this.router.navigate(['/auth/login'], {
+          queryParams: { returnUrl: '/packages' }
+        });
+      });
 
-    this.prefilled = hasFull;
+    const user = this.authService.getCurrentUser();
+
+    // Fields are always read-only — auth guard ensures only logged-in users reach this page
+    this.prefilled = true;
 
     this.form = this.fb.group({
       fullName: [
-        { value: user?.name  ?? '', disabled: hasFull },
+        { value: user?.name  ?? '', disabled: true },
         [Validators.required, Validators.minLength(2), Validators.maxLength(60)]
       ],
       email: [
-        { value: user?.email ?? '', disabled: hasFull },
+        { value: user?.email ?? '', disabled: true },
         [Validators.required, Validators.email]
       ],
       phone: [
-        { value: user?.phone ?? '', disabled: hasFull },
+        { value: user?.phone ?? '', disabled: true },
         [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]
       ]
     });
 
     this.loadSlots();
-    this.loadBaseTicket();
+    this.loadPackagePrice();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   // ── Data loading ──────────────────────────────────────────────────────────
@@ -105,7 +128,6 @@ export class GroupBookingComponent implements OnInit {
       next: ({ slots, booked }) => {
         this.bookedDates = booked;
 
-        // Keep ALL slots so full ones render as disabled chips
         this.slots = slots.data.slots.map(s => ({
           ...s,
           slot_date: s.slot_date.slice(0, 10)
@@ -122,7 +144,6 @@ export class GroupBookingComponent implements OnInit {
 
         this.buildMonthGroups();
 
-        // Auto-select first available slot (skip full/booked)
         const firstAvail = this.slots.find(s => this.availableDates.has(s.slot_date)) ?? null;
         this.selectedSlot = firstAvail;
 
@@ -149,11 +170,19 @@ export class GroupBookingComponent implements OnInit {
     return slot.remaining === 0 || this.isBooked(slot);
   }
 
-  loadBaseTicket(): void {
-    this.ticketsLoading = true;
-    this.ticketsService.getByDayType('weekday').subscribe(tickets => {
-      this.baseTicket = tickets.find(t => t.type === 'general') || tickets[0] || null;
-      this.ticketsLoading = false;
+  loadPackagePrice(): void {
+    this.packageLoading = true;
+    const packageId = parseInt(this.route.snapshot.queryParams['packageId'], 10);
+    this.packageService.getPackages().subscribe({
+      next: (res) => {
+        const pkg = packageId
+          ? res.data.find(p => p.id === packageId)
+          : res.data[0];
+        this.packagePrice = pkg ? parseFloat(pkg.price) : 0;
+        this.packageTicketTypeId = pkg ? pkg.id : 1;
+        this.packageLoading = false;
+      },
+      error: () => { this.packageLoading = false; }
     });
   }
 
@@ -197,7 +226,6 @@ export class GroupBookingComponent implements OnInit {
   selectSlot(slot: Slot): void {
     if (this.isDisabled(slot)) return;
     this.selectedSlot = slot;
-    // Clamp group size to slot's remaining capacity
     if (this.groupSize > slot.remaining) {
       this.groupSize = slot.remaining;
     }
@@ -249,16 +277,24 @@ export class GroupBookingComponent implements OnInit {
 
   // ── Step 3 — Confirm ─────────────────────────────────────────────────────
 
+  retryPayment(): void {
+    this.paymentFailed = false;
+    this.paymentFailedMsg = '';
+    this.error = '';
+  }
+
   onConfirm(): void {
-    if (!this.selectedSlot || !this.baseTicket) return;
+    if (!this.selectedSlot || !this.packagePrice) return;
 
     if (!this.authService.isLoggedIn()) {
-      this.router.navigate(['/auth/login'], { queryParams: { returnUrl: '/group-booking' } });
+      this.router.navigate(['/auth/login'], { queryParams: { returnUrl: '/packages' } });
       return;
     }
 
     this.loading = true;
     this.error = '';
+    this.paymentFailed = false;
+    this.paymentFailedMsg = '';
 
     const fv = this.form.getRawValue();
 
@@ -268,7 +304,7 @@ export class GroupBookingComponent implements OnInit {
       'Havelock Water Park — Group Booking'
     ).then((payment) => {
       this.bookingService.bookOnline({
-        ticket_type_id: 1,
+        ticket_type_id: this.packageTicketTypeId,
         slot_id: this.selectedSlot!.id,
         phone: fv.phone,
         count: this.groupSize,
@@ -280,7 +316,22 @@ export class GroupBookingComponent implements OnInit {
         next: (res) => {
           this.loading = false;
           if (res.success) {
-            this.router.navigate(['/my-bookings']);
+            const ref = res.data?.booking_reference
+              || (res.data?.booking_id ? `HVL-${String(res.data.booking_id).padStart(4, '0')}` : '');
+            const successData: BookingSuccessData = {
+              bookingReference: ref,
+              paymentId: payment.razorpay_payment_id,
+              visitDate: this.selectedSlot!.slot_date,
+              slotStart: this.selectedSlot!.slot_start,
+              slotEnd: this.selectedSlot!.slot_end,
+              ticketLabel: 'General Admission',
+              persons: this.groupSize,
+              totalAmount: this.grandTotal,
+              isGroup: true,
+              customerName: fv.fullName,
+              customerEmail: fv.email
+            };
+            this.router.navigate(['/booking-success'], { state: successData });
           } else {
             this.error = res.message || 'Booking failed after payment. Please contact support.';
           }
@@ -292,8 +343,11 @@ export class GroupBookingComponent implements OnInit {
       });
     }).catch((err) => {
       this.loading = false;
-      if (err.message !== 'cancelled') {
-        this.error = err.message || 'Payment failed. Please try again.';
+      if (err.message === 'cancelled') {
+        // User closed modal — silently reset, let them try again
+      } else {
+        this.paymentFailed = true;
+        this.paymentFailedMsg = err.message || 'Your payment was unsuccessful. Please try again.';
       }
     });
   }
@@ -301,7 +355,7 @@ export class GroupBookingComponent implements OnInit {
   // ── Pricing helpers ───────────────────────────────────────────────────────
 
   get pricePerPerson(): number {
-    return this.baseTicket?.price ?? 0;
+    return this.packagePrice;
   }
 
   get discountPercent(): number {

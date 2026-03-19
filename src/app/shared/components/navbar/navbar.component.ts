@@ -20,13 +20,12 @@ interface NavLink {
 export class NavbarComponent implements OnInit, OnDestroy {
 
   navLinks: NavLink[] = [
-    { label: 'Home',               route: '/',                   exact: true  },
-    { label: 'Attractions',        route: '/attractions',         exact: false },
-    { label: 'Restaurants',        route: '/restaurants',         exact: false },
-    { label: 'Individual Booking', route: '/tickets',             exact: false },
-    { label: 'Group Booking',      route: '/group-booking',       exact: false },
-    { label: 'Map',                route: '/map',                 exact: false },
-    { label: 'Inquiry',            route: '/contact',             exact: false }
+    { label: 'Home',             route: '/',             exact: true  },
+    { label: 'Attractions',      route: '/attractions',  exact: false },
+    { label: 'Restaurants',      route: '/restaurants',  exact: false },
+    { label: 'Ticket Packages',  route: '/packages',     exact: false },
+    { label: 'Map',              route: '/map',           exact: false },
+    { label: 'Inquiry',          route: '/contact',       exact: false }
   ];
 
   isMenuOpen = false;

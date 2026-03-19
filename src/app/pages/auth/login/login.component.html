@@ -10,15 +10,11 @@
         <span>Havelock</span>
       </div>
       <h2 class="auth-brand__title">Gujarat's Most Exciting Water Park</h2>
-      <p class="auth-brand__sub">Book tickets, skip queues, scan QR at entry and enjoy a full day of fun.</p>
+      <p class="auth-brand__sub">Book tickets online, skip queues and enjoy a full day of fun.</p>
       <div class="auth-brand__features">
         <div class="auth-brand__feature">
           <span class="auth-brand__feature-icon">🎟️</span>
           <span>Instant digital tickets</span>
-        </div>
-        <div class="auth-brand__feature">
-          <span class="auth-brand__feature-icon">📱</span>
-          <span>QR code entry</span>
         </div>
         <div class="auth-brand__feature">
           <span class="auth-brand__feature-icon">💳</span>
@@ -46,6 +42,16 @@
           </svg>
           Change number
         </button>
+      </div>
+
+      <!-- Session expired banner -->
+      <div class="auth-warning" *ngIf="sessionExpiredMsg">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        {{ sessionExpiredMsg }}
       </div>
 
       <!-- Success banner -->

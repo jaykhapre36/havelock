@@ -6,7 +6,7 @@
     <div class="of-hero__wave-text">SUMMER SPLASH FEST</div>
     <h1 class="of-hero__title">Save Up To <span>40% OFF</span></h1>
     <p class="of-hero__sub">Exclusive deals on tickets, family combos & group bookings. Grab yours before they're gone!</p>
-    <a routerLink="/tickets" class="of-hero__cta">
+    <a routerLink="/packages" class="of-hero__cta">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <rect x="2" y="7" width="20" height="14" rx="2"/>
         <path d="M16 7V5a2 2 0 0 0-4 0v2M8 7V5a2 2 0 0 0-4 0"/>
@@ -92,7 +92,7 @@
                 {{ copiedCode === offer.promoCode ? '✓ Copied' : 'Copy' }}
               </button>
             </div>
-            <a routerLink="/tickets" class="of-deal__claim">Claim →</a>
+            <a routerLink="/packages" class="of-deal__claim">Claim →</a>
           </div>
         </div>
       </div>
@@ -118,7 +118,7 @@
           <div class="of-seasonal__footer">
             <div class="of-seasonal__discount">{{ getDiscountLabel(offer) }}</div>
             <ng-container *ngIf="offer.isActive; else notifyBtn">
-              <a routerLink="/tickets" class="of-seasonal__btn of-seasonal__btn--claim">Claim Now</a>
+              <a routerLink="/packages" class="of-seasonal__btn of-seasonal__btn--claim">Claim Now</a>
             </ng-container>
             <ng-template #notifyBtn>
               <button class="of-seasonal__btn of-seasonal__btn--notify">🔔 Notify Me</button>
@@ -135,7 +135,7 @@
         <h2 class="of-cta__title">Ready to Splash?</h2>
         <p class="of-cta__sub">Pick a deal, copy the promo code, and head to booking.</p>
         <div class="of-cta__actions">
-          <a routerLink="/tickets" class="of-cta__btn of-cta__btn--primary">Book Tickets</a>
+          <a routerLink="/packages" class="of-cta__btn of-cta__btn--primary">Book Tickets</a>
           <a routerLink="/contact" class="of-cta__btn of-cta__btn--outline">Group Inquiry</a>
         </div>
       </div>

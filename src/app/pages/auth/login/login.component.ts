@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   loading = false;
   error   = '';
   successMessage = '';
+  sessionExpiredMsg = '';
   resendCountdown = 0;
 
   private countdownRef?: ReturnType<typeof setInterval>;
@@ -41,7 +42,11 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.router.navigate(['/']);
       return;
     }
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    const params = this.route.snapshot.queryParams;
+    this.returnUrl = params['returnUrl'] || '/';
+    if (params['reason'] === 'session_expired') {
+      this.sessionExpiredMsg = 'Your session has expired. Please log in again to continue.';
+    }
   }
 
   ngOnDestroy(): void {

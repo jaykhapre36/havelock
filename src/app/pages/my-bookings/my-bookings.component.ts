@@ -64,7 +64,7 @@ export class MyBookingsComponent implements OnInit {
   }
 
   bookNow(): void {
-    this.router.navigate(['/tickets']);
+    this.router.navigate(['/packages']);
   }
 
   retry(): void {

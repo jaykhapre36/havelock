@@ -14,8 +14,15 @@ export class AuthService {
   currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(private http: HttpClient, private storage: StorageService) {
-    // Initialize from encrypted storage
-    this.currentUserSubject.next(this.storage.get<User>('user'));
+    // Initialize from encrypted storage, but clear immediately if token already expired
+    const token = this.storage.get<string>('token');
+    if (token && !this.isTokenExpired(token)) {
+      this.currentUserSubject.next(this.storage.get<User>('user'));
+    } else if (token) {
+      // Stale expired token — wipe storage on startup
+      this.storage.remove('token');
+      this.storage.remove('user');
+    }
   }
 
   // ── Check if customer exists ────────────────────────────────────────────────
@@ -71,7 +78,12 @@ export class AuthService {
   isLoggedIn(): boolean {
     const token = this.storage.get<string>('token');
     if (!token) return false;
-    return !this.isTokenExpired(token);
+    if (this.isTokenExpired(token)) {
+      // Token expired — clear stale session so navbar also reflects logged-out state
+      this.clearSession();
+      return false;
+    }
+    return true;
   }
 
   isTokenExpired(token: string): boolean {

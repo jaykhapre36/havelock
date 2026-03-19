@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
 
   whyChooseUs = [
     { icon: 'booking',  title: 'Easy Online Booking',  desc: 'Skip long queues and book your tickets in minutes from home.' },
-    { icon: 'qr',       title: 'Fast QR Entry',         desc: 'Simply show your digital QR code and walk straight to the fun.' },
+    { icon: 'family',   title: 'Great Value',            desc: 'Affordable pricing with group discounts and seasonal offers.' },
     { icon: 'family',   title: 'Family–Friendly',       desc: 'Rides and zones for all ages, from toddlers to grandparents.' },
     { icon: 'support',  title: 'Simple Support',        desc: 'Our friendly team is available 9 AM–7 PM throughout your visit.' }
   ];

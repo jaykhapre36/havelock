@@ -8,6 +8,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule)
   },
   {
+    path: 'packages',
+    loadChildren: () => import('./pages/packages/packages.module').then(m => m.PackagesModule)
+  },
+  {
     path: 'attractions',
     loadChildren: () => import('./pages/attractions/attractions.module').then(m => m.AttractionsModule)
   },
@@ -21,7 +25,8 @@ const routes: Routes = [
   },
   {
     path: 'group-booking',
-    loadChildren: () => import('./pages/group-booking/group-booking.module').then(m => m.GroupBookingModule)
+    loadChildren: () => import('./pages/group-booking/group-booking.module').then(m => m.GroupBookingModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'availability',
@@ -50,6 +55,11 @@ const routes: Routes = [
   {
     path: 'my-bookings',
     loadChildren: () => import('./pages/my-bookings/my-bookings.module').then(m => m.MyBookingsModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'booking-success',
+    loadChildren: () => import('./pages/booking-success/booking-success.module').then(m => m.BookingSuccessModule),
     canActivate: [AuthGuard]
   },
   {

@@ -1,0 +1,86 @@
+<div class="pkg-page">
+
+  <!-- Hero -->
+  <div class="pkg-hero">
+    <h1 class="pkg-hero__title">Ticket Packages</h1>
+    <p class="pkg-hero__sub">Choose a package and select your booking type below.</p>
+  </div>
+
+  <!-- Loading -->
+  <div class="pkg-grid" *ngIf="loading">
+    <div class="pkg-card pkg-card--skeleton" *ngFor="let i of [1,2,3]">
+      <div class="skeleton" style="height:28px;width:60%;border-radius:6px;margin-bottom:12px"></div>
+      <div class="skeleton" style="height:16px;width:90%;border-radius:4px;margin-bottom:8px"></div>
+      <div class="skeleton" style="height:16px;width:70%;border-radius:4px;margin-bottom:24px"></div>
+      <div class="skeleton" style="height:44px;border-radius:8px;margin-bottom:10px"></div>
+      <div class="skeleton" style="height:44px;border-radius:8px"></div>
+    </div>
+  </div>
+
+  <!-- Error -->
+  <div class="pkg-error" *ngIf="error && !loading">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+    {{ error }}
+  </div>
+
+  <!-- Package cards -->
+  <div class="pkg-grid" *ngIf="!loading && packages.length">
+    <div class="pkg-card" *ngFor="let pkg of packages">
+
+      <div class="pkg-card__header">
+        <span class="pkg-card__badge">{{ pkg.category_name | titlecase }}</span>
+        <h2 class="pkg-card__name">{{ pkg.package_name }}</h2>
+        <p class="pkg-card__desc">{{ pkg.description }}</p>
+      </div>
+
+      <div class="pkg-card__price">
+        <span class="pkg-card__currency">₹</span>
+        <span class="pkg-card__amount">{{ getPrice(pkg) | number }}</span>
+        <span class="pkg-card__unit">/ person</span>
+      </div>
+
+      <div class="pkg-card__perks">
+        <div class="pkg-card__perk">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          All rides included
+        </div>
+        <div class="pkg-card__perk pkg-card__perk--highlight">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          10% off for groups of 10+
+        </div>
+      </div>
+
+      <div class="pkg-card__actions">
+        <button class="pkg-btn pkg-btn--primary" (click)="selectIndividual(pkg)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          Individual Booking
+        </button>
+        <button class="pkg-btn pkg-btn--outline" (click)="selectGroup(pkg)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+          Group Booking (10+)
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Empty -->
+  <div class="pkg-empty" *ngIf="!loading && !error && !packages.length">
+    <p>No packages available at the moment. Please check back soon.</p>
+  </div>
+
+</div>

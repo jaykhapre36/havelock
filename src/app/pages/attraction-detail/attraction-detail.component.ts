@@ -65,5 +65,5 @@ export class AttractionDetailComponent implements OnInit {
 
   goBack(): void { this.router.navigate(['/attractions']); }
 
-  bookTickets(): void { this.router.navigate(['/tickets']); }
+  bookTickets(): void { this.router.navigate(['/packages']); }
 }

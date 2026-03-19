@@ -165,25 +165,27 @@
         </h2>
 
         <div class="gb-size-row">
-          <button type="button" class="gb-size-btn" (click)="onGroupSizeChange((groupSize - 1).toString())" [disabled]="groupSize <= MIN_GROUP">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          </button>
-          <div class="gb-size-display">
-            <input
-              type="number"
-              class="gb-size-input"
-              [value]="groupSize"
-              [min]="MIN_GROUP"
-              [max]="maxGroupSize"
-              (change)="onGroupSizeChange($any($event.target).value)"
-              (input)="onGroupSizeChange($any($event.target).value)"
-            />
+          <div class="gb-size-controls">
+            <button type="button" class="gb-size-btn" (click)="onGroupSizeChange((groupSize - 1).toString())" [disabled]="groupSize <= MIN_GROUP">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            <div class="gb-size-display">
+              <input
+                type="number"
+                class="gb-size-input"
+                [value]="groupSize"
+                [min]="MIN_GROUP"
+                [max]="maxGroupSize"
+                (change)="onGroupSizeChange($any($event.target).value)"
+                (input)="onGroupSizeChange($any($event.target).value)"
+              />
+            </div>
+            <button type="button" class="gb-size-btn" (click)="onGroupSizeChange((groupSize + 1).toString())" [disabled]="groupSize >= maxGroupSize">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+            </button>
           </div>
-          <button type="button" class="gb-size-btn" (click)="onGroupSizeChange((groupSize + 1).toString())" [disabled]="groupSize >= maxGroupSize">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-            </svg>
-          </button>
           <span class="gb-size-max" *ngIf="selectedSlot">max {{ maxGroupSize }}</span>
         </div>
         <p class="gb-error" *ngIf="groupSizeError">{{ groupSizeError }}</p>
@@ -191,7 +193,7 @@
       </div>
 
       <!-- Price preview -->
-      <div class="gb-summary" *ngIf="!ticketsLoading && baseTicket && selectedSlot">
+      <div class="gb-summary" *ngIf="!packageLoading && packagePrice > 0 && selectedSlot">
         <div class="gb-summary__row">
           <span>₹{{ pricePerPerson | number }} × {{ groupSize }} persons</span>
           <span>₹{{ subtotal | number }}</span>
@@ -310,7 +312,7 @@
           </thead>
           <tbody>
             <tr>
-              <td>{{ baseTicket?.label }}</td>
+              <td>Group Booking</td>
               <td class="center">{{ groupSize }}</td>
               <td>₹{{ pricePerPerson | number }}</td>
               <td class="right">₹{{ subtotal | number }}</td>
@@ -354,15 +356,32 @@
         <p class="gb-note">Need to change? <button class="gb-note__link" (click)="currentStep = 2">Go back</button></p>
       </div>
 
-      <!-- Error banner -->
-      <div class="gb-error-banner" *ngIf="error">
+      <!-- API error banner -->
+      <div class="gb-error-banner" *ngIf="error && !paymentFailed">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0">
           <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
         </svg>
         {{ error }}
       </div>
 
-      <div class="gb-actions gb-actions--split">
+      <!-- Payment failed card -->
+      <div class="gb-payment-failed" *ngIf="paymentFailed">
+        <div class="gb-payment-failed__icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="15" y1="9" x2="9" y2="15"/>
+            <line x1="9" y1="9" x2="15" y2="15"/>
+          </svg>
+        </div>
+        <h3 class="gb-payment-failed__title">Payment Failed</h3>
+        <p class="gb-payment-failed__msg">{{ paymentFailedMsg }}</p>
+        <div class="gb-payment-failed__actions">
+          <button class="gb-btn gb-btn--outline" (click)="currentStep = 2">Go Back</button>
+          <button class="gb-btn gb-btn--primary" (click)="retryPayment()">Try Again</button>
+        </div>
+      </div>
+
+      <div class="gb-actions gb-actions--split" *ngIf="!paymentFailed">
         <button class="gb-btn gb-btn--outline" (click)="currentStep = 2" [disabled]="loading">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
           Back

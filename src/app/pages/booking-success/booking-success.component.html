@@ -1,0 +1,138 @@
+<div class="bs-page" *ngIf="data">
+
+  <!-- ── Success card ──────────────────────────────────────────────────────── -->
+  <div class="bs-card">
+
+    <!-- Icon -->
+    <div class="bs-icon">
+      <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+        <polyline points="22 4 12 14.01 9 11.01"/>
+      </svg>
+    </div>
+
+    <p class="bs-badge" [class.bs-badge--group]="data.isGroup">
+      {{ data.isGroup ? 'Group Booking' : 'Individual Booking' }}
+    </p>
+
+    <h1 class="bs-title">Booking Confirmed!</h1>
+    <p class="bs-sub">
+      Your visit to Havelock Water Park is all set.<br>
+      A confirmation has been sent to <strong>{{ data.customerEmail }}</strong>.
+    </p>
+
+    <!-- Booking reference -->
+    <div class="bs-ref">
+      <span class="bs-ref__label">Booking Reference</span>
+      <span class="bs-ref__code">{{ data.bookingReference }}</span>
+    </div>
+
+    <!-- Details grid -->
+    <div class="bs-details">
+
+      <div class="bs-detail">
+        <span class="bs-detail__icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+        </span>
+        <div>
+          <span class="bs-detail__label">Visit Date</span>
+          <span class="bs-detail__val">{{ data.visitDate | date:'EEEE, d MMMM yyyy' }}</span>
+        </div>
+      </div>
+
+      <div class="bs-detail">
+        <span class="bs-detail__icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </span>
+        <div>
+          <span class="bs-detail__label">Park Hours</span>
+          <span class="bs-detail__val">{{ slotTime }}</span>
+        </div>
+      </div>
+
+      <div class="bs-detail">
+        <span class="bs-detail__icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </span>
+        <div>
+          <span class="bs-detail__label">{{ data.isGroup ? 'Group Size' : 'Persons' }}</span>
+          <span class="bs-detail__val">{{ data.persons }} {{ data.persons === 1 ? 'person' : 'persons' }}</span>
+        </div>
+      </div>
+
+      <div class="bs-detail">
+        <span class="bs-detail__icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="1" x2="12" y2="23"/>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+        </span>
+        <div>
+          <span class="bs-detail__label">Total Paid</span>
+          <span class="bs-detail__val bs-detail__val--amount">₹{{ data.totalAmount | number }}</span>
+        </div>
+      </div>
+
+      <div class="bs-detail">
+        <span class="bs-detail__icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="5" width="20" height="14" rx="2"/>
+            <line x1="2" y1="10" x2="22" y2="10"/>
+          </svg>
+        </span>
+        <div>
+          <span class="bs-detail__label">Payment ID</span>
+          <span class="bs-detail__val bs-detail__val--mono">{{ data.paymentId }}</span>
+        </div>
+      </div>
+
+      <div class="bs-detail">
+        <span class="bs-detail__icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+            <line x1="7" y1="7" x2="7.01" y2="7"/>
+          </svg>
+        </span>
+        <div>
+          <span class="bs-detail__label">Ticket Type</span>
+          <span class="bs-detail__val">{{ data.ticketLabel }}</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Info note -->
+    <div class="bs-info-note">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      Please carry a valid photo ID and this booking reference when you visit. Show it at the entry gate.
+    </div>
+
+    <!-- Actions -->
+    <div class="bs-actions">
+      <button class="bs-btn bs-btn--outline" (click)="bookAgain()">Book Another Visit</button>
+      <button class="bs-btn bs-btn--primary" (click)="goToMyBookings()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+          <line x1="7" y1="7" x2="7.01" y2="7"/>
+        </svg>
+        View My Bookings
+      </button>
+    </div>
+
+  </div>
+</div>

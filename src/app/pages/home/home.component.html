@@ -18,12 +18,12 @@
     </h1>
 
     <p class="hero__subtitle">
-      Book tickets online, enter with QR, and enjoy a memorable family day out
+      Book tickets online and enjoy a memorable family day out
       with world-class rides and safety.
     </p>
 
     <div class="hero__ctas">
-      <a routerLink="/tickets" class="btn-primary hero__cta-primary">Book Your Visit</a>
+      <a routerLink="/packages" class="btn-primary hero__cta-primary">Book Your Visit</a>
       <a routerLink="/attractions" class="btn-outline hero__cta-secondary">Explore Attractions</a>
     </div>
   </div>
@@ -175,7 +175,7 @@
           </li>
         </ul>
         <a
-          routerLink="/tickets"
+          routerLink="/packages"
           class="pricing-card__btn"
           [class.pricing-card__btn--popular]="ticket.popular"
         >{{ ticket.ctaLabel }}</a>
@@ -184,7 +184,7 @@
 
     <p class="pricing__note">
       Group & Corporate pricing available.
-      <a routerLink="/tickets">View all ticket options →</a>
+      <a routerLink="/packages">View all ticket options →</a>
     </p>
   </div>
 </section>
@@ -293,6 +293,6 @@
       <h2 class="cta-banner__title">Ready for a full day of fun?</h2>
       <p class="cta-banner__sub">Book your tickets now and skip the queues.</p>
     </div>
-    <a routerLink="/tickets" class="cta-banner__btn">Book Your Tickets Now</a>
+    <a routerLink="/packages" class="cta-banner__btn">Book Your Tickets Now</a>
   </div>
 </section>

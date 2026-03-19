@@ -24,26 +24,35 @@
 
   <!-- ── Step Panels ──────────────────────────────────────────────────────── -->
   <div class="bk-body">
-    <app-bk-step1
-      *ngIf="currentStep === 1"
-      (next)="onStep1Next()"
-    ></app-bk-step1>
 
-    <app-bk-step2
-      *ngIf="currentStep === 2"
-      (back)="goTo(1)"
-      (next)="onStep2Next()"
-    ></app-bk-step2>
+    <!-- Loading state while package price is fetched -->
+    <div class="bk-loading" *ngIf="packageLoading">
+      <div class="bk-loading__spinner"></div>
+      <p>Loading package details…</p>
+    </div>
 
-    <app-bk-step3
-      *ngIf="currentStep === 3"
-      (back)="onStep3Back()"
-      (confirm)="onStep3Confirm()"
-    ></app-bk-step3>
+    <ng-container *ngIf="!packageLoading">
+      <app-bk-step1
+        *ngIf="currentStep === 1"
+        (next)="onStep1Next()"
+      ></app-bk-step1>
 
-    <app-bk-step4
-      *ngIf="currentStep === 4"
-    ></app-bk-step4>
+      <app-bk-step2
+        *ngIf="currentStep === 2"
+        (back)="goTo(1)"
+        (next)="onStep2Next()"
+      ></app-bk-step2>
+
+      <app-bk-step3
+        *ngIf="currentStep === 3"
+        (back)="onStep3Back()"
+        (confirm)="onStep3Confirm()"
+      ></app-bk-step3>
+
+      <app-bk-step4
+        *ngIf="currentStep === 4"
+      ></app-bk-step4>
+    </ng-container>
   </div>
 
 </div>

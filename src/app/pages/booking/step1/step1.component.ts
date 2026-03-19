@@ -1,12 +1,9 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { TicketsService } from '../../../services/tickets.service';
 import { BookingService, Slot } from '../../../services/booking.service';
 import { BookingStateService, DayType } from '../booking-state.service';
 import { AuthService } from '../../../services/auth.service';
-import { Ticket } from '../../../models/ticket.model';
 
 @Component({
   standalone: false,
@@ -18,11 +15,11 @@ export class Step1Component implements OnInit {
 
   @Output() next = new EventEmitter<void>();
 
-  loading      = true;
+  loading      = false;
   slotsLoading = true;
   slotsError   = false;
 
-  selectedTicket: Ticket | null = null;
+  packagePrice = 0;
   selectedDate = '';
   activeDayType: DayType = 'weekday';
 
@@ -39,31 +36,16 @@ export class Step1Component implements OnInit {
   monthGroups: { key: string; label: string; slots: Slot[] }[] = [];
   activeMonthIndex = 0;
 
-  private ticketType = 'general';
-
   constructor(
-    private route: ActivatedRoute,
-    private ticketsService: TicketsService,
     private bookingService: BookingService,
     private stateService: BookingStateService,
     private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    const params = this.route.snapshot.queryParams;
-    this.ticketType = params['type'] || 'general';
-
-    if (params['dayType'] && ['weekday', 'sunday'].includes(params['dayType'])) {
-      this.activeDayType = params['dayType'] as DayType;
-    }
-
     const snap = this.stateService.snapshot;
+    this.packagePrice = snap.packagePrice;
     if (snap.dayType) this.activeDayType = snap.dayType;
-
-    this.ticketsService.getByDayType(this.activeDayType).subscribe(tickets => {
-      this.selectedTicket = tickets.find(t => t.type === this.ticketType) || tickets[0];
-      this.loading = false;
-    });
 
     this.loadSlots();
   }
@@ -105,7 +87,6 @@ export class Step1Component implements OnInit {
           this.selectedDate = sortedAvailable[0] ?? '';
         }
 
-        // Reset qty when slots reload
         this.qty = 1;
         this.qtyError = '';
 
@@ -166,14 +147,13 @@ export class Step1Component implements OnInit {
     if (this.isDisabled(slot)) return;
     this.dateError = '';
     this.selectedDate = slot.slot_date;
-    // Clamp qty to new slot's remaining capacity
     if (this.qty > slot.remaining) {
       this.qty = slot.remaining;
     }
     this.qtyError = '';
     const parts = slot.slot_date.split('-');
     const d = new Date(+parts[0], +parts[1] - 1, +parts[2]);
-    this.activeDayType = this.detectDayType(d);
+    this.activeDayType = d.getDay() === 0 ? 'sunday' : 'weekday';
     this.syncState();
   }
 
@@ -210,8 +190,31 @@ export class Step1Component implements OnInit {
     this.syncState();
   }
 
+  readonly SUNDAY_SURCHARGE = 100;
+
+  get isSunday(): boolean {
+    return this.activeDayType === 'sunday';
+  }
+
+  // Effective price per person — base + Sunday surcharge if applicable
+  get effectivePrice(): number {
+    return this.packagePrice + (this.isSunday ? this.SUNDAY_SURCHARGE : 0);
+  }
+
+  get bulkDiscountApplied(): boolean {
+    return this.qty >= 10;
+  }
+
+  get subtotalPrice(): number {
+    return this.effectivePrice * this.qty;
+  }
+
+  get discountAmount(): number {
+    return this.bulkDiscountApplied ? Math.round(this.subtotalPrice * 10 / 100) : 0;
+  }
+
   get totalPrice(): number {
-    return (this.selectedTicket?.price ?? 0) * this.qty;
+    return this.subtotalPrice - this.discountAmount;
   }
 
   onNext(): void {
@@ -225,17 +228,25 @@ export class Step1Component implements OnInit {
   }
 
   private syncState(): void {
-    if (!this.selectedTicket) return;
     const slot = this.selectedSlot;
+    // Use a synthetic ticket object to satisfy the existing TicketSelection shape
+    const syntheticTicket: any = {
+      id: this.stateService.snapshot.packageId ?? 1,
+      label: 'General Admission',
+      price: this.effectivePrice
+    };
     this.stateService.patchState({
       selectedDate: this.selectedDate,
       dayType:      this.activeDayType,
       slotId:       slot?.id ?? null,
-      selections:   [{ ticket: this.selectedTicket, qty: this.qty, lineTotal: this.selectedTicket.price * this.qty }]
+      slotStart:    slot?.slot_start ?? '',
+      slotEnd:      slot?.slot_end ?? '',
+      bulkDiscount: this.bulkDiscountApplied,
+      selections: [{
+        ticket: syntheticTicket,
+        qty: this.qty,
+        lineTotal: this.subtotalPrice
+      }]
     });
-  }
-
-  private detectDayType(date: Date): DayType {
-    return date.getDay() === 0 ? 'sunday' : 'weekday';
   }
 }

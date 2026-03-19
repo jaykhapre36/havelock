@@ -12,9 +12,13 @@ export class PaymentService {
 
   /**
    * Open Razorpay checkout with a given amount (in rupees).
-   * No backend order creation required.
-   * Resolves with razorpay_payment_id on success.
-   * Rejects with Error('cancelled') if user dismisses, or payment error message.
+   *
+   * Lifecycle:
+   *  - handler fires   → payment succeeded → resolve immediately
+   *  - payment.failed  → store error, keep modal open (user can retry within modal)
+   *  - ondismiss fires → if handler already resolved, do nothing;
+   *                      if payment failed, reject with that error;
+   *                      if user just closed, reject with 'cancelled'
    */
   openCheckout(
     amountRupees: number,
@@ -22,9 +26,12 @@ export class PaymentService {
     description: string
   ): Promise<RazorpayPaymentResult> {
     return new Promise((resolve, reject) => {
+      let succeeded = false;
+      let lastFailureReason = '';
+
       const options = {
         key: environment.razorpayKeyId,
-        amount: amountRupees * 100,   // convert to paise
+        amount: Math.round(amountRupees) * 100,  // paise, must be integer
         currency: 'INR',
         name: 'Havelock Water Park',
         description,
@@ -49,16 +56,38 @@ export class PaymentService {
           }
         },
         theme: { color: '#00BCD4' },
-        handler: (response: RazorpayPaymentResult) => resolve(response),
+
+        // ✅ Payment succeeded — resolve immediately
+        handler: (response: RazorpayPaymentResult) => {
+          succeeded = true;
+          resolve(response);
+        },
+
         modal: {
-          ondismiss: () => reject(new Error('cancelled'))
+          // Modal closed — resolve/reject based on what happened inside
+          ondismiss: () => {
+            if (succeeded) {
+              // handler already resolved — nothing to do
+              return;
+            }
+            if (lastFailureReason) {
+              // Payment was attempted but failed; user closed after seeing the error
+              reject(new Error(lastFailureReason));
+            } else {
+              // User closed without attempting payment
+              reject(new Error('cancelled'));
+            }
+          }
         }
       };
 
       const rzp = new Razorpay(options);
+
+      // Store failure reason but keep modal open so user can retry within it
       rzp.on('payment.failed', (res: any) => {
-        reject(new Error(res.error?.description || 'Payment failed'));
+        lastFailureReason = res?.error?.description || 'Payment was declined. Please try a different method.';
       });
+
       rzp.open();
     });
   }

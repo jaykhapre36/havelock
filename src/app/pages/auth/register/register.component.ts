@@ -123,7 +123,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
               next: (loginRes) => {
                 this.loading = false;
                 this.successMessage = loginRes.message || 'Registration successful! Welcome to Havelock.';
-                setTimeout(() => this.router.navigate(['/tickets']), 1500);
+                setTimeout(() => this.router.navigate(['/packages']), 1500);
               },
               error: (err) => {
                 this.loading = false;

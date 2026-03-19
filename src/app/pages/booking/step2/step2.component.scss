@@ -130,7 +130,14 @@
   justify-content: space-between;
   gap: $spacing-3;
 
-  @include mobile { flex-direction: column-reverse; }
+  @include mobile {
+    .bk-btn {
+      flex: 1;
+      justify-content: center;
+      padding: $spacing-3 $spacing-4;
+      font-size: 0.9rem;
+    }
+  }
 }
 
 .bk-btn {
@@ -145,6 +152,7 @@
   cursor: pointer;
   text-decoration: none;
   transition: $transition-base;
+  white-space: nowrap;
 
   &--primary {
     background: $primary;

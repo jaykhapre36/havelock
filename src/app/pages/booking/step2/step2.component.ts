@@ -31,12 +31,12 @@ export class Step2Component implements OnInit {
     const email    = saved.email    || user?.email || '';
     const phone    = saved.phone    || user?.phone || '';
 
-    this.prefilled = !!(user?.name && user?.email && user?.phone);
+    this.prefilled = true;
 
     this.form = this.fb.group({
-      fullName: [{ value: fullName, disabled: this.prefilled }, [Validators.required, Validators.minLength(2), Validators.maxLength(60)]],
-      email:    [{ value: email,    disabled: this.prefilled }, [Validators.required, Validators.email]],
-      phone:    [{ value: phone,    disabled: this.prefilled }, [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]]
+      fullName: [{ value: fullName, disabled: true }, [Validators.required, Validators.minLength(2), Validators.maxLength(60)]],
+      email:    [{ value: email,    disabled: true }, [Validators.required, Validators.email]],
+      phone:    [{ value: phone,    disabled: true }, [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]]
     });
   }
 
