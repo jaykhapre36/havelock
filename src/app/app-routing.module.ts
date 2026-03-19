@@ -68,6 +68,16 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'my-wallet',
+    loadChildren: () => import('./pages/my-wallet/my-wallet.module').then(m => m.MyWalletModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'my-extras',
+    loadChildren: () => import('./pages/my-extras/my-extras.module').then(m => m.MyExtrasModule),
+    canActivate: [AuthGuard]
+  },
+  {
     path: '**',
     loadChildren: () => import('./pages/not-found/not-found.module').then(m => m.NotFoundModule)
   }

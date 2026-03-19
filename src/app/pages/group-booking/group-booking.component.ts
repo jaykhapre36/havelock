@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, forkJoin, of } from 'rxjs';
@@ -24,7 +24,6 @@ interface MonthGroup {
 export class GroupBookingComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
-
   currentStep: 1 | 2 | 3 | 4 = 1;
 
   // Step 1 — Date & group size
@@ -181,6 +180,7 @@ export class GroupBookingComponent implements OnInit, OnDestroy {
         this.packagePrice = pkg ? parseFloat(pkg.price) : 0;
         this.packageTicketTypeId = pkg ? pkg.id : 1;
         this.packageLoading = false;
+        history.replaceState({ bookingStep: 1 }, '');
       },
       error: () => { this.packageLoading = false; }
     });
@@ -249,11 +249,26 @@ export class GroupBookingComponent implements OnInit, OnDestroy {
     }
   }
 
+  @HostListener('window:popstate')
+  onPopState(): void {
+    if (this.currentStep > 1) {
+      this.currentStep = (this.currentStep - 1) as 1 | 2 | 3 | 4;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      history.pushState({ bookingStep: this.currentStep }, '');
+    }
+  }
+
+  private advanceStep(step: 1 | 2 | 3 | 4): void {
+    history.pushState({ bookingStep: step }, '');
+    this.currentStep = step;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   onStep1Next(): void {
     if (!this.selectedSlot) return;
     this.validateGroupSize();
     if (this.groupSizeError) return;
-    this.currentStep = 2;
+    this.advanceStep(2);
   }
 
   // ── Step 2 actions ────────────────────────────────────────────────────────
@@ -270,7 +285,7 @@ export class GroupBookingComponent implements OnInit, OnDestroy {
       this.form.markAllAsTouched();
       return;
     }
-    this.currentStep = 3;
+    this.advanceStep(3);
   }
 
   get formValue() { return this.form.getRawValue(); }

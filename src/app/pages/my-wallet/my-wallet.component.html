@@ -1,0 +1,124 @@
+<div class="page-wrapper">
+  <div class="wallet-page">
+
+    <!-- ── Account Nav Tabs ─────────────────────────────────────────────────── -->
+    <div class="acct-tabs">
+      <div class="container acct-tabs__inner">
+        <a routerLink="/my-bookings" routerLinkActive="acct-tabs__tab--active" class="acct-tabs__tab">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          My Bookings
+        </a>
+        <a routerLink="/my-wallet" routerLinkActive="acct-tabs__tab--active" class="acct-tabs__tab">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+          </svg>
+          Your Wallet
+        </a>
+        <a routerLink="/my-extras" routerLinkActive="acct-tabs__tab--active" class="acct-tabs__tab">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+          </svg>
+          Locker & Costume
+        </a>
+      </div>
+    </div>
+
+    <div class="container wallet-body">
+
+      <!-- Loading -->
+      <div class="wallet-loading" *ngIf="loading">
+        <div class="wallet-loading__spinner"></div>
+        <p>Loading wallet…</p>
+      </div>
+
+      <!-- Error -->
+      <div class="wallet-error" *ngIf="error && !loading">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        {{ error }}
+      </div>
+
+      <ng-container *ngIf="!loading && !error && data">
+
+        <!-- Balance Card -->
+        <div class="wallet-balance-card">
+          <div class="wallet-balance-card__bg-circle wallet-balance-card__bg-circle--1"></div>
+          <div class="wallet-balance-card__bg-circle wallet-balance-card__bg-circle--2"></div>
+          <div class="wallet-balance-card__content">
+            <div class="wallet-balance-card__top">
+              <div class="wallet-balance-card__icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+                </svg>
+              </div>
+              <span class="wallet-balance-card__label">Havelock Wallet</span>
+            </div>
+            <div class="wallet-balance-card__amount">
+              <span class="wallet-balance-card__currency">₹</span>
+              <span class="wallet-balance-card__value">{{ data.wallet?.balance || '0.00' }}</span>
+            </div>
+            <p class="wallet-balance-card__note">Use your balance on your next booking at Havelock.</p>
+          </div>
+        </div>
+
+        <!-- Stats row -->
+        <div class="wallet-stats">
+          <div class="wallet-stat">
+            <p class="wallet-stat__val">{{ data.transactions.length }}</p>
+            <p class="wallet-stat__label">Transactions</p>
+          </div>
+          <div class="wallet-stat wallet-stat--divider">
+            <p class="wallet-stat__val">
+              ₹{{ data.transactions.length > 0 ? (data.wallet?.balance || '0') : '0' }}
+            </p>
+            <p class="wallet-stat__label">Available</p>
+          </div>
+        </div>
+
+        <!-- Transaction History -->
+        <div class="wallet-section">
+          <h3 class="wallet-section__title">Transaction History</h3>
+
+          <!-- Empty -->
+          <div class="wallet-empty" *ngIf="data.transactions.length === 0">
+            <div class="wallet-empty__icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+              </svg>
+            </div>
+            <p class="wallet-empty__title">No transactions yet</p>
+            <p class="wallet-empty__sub">When you earn or spend wallet credits, they'll appear here.</p>
+          </div>
+
+          <!-- List -->
+          <div class="txn-list" *ngIf="data.transactions.length > 0">
+            <div class="txn-item" *ngFor="let txn of data.transactions">
+              <div class="txn-item__dot" [class.txn-item__dot--credit]="txn.type === 'credit'">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <ng-container *ngIf="txn.type === 'credit'">
+                    <line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/>
+                  </ng-container>
+                  <ng-container *ngIf="txn.type !== 'credit'">
+                    <line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/>
+                  </ng-container>
+                </svg>
+              </div>
+              <div class="txn-item__info">
+                <p class="txn-item__desc">{{ txn.description || 'Wallet Transaction' }}</p>
+                <p class="txn-item__date">{{ txn.created_at | date:'dd MMM yyyy · h:mm a' }}</p>
+              </div>
+              <p class="txn-item__amount" [class.txn-item__amount--credit]="txn.type === 'credit'">
+                {{ txn.type === 'credit' ? '+' : '−' }}₹{{ txn.amount }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </ng-container>
+    </div>
+  </div>
+</div>

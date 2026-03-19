@@ -1,0 +1,124 @@
+<div class="page-wrapper">
+  <div class="extras-page">
+
+    <!-- Page Nav Tabs -->
+    <div class="extras-tabs">
+      <div class="container extras-tabs__inner">
+        <a routerLink="/my-bookings" routerLinkActive="extras-tabs__tab--active" class="extras-tabs__tab">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          My Bookings
+        </a>
+        <a routerLink="/my-wallet" routerLinkActive="extras-tabs__tab--active" class="extras-tabs__tab">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+          </svg>
+          Your Wallet
+        </a>
+        <a routerLink="/my-extras" routerLinkActive="extras-tabs__tab--active" class="extras-tabs__tab">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+          </svg>
+          Locker & Costume
+        </a>
+      </div>
+    </div>
+
+    <div class="container extras-body">
+
+      <!-- Loading -->
+      <div class="extras-loading" *ngIf="loading">
+        <div class="extras-loading__spinner"></div>
+        <p>Loading your extras...</p>
+      </div>
+
+      <!-- Error -->
+      <div class="extras-error" *ngIf="error && !loading">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        {{ error }}
+      </div>
+
+      <ng-container *ngIf="!loading && !error">
+
+        <!-- Sub-tabs: Costumes / Lockers -->
+        <div class="sub-tabs">
+          <button class="sub-tabs__btn" [class.sub-tabs__btn--active]="activeTab === 'costumes'" (click)="activeTab = 'costumes'">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.57a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.57a2 2 0 0 0-1.34-2.23z"/>
+            </svg>
+            Costumes
+            <span class="sub-tabs__count">{{ costumes.total }}</span>
+          </button>
+          <button class="sub-tabs__btn" [class.sub-tabs__btn--active]="activeTab === 'lockers'" (click)="activeTab = 'lockers'">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="12" cy="12" r="1"/><path d="M12 13v3"/>
+            </svg>
+            Lockers
+            <span class="sub-tabs__count">{{ lockers.total }}</span>
+          </button>
+        </div>
+
+        <!-- Costumes panel -->
+        <div *ngIf="activeTab === 'costumes'">
+          <div class="extras-empty" *ngIf="costumes.allocations.length === 0">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.57a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.57a2 2 0 0 0-1.34-2.23z"/>
+            </svg>
+            <p>No costume allocations yet.</p>
+            <span>Costumes are assigned at the park on your visit day.</span>
+          </div>
+          <div class="alloc-list" *ngIf="costumes.allocations.length > 0">
+            <div class="alloc-card" *ngFor="let a of costumes.allocations">
+              <div class="alloc-card__icon alloc-card__icon--costume">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.57a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.57a2 2 0 0 0-1.34-2.23z"/>
+                </svg>
+              </div>
+              <div class="alloc-card__info">
+                <p class="alloc-card__title">Costume #{{ a.id }}</p>
+                <p class="alloc-card__meta" *ngIf="a.size">Size: {{ a.size }}</p>
+                <p class="alloc-card__meta" *ngIf="a.type">Type: {{ a.type }}</p>
+                <p class="alloc-card__date">{{ a.created_at | date:'dd MMM yyyy' }}</p>
+              </div>
+              <span class="alloc-card__status" [class.alloc-card__status--active]="a.status === 'active'">
+                {{ a.status | titlecase }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lockers panel -->
+        <div *ngIf="activeTab === 'lockers'">
+          <div class="extras-empty" *ngIf="lockers.allocations.length === 0">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="12" cy="12" r="1"/><path d="M12 13v3"/>
+            </svg>
+            <p>No locker allocations yet.</p>
+            <span>Lockers are assigned at the park on your visit day.</span>
+          </div>
+          <div class="alloc-list" *ngIf="lockers.allocations.length > 0">
+            <div class="alloc-card" *ngFor="let a of lockers.allocations">
+              <div class="alloc-card__icon alloc-card__icon--locker">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="12" cy="12" r="1"/><path d="M12 13v3"/>
+                </svg>
+              </div>
+              <div class="alloc-card__info">
+                <p class="alloc-card__title">Locker {{ a.locker_number || '#' + a.id }}</p>
+                <p class="alloc-card__date">{{ a.created_at | date:'dd MMM yyyy' }}</p>
+              </div>
+              <span class="alloc-card__status" [class.alloc-card__status--active]="a.status === 'active'">
+                {{ a.status | titlecase }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+      </ng-container>
+    </div>
+  </div>
+</div>

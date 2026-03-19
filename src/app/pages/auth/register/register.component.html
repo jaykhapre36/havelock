@@ -125,42 +125,41 @@
           <p class="auth-field__error" *ngIf="emailError">{{ emailError }}</p>
         </div>
 
-        <!-- Age + Gender row -->
-        <div class="auth-form__row">
-
-          <!-- Age -->
-          <div class="auth-field" [class.auth-field--error]="ageError">
-            <label>Age <span class="auth-field__required">*</span></label>
-            <div class="auth-field__input-wrap">
-              <svg class="auth-field__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
-              </svg>
-              <input
-                type="number"
-                inputmode="numeric"
-                min="1"
-                max="120"
-                placeholder="25"
-                [(ngModel)]="age"
-              />
-            </div>
-            <p class="auth-field__error" *ngIf="ageError">{{ ageError }}</p>
+        <!-- Age -->
+        <div class="auth-field" [class.auth-field--error]="ageError">
+          <label>Age <span class="auth-field__required">*</span></label>
+          <div class="auth-field__input-wrap">
+            <svg class="auth-field__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+            </svg>
+            <input
+              type="number"
+              inputmode="numeric"
+              min="1"
+              max="120"
+              placeholder="25"
+              [(ngModel)]="age"
+            />
           </div>
+          <p class="auth-field__error" *ngIf="ageError">{{ ageError }}</p>
+        </div>
 
-          <!-- Gender -->
-          <div class="auth-field" [class.auth-field--error]="genderError">
-            <label>Gender <span class="auth-field__required">*</span></label>
-            <div class="auth-gender">
-              <button type="button" class="auth-gender__btn"
-                [class.auth-gender__btn--active]="gender === true"
-                (click)="gender = true">Male</button>
-              <button type="button" class="auth-gender__btn"
-                [class.auth-gender__btn--active]="gender === false"
-                (click)="gender = false">Female</button>
-            </div>
-            <p class="auth-field__error" *ngIf="genderError">{{ genderError }}</p>
+        <!-- Gender -->
+        <div class="auth-field" [class.auth-field--error]="genderError">
+          <label>Gender <span class="auth-field__required">*</span></label>
+          <div class="auth-gender">
+            <label class="auth-gender__option" [class.auth-gender__option--active]="gender === true">
+              <input type="radio" name="gender" [checked]="gender === true" (change)="gender = true" />
+              <span class="auth-gender__dot"></span>
+              Male
+            </label>
+            <label class="auth-gender__option" [class.auth-gender__option--active]="gender === false">
+              <input type="radio" name="gender" [checked]="gender === false" (change)="gender = false" />
+              <span class="auth-gender__dot"></span>
+              Female
+            </label>
           </div>
-
+          <p class="auth-field__error" *ngIf="genderError">{{ genderError }}</p>
         </div>
 
         <button class="auth-submit" [disabled]="loading" (click)="onSendOtp()">

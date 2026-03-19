@@ -75,6 +75,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.otpId = res.data.otp_id;
         this.stage = 'otp';
         this.startCountdown();
+        setTimeout(() => this.otpInput?.nativeElement.focus(), 50);
       },
       error: (err) => {
         this.loading = false;
@@ -136,6 +137,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.otpDigits = ['', '', '', ''];
         if (this.otpInput) this.otpInput.nativeElement.value = '';
         this.startCountdown();
+        setTimeout(() => this.otpInput?.nativeElement.focus(), 50);
       },
       error: () => {
         this.loading = false;

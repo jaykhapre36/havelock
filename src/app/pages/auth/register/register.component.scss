@@ -157,26 +157,52 @@
 
 button.auth-back { background: none; border: none; cursor: pointer; padding: 0; }
 
-// ─── Gender toggle ────────────────────────────────────────────────────────────
+// ─── Gender radio ─────────────────────────────────────────────────────────────
 .auth-gender {
   display: flex;
-  gap: $spacing-2;
+  gap: $spacing-4;
+  margin-bottom: $spacing-4;
 
-  &__btn {
-    flex: 1;
-    padding: $spacing-2 $spacing-3;
-    border: 1.5px solid $gray-200;
-    border-radius: $radius-lg;
-    background: $white;
-    color: $gray-600;
-    font-size: 0.875rem;
-    font-weight: 600;
+  &__option {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
     cursor: pointer;
-    transition: $transition-base;
-    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: $gray-600;
+    user-select: none;
 
-    &:hover { border-color: $primary; color: $primary; }
-    &--active { border-color: $primary; background: $primary; color: $white; }
+    input[type="radio"] { display: none; }
+
+    &--active { color: $gray-900; }
+  }
+
+  &__dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid $gray-300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: $transition-base;
+
+    &::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: $primary;
+      opacity: 0;
+      transition: $transition-base;
+    }
+  }
+
+  &__option--active &__dot {
+    border-color: $primary;
+    &::after { opacity: 1; }
   }
 }
 

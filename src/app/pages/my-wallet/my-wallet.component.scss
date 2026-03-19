@@ -1,0 +1,298 @@
+@use '../../../assets/styles/variables' as *;
+@use '../../../assets/styles/mixins' as *;
+
+.wallet-page {
+  min-height: 100vh;
+  background: $gray-100;
+}
+
+// ─── Account nav tabs ─────────────────────────────────────────────────────────
+.acct-tabs {
+  background: $white;
+  border-bottom: 2px solid $gray-100;
+  position: sticky;
+  top: 70px;
+  z-index: 40;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+
+  &__inner {
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+    &::-webkit-scrollbar { display: none; }
+  }
+
+  &__tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $gray-500;
+    text-decoration: none;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    transition: color 0.2s, border-color 0.2s;
+
+    svg { flex-shrink: 0; }
+    &:hover { color: $primary; }
+    &--active { color: $primary; border-bottom-color: $primary; }
+  }
+}
+
+// ─── Body ─────────────────────────────────────────────────────────────────────
+.wallet-body {
+  max-width: 640px;
+  padding: 32px 24px 80px;
+  @include mobile { padding: 20px 16px 60px; }
+}
+
+// ─── Loading ──────────────────────────────────────────────────────────────────
+.wallet-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80px 0;
+  color: $gray-500;
+  gap: 12px;
+
+  &__spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid $gray-200;
+    border-top-color: $primary;
+    border-radius: 50%;
+    animation: wspin 0.7s linear infinite;
+  }
+
+  p { margin: 0; font-size: 0.9rem; }
+}
+@keyframes wspin { to { transform: rotate(360deg); } }
+
+// ─── Error ────────────────────────────────────────────────────────────────────
+.wallet-error {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  background: #FFF0F0;
+  border: 1px solid #FFCCCC;
+  border-radius: 12px;
+  color: #C0392B;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+// ─── Balance Card ─────────────────────────────────────────────────────────────
+.wallet-balance-card {
+  position: relative;
+  background: linear-gradient(135deg, #00B4D8 0%, #0077A8 100%);
+  border-radius: 20px;
+  padding: 32px 28px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  color: $white;
+
+  &__bg-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.07);
+    pointer-events: none;
+
+    &--1 { width: 200px; height: 200px; top: -60px; right: -60px; }
+    &--2 { width: 140px; height: 140px; bottom: -50px; left: -30px; }
+  }
+
+  &__content { position: relative; z-index: 1; }
+
+  &__top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  &__icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+
+  &__label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    opacity: 0.9;
+    letter-spacing: 0.02em;
+  }
+
+  &__amount {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    margin-bottom: 12px;
+  }
+
+  &__currency {
+    font-size: 1.6rem;
+    font-weight: 700;
+    opacity: 0.9;
+    margin-top: 4px;
+  }
+
+  &__value {
+    font-size: 3.2rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  &__note {
+    font-size: 0.82rem;
+    opacity: 0.75;
+    margin: 0;
+    line-height: 1.5;
+  }
+}
+
+// ─── Stats row ────────────────────────────────────────────────────────────────
+.wallet-stats {
+  display: flex;
+  background: $white;
+  border-radius: 16px;
+  border: 1px solid $gray-200;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.wallet-stat {
+  flex: 1;
+  padding: 18px 20px;
+  text-align: center;
+
+  &--divider { border-left: 1px solid $gray-100; }
+
+  &__val {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: $gray-900;
+    margin: 0 0 4px;
+  }
+
+  &__label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: $gray-500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 0;
+  }
+}
+
+// ─── Section ──────────────────────────────────────────────────────────────────
+.wallet-section {
+  &__title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: $gray-800;
+    margin: 0 0 14px;
+  }
+}
+
+// ─── Empty ────────────────────────────────────────────────────────────────────
+.wallet-empty {
+  background: $white;
+  border: 1px solid $gray-200;
+  border-radius: 16px;
+  padding: 48px 24px;
+  text-align: center;
+
+  &__icon {
+    width: 64px;
+    height: 64px;
+    background: $primary-light;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    color: $primary;
+  }
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: $gray-700;
+    margin: 0 0 8px;
+  }
+
+  &__sub {
+    font-size: 0.875rem;
+    color: $gray-500;
+    margin: 0;
+    line-height: 1.55;
+  }
+}
+
+// ─── Transaction list ─────────────────────────────────────────────────────────
+.txn-list {
+  background: $white;
+  border: 1px solid $gray-200;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.txn-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  border-bottom: 1px solid $gray-100;
+  transition: background 0.15s;
+
+  &:last-child { border-bottom: none; }
+  &:hover { background: $gray-100; }
+
+  &__dot {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(#DC3545, 0.1);
+    color: #DC3545;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    &--credit { background: rgba(#28A745, 0.1); color: #28A745; }
+  }
+
+  &__info { flex: 1; min-width: 0; }
+
+  &__desc {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: $gray-800;
+    margin: 0 0 3px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__date { font-size: 0.78rem; color: $gray-400; margin: 0; }
+
+  &__amount {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #DC3545;
+    white-space: nowrap;
+    flex-shrink: 0;
+
+    &--credit { color: #28A745; }
+  }
+}
