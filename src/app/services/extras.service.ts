@@ -5,10 +5,15 @@ import { environment } from '../../environments/environment';
 
 export interface WalletTransaction {
   id: number;
+  wallet_id: number;
+  booking_id: number;
+  reference_type_id: number;
+  transaction_type: string;
   amount: string;
-  type: string;
-  description: string;
+  balance_after: string;
   created_at: string;
+  reference_type_name: string;
+  reference_type_description: string;
 }
 
 export interface WalletData {

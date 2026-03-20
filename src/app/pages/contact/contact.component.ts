@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ContactService } from '../../services/contact.service';
-import { ParkInfoService } from '../../services/park-info.service';
-import { ParkInfo } from '../../models/park-info.model';
 
 @Component({
   standalone: false,
@@ -13,7 +11,6 @@ import { ParkInfo } from '../../models/park-info.model';
 export class ContactComponent implements OnInit {
 
   form!: FormGroup;
-  parkInfo: ParkInfo | null = null;
   submitting = false;
   submitted  = false;
   submitError = '';
@@ -25,8 +22,7 @@ export class ContactComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private contactService: ContactService,
-    private parkInfoService: ParkInfoService
+    private contactService: ContactService
   ) {}
 
   ngOnInit(): void {
@@ -37,7 +33,6 @@ export class ContactComponent implements OnInit {
       subject: ['General Enquiry'],
       message: ['', [Validators.required, Validators.minLength(10)]]
     });
-    this.parkInfoService.getParkInfo().subscribe(data => this.parkInfo = data);
   }
 
   f(field: string) { return this.form.get(field); }
@@ -52,14 +47,10 @@ export class ContactComponent implements OnInit {
     this.submitting = true;
     this.submitError = '';
     this.contactService.submitForm(this.form.value).subscribe({
-      next: () => { this.submitting = false; this.submitted = true; this.form.reset(); },
-      error: ()  => { this.submitting = false; this.submitError = 'Something went wrong. Please try again.'; }
+      next: () => { this.submitting = false; this.submitted = true; this.form.reset(); window.scrollTo({ top: 0, behavior: 'smooth' }); },
+      error: () => { this.submitting = false; this.submitError = 'Something went wrong. Please try again.'; }
     });
   }
 
   resetForm(): void { this.submitted = false; this.form.reset(); }
-
-  getWhatsappUrl(number: string): string {
-    return 'https://wa.me/' + number.replace(/\D/g, '');
-  }
 }

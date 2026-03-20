@@ -97,22 +97,23 @@
           <!-- List -->
           <div class="txn-list" *ngIf="data.transactions.length > 0">
             <div class="txn-item" *ngFor="let txn of data.transactions">
-              <div class="txn-item__dot" [class.txn-item__dot--credit]="txn.type === 'credit'">
+              <div class="txn-item__dot" [class.txn-item__dot--credit]="txn.transaction_type === 'credit'">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <ng-container *ngIf="txn.type === 'credit'">
+                  <ng-container *ngIf="txn.transaction_type === 'credit'">
                     <line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/>
                   </ng-container>
-                  <ng-container *ngIf="txn.type !== 'credit'">
+                  <ng-container *ngIf="txn.transaction_type !== 'credit'">
                     <line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/>
                   </ng-container>
                 </svg>
               </div>
               <div class="txn-item__info">
-                <p class="txn-item__desc">{{ txn.description || 'Wallet Transaction' }}</p>
+                <p class="txn-item__desc">{{ txn.reference_type_name }}</p>
+                <p class="txn-item__sub-desc">{{ txn.reference_type_description }}</p>
                 <p class="txn-item__date">{{ txn.created_at | date:'dd MMM yyyy · h:mm a' }}</p>
               </div>
-              <p class="txn-item__amount" [class.txn-item__amount--credit]="txn.type === 'credit'">
-                {{ txn.type === 'credit' ? '+' : '−' }}₹{{ txn.amount }}
+              <p class="txn-item__amount" [class.txn-item__amount--credit]="txn.transaction_type === 'credit'">
+                {{ txn.transaction_type === 'credit' ? '+' : '−' }}₹{{ txn.amount }}
               </p>
             </div>
           </div>

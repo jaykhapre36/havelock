@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 import { ContactForm } from '../models/contact.model';
 
 @Injectable({
@@ -9,11 +9,14 @@ import { ContactForm } from '../models/contact.model';
 })
 export class ContactService {
 
+  private apiUrl = environment.apiUrl;
+
   constructor(private http: HttpClient) {}
 
   submitForm(form: ContactForm): Observable<{ success: boolean; message: string }> {
-    // Mock submission — replace with real API call later
-    console.log('Contact form submitted:', form);
-    return of({ success: true, message: 'Your message has been sent. We will get back to you shortly.' }).pipe(delay(1000));
+    return this.http.post<{ success: boolean; message: string }>(
+      `${this.apiUrl}/inquiries`,
+      form
+    );
   }
 }

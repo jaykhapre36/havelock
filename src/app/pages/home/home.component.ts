@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AttractionsService } from '../../services/attractions.service';
 import { TicketsService } from '../../services/tickets.service';
 import { ReviewsService } from '../../services/reviews.service';
+import { AvailabilityService } from '../../services/availability.service';
 import { Attraction } from '../../models/attraction.model';
 import { Ticket } from '../../models/ticket.model';
 import { Review } from '../../models/review.model';
@@ -20,10 +21,11 @@ export class HomeComponent implements OnInit {
   reviews: Review[] = [];
 
   // Availability widget
-  selectedDate = '';
-  ticketType = 'General Admission';
-  guests = '2 Adults, 1 Child';
-  timeSlot = 'Morning (10 AM - 1 PM)';
+  selectedDate = new Date().toISOString().split('T')[0];
+  availableDates: Set<string> = new Set();
+  minDate = '';
+  maxDate = '';
+  isOpenToday = false;
 
   // Mini FAQ
   openFaqId: number | null = null;
@@ -52,10 +54,25 @@ export class HomeComponent implements OnInit {
     private attractionsService: AttractionsService,
     private ticketsService: TicketsService,
     private reviewsService: ReviewsService,
+    private availabilityService: AvailabilityService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
+    this.availabilityService.getSlots().subscribe(res => {
+      const today = new Date().toISOString().split('T')[0];
+      const available = res.data.slots.filter(s => s.remaining > 0);
+      this.availableDates = new Set(available.map(s => s.slot_date));
+      this.isOpenToday = this.availableDates.has(today);
+      if (available.length) {
+        this.minDate = available[0].slot_date;
+        this.maxDate = available[available.length - 1].slot_date;
+        if (!this.availableDates.has(this.selectedDate)) {
+          this.selectedDate = available[0].slot_date;
+        }
+      }
+    });
+
     this.attractionsService.getFeatured().subscribe(data => {
       this.featuredAttractions = data.slice(0, 4);
     });
@@ -70,8 +87,16 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  getMinDate(): string {
+    return new Date().toISOString().split('T')[0];
+  }
+
   checkAvailability(): void {
-    this.router.navigate(['/availability']);
+    if (this.selectedDate) {
+      this.router.navigate(['/availability'], { queryParams: { date: this.selectedDate } });
+    } else {
+      this.router.navigate(['/availability']);
+    }
   }
 
   toggleFaq(id: number): void {

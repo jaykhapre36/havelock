@@ -13,24 +13,6 @@
     <!-- LEFT: list -->
     <div class="attr-list-col">
 
-      <!-- Toolbar -->
-      <div class="attr-toolbar">
-        <div class="attr-toolbar__search">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-          </svg>
-          <input type="text" placeholder="Search attractions..." [(ngModel)]="searchQuery" (input)="onSearch()" />
-        </div>
-        <div class="attr-toolbar__sort">
-          <label>Sort by:</label>
-          <select [(ngModel)]="sortBy" (change)="onSort()">
-            <option value="popularity">Popularity</option>
-            <option value="name">Name (A–Z)</option>
-            <option value="height">Height Req.</option>
-          </select>
-        </div>
-      </div>
-
       <!-- Category tabs -->
       <div class="attr-filters">
         <button class="attr-filter-btn" *ngFor="let cat of categories"
@@ -66,11 +48,18 @@
       <div class="attr-grid" *ngIf="!loading && filteredAttractions.length > 0">
         <a class="attr-card" *ngFor="let a of filteredAttractions" [routerLink]="['/attractions', a.id]">
           <div class="attr-card__img-wrap">
-            <div class="attr-card__img" [style.background]="getGradient(a.category)">
-              <span class="attr-card__emoji">🌊</span>
-            </div>
+            <!-- gradient always visible as background -->
+            <div class="attr-card__bg" [style.background]="getGradient(a.category)"></div>
+            <!-- photo on top; if it fails to load, gradient shows through -->
+            <ng-container *ngIf="a.images && a.images.length > 0">
+              <img
+                class="attr-card__img attr-card__img--photo"
+                [src]="a.images[0]"
+                [alt]="a.name"
+                loading="lazy"
+              />
+            </ng-container>
             <span class="attr-card__cat badge" [ngClass]="'badge-' + getCategoryClass(a.category)">{{ a.category }}</span>
-            <span class="attr-card__fastpass" *ngIf="a.fastPassAvailable">FAST PASS</span>
           </div>
           <div class="attr-card__body">
             <div class="attr-card__top-row">
@@ -105,22 +94,6 @@
 
     <!-- RIGHT: sidebar -->
     <aside class="attr-sidebar">
-      <div class="sidebar-card" *ngIf="parkStatus">
-        <h4 class="sidebar-card__title">Park Status</h4>
-        <div class="park-status">
-          <div class="park-status__top">
-            <span class="park-dot" [class.open]="parkStatus.status === 'open'"></span>
-            <span class="park-status__state">Currently {{ parkStatus.status === 'open' ? 'Open' : 'Closed' }}</span>
-          </div>
-          <div class="park-status__row"><span>Opening Hours</span><strong>{{ parkStatus.openingTime }} – {{ parkStatus.closingTime }}</strong></div>
-          <div class="park-status__row"><span>Wait Times (Avg)</span><strong>{{ parkStatus.avgWaitTime }}</strong></div>
-          <div class="park-status__occ">
-            <div class="park-status__occ-label"><span>Park Occupancy</span><span>{{ getOccupancyPercent() }}%</span></div>
-            <div class="park-status__bar"><div class="park-status__fill" [style.width.%]="getOccupancyPercent()"></div></div>
-          </div>
-        </div>
-      </div>
-
       <div class="sidebar-card">
         <h4 class="sidebar-card__title">Park Zones</h4>
         <p class="sidebar-card__sub">Navigate through Thrill Island, Family Cove, and Kids Kingdom with ease.</p>

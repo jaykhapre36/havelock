@@ -1,340 +1,336 @@
 @use '../../../assets/styles/variables' as *;
 @use '../../../assets/styles/mixins' as *;
 
-// ─── Hero ─────────────────────────────────────────────────────────────────────
+// ── Hero ───────────────────────────────────────────────────────────────────
 .av-hero {
   background: linear-gradient(135deg, $primary-dark 0%, $primary 60%, $secondary 100%);
-  padding: $spacing-16 0 $spacing-10;
+  padding: $spacing-16 0 $spacing-12;
   color: $white;
   text-align: center;
 
   &__title {
+    font-family: $font-family-heading;
     font-size: clamp(1.75rem, 4vw, 2.75rem);
     font-weight: 800;
     margin-bottom: $spacing-3;
   }
-
   &__sub {
     font-size: 1rem;
     color: rgba($white, 0.85);
-    max-width: 520px;
+    max-width: 480px;
     margin: 0 auto;
   }
 }
 
-// ─── Main layout ──────────────────────────────────────────────────────────────
-.av-main { background: $gray-100; }
+// ── Section ────────────────────────────────────────────────────────────────
+.av-section { background: $gray-100; }
 
-.av-main__layout {
-  display: grid;
-  grid-template-columns: 1fr 300px;
-  gap: $spacing-8;
-  align-items: start;
-
-  @include tablet { grid-template-columns: 1fr; }
+.av-section__inner {
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-6;
 }
 
-// ─── Form card ────────────────────────────────────────────────────────────────
+// ── Date picker card ───────────────────────────────────────────────────────
 .av-card {
-  background: $white;
-  border-radius: $radius-xl;
-  padding: $spacing-8;
-  box-shadow: $shadow-sm;
-  border: 1px solid $gray-200;
-
-  &__title {
-    font-size: 1.35rem;
-    font-weight: 700;
-    color: $gray-800;
-    margin-bottom: $spacing-6;
-  }
-}
-
-// ─── Fields ───────────────────────────────────────────────────────────────────
-.av-field { margin-bottom: $spacing-6; }
-
-.av-label {
-  display: flex;
-  align-items: center;
-  gap: $spacing-2;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: $gray-600;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  margin-bottom: $spacing-3;
-  svg { color: $primary; }
-}
-
-.av-input {
-  width: 100%;
-  padding: $spacing-3 $spacing-4;
-  border: 1.5px solid $gray-200;
-  border-radius: $radius-lg;
-  font-size: 0.95rem;
-  color: $gray-800;
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  &:focus { border-color: $primary; box-shadow: 0 0 0 3px rgba($primary, 0.12); }
-}
-
-// ─── Guests ───────────────────────────────────────────────────────────────────
-.av-guests {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: $spacing-4;
-  margin-bottom: $spacing-3;
-
-  @include mobile { grid-template-columns: 1fr; }
-
-  &__total {
-    font-size: 0.9rem;
-    color: $gray-600;
-    strong { color: $primary; font-weight: 700; }
-  }
-}
-
-.av-counter {
-  &__label {
-    display: block;
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: $gray-700;
-    margin-bottom: $spacing-2;
-  }
-
-  &__ctrl {
-    display: flex;
-    align-items: center;
-    border: 1.5px solid $gray-200;
-    border-radius: $radius-lg;
-    overflow: hidden;
-
-    button {
-      width: 42px;
-      height: 44px;
-      border: none;
-      background: $gray-100;
-      color: $gray-700;
-      font-size: 1.2rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background 0.15s, color 0.15s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      &:hover:not(:disabled) { background: $primary; color: $white; }
-      &:disabled { opacity: 0.35; cursor: not-allowed; }
-    }
-
-    span {
-      flex: 1;
-      text-align: center;
-      font-size: 1rem;
-      font-weight: 700;
-      color: $gray-800;
-    }
-  }
-}
-
-// ─── Slots ────────────────────────────────────────────────────────────────────
-.av-slots {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-3;
-}
-
-.av-slot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: $spacing-4 $spacing-5;
-  border: 2px solid $gray-200;
-  border-radius: $radius-lg;
-  cursor: pointer;
-  transition: $transition-base;
-  gap: $spacing-4;
-
-  &:hover { border-color: $primary; box-shadow: $shadow-sm; }
-  &--selected { border-color: $primary; background: rgba($primary, 0.04); box-shadow: 0 0 0 4px rgba($primary, 0.1); }
-  &--full { opacity: 0.5; cursor: not-allowed; &:hover { border-color: $gray-200; box-shadow: none; } }
-  &--limited { border-color: #F59E0B; }
-
-  &__info { flex: 1; }
-
-  &__time {
-    font-size: 1rem;
-    font-weight: 700;
-    color: $gray-800;
-    margin: 0 0 2px;
-  }
-
-  &__label { font-size: 0.8rem; color: $gray-700; margin: 0; }
-
-  &__right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: $spacing-1;
-    min-width: 110px;
-  }
-
-  &__status {
-    font-size: 0.72rem;
-    font-weight: 700;
-    padding: 3px $spacing-2;
-    border-radius: $radius-full;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    &--available { background: rgba($success, 0.12); color: $success; }
-    &--limited   { background: rgba(#F59E0B, 0.15); color: #b45309; }
-    &--full      { background: rgba(#DC3545, 0.1);  color: #DC3545; }
-  }
-
-  &__bar {
-    width: 100%;
-    height: 5px;
-    background: $gray-200;
-    border-radius: $radius-full;
-    overflow: hidden;
-  }
-
-  &__bar-fill {
-    height: 100%;
-    background: $primary;
-    border-radius: $radius-full;
-    transition: width 0.5s ease;
-    &.warn { background: #F59E0B; }
-  }
-
-  &__seats { font-size: 0.78rem; color: $gray-700; }
-}
-
-// ─── Proceed ──────────────────────────────────────────────────────────────────
-.av-proceed {
-  @include btn-primary;
-  width: 100%;
-  margin-top: $spacing-6;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: $spacing-2;
-  border: none;
-  cursor: pointer;
-  font-size: 1rem;
-  &:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
-}
-
-.av-note {
-  margin-top: $spacing-3;
-  font-size: 0.85rem;
-  color: $success;
-  text-align: center;
-  strong { font-weight: 700; }
-}
-
-// ─── Sidebar ──────────────────────────────────────────────────────────────────
-.av-sidebar {
-  position: sticky;
-  top: calc(70px + #{$spacing-6});
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-5;
-  @include tablet { position: static; }
-}
-
-.av-info-card {
   background: $white;
   border: 1px solid $gray-200;
   border-radius: $radius-xl;
   padding: $spacing-6;
   box-shadow: $shadow-sm;
 
-  &__title {
-    font-size: 1rem;
-    font-weight: 700;
-    color: $gray-800;
+  &__icon {
+    width: 52px;
+    height: 52px;
+    border-radius: $radius-lg;
+    background: rgba($primary, .1);
+    color: $primary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-bottom: $spacing-4;
   }
 
-  &__text { font-size: 0.875rem; color: $gray-700; line-height: 1.6; margin-bottom: $spacing-3; }
-  &--tips { background: #f0fdf4; border-color: #bbf7d0; }
+  &__title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: $gray-900;
+    margin-bottom: $spacing-1;
+  }
+
+  &__sub {
+    font-size: 0.875rem;
+    color: $gray-500;
+    margin-bottom: $spacing-6;
+  }
 }
 
-.av-status-indicator {
+.av-date-row {
   display: flex;
+  gap: $spacing-3;
+  align-items: center;
+  @include mobile { flex-direction: column; }
+}
+
+.av-date-input {
+  flex: 1;
+  padding: $spacing-3 $spacing-4;
+  border: 1.5px solid $gray-200;
+  border-radius: $radius-lg;
+  font-size: 1rem;
+  color: $gray-800;
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+  background: $white;
+  &:focus { border-color: $primary; box-shadow: 0 0 0 3px rgba($primary, .12); }
+  @include mobile { width: 100%; }
+}
+
+.av-check-btn {
+  @include btn-primary;
+  display: inline-flex;
   align-items: center;
   gap: $spacing-2;
-  margin-bottom: $spacing-4;
+  white-space: nowrap;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  padding: $spacing-3 $spacing-6;
+  &:disabled { opacity: .55; cursor: not-allowed; transform: none; box-shadow: none; }
+  @include mobile { width: 100%; justify-content: center; }
 }
 
-.av-status-dot {
-  width: 10px;
-  height: 10px;
+// ── Spinner ────────────────────────────────────────────────────────────────
+.av-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba($white, .4);
+  border-top-color: $white;
   border-radius: 50%;
-  background: $gray-400;
+  animation: spin .7s linear infinite;
   flex-shrink: 0;
-  &.open { background: $success; box-shadow: 0 0 0 3px rgba($success, 0.2); }
 }
+@keyframes spin { to { transform: rotate(360deg); } }
 
-.av-status-text { font-size: 0.9rem; font-weight: 600; color: $gray-700; }
-
-.av-info-row {
+// ── Error ──────────────────────────────────────────────────────────────────
+.av-error {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  font-size: 0.85rem;
-  padding: $spacing-2 0;
-  border-bottom: 1px solid $gray-100;
-  &:last-of-type { border-bottom: none; }
-  span { color: $gray-700; }
-  strong { font-weight: 600; color: $gray-700; }
+  gap: $spacing-3;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: $radius-lg;
+  padding: $spacing-4 $spacing-5;
+  font-size: 0.9rem;
+  color: #b91c1c;
+  svg { flex-shrink: 0; }
 }
 
-.av-occ {
-  margin-top: $spacing-4;
+// ── Result header ──────────────────────────────────────────────────────────
+.av-result-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-3;
 
-  &__label {
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: $gray-700;
+    svg { color: $primary; flex-shrink: 0; }
+  }
+
+  &__count {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: $primary;
+    background: rgba($primary, .1);
+    padding: 4px 10px;
+    border-radius: $radius-full;
+  }
+}
+
+// ── Empty ──────────────────────────────────────────────────────────────────
+.av-empty {
+  text-align: center;
+  padding: $spacing-12 $spacing-8;
+  background: $white;
+  border: 1px solid $gray-200;
+  border-radius: $radius-xl;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-4;
+  svg { color: $gray-300; }
+  p { color: $gray-600; font-size: 0.95rem; }
+}
+
+// ── Slot cards ─────────────────────────────────────────────────────────────
+.av-slots {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+}
+
+.av-slot {
+  background: $white;
+  border: 1.5px solid $gray-200;
+  border-radius: $radius-xl;
+  padding: $spacing-6;
+  box-shadow: $shadow-sm;
+  transition: $transition-base;
+
+  &--unavailable {
+    opacity: .65;
+    background: $gray-100;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: $spacing-5;
+    gap: $spacing-3;
+  }
+
+  &__time {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: $gray-800;
+    svg { color: $primary; flex-shrink: 0; }
+  }
+
+  &__badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: .04em;
+    padding: 4px 12px;
+    border-radius: $radius-full;
+    background: rgba($success, .1);
+    color: #15803d;
+
+    &--full {
+      background: rgba(#dc2626, .1);
+      color: #dc2626;
+    }
+  }
+
+  &__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: $success;
+    flex-shrink: 0;
+    animation: pulse-av 2s infinite;
+
+    &--full {
+      background: #dc2626;
+      animation: none;
+    }
+  }
+
+  &__cap-row {
     display: flex;
     justify-content: space-between;
-    font-size: 0.82rem;
-    color: $gray-700;
+    font-size: 0.8rem;
+    color: $gray-500;
     margin-bottom: $spacing-2;
+    font-weight: 500;
   }
 
   &__bar {
+    height: 8px;
     background: $gray-100;
     border-radius: $radius-full;
-    height: 8px;
     overflow: hidden;
-    margin-bottom: $spacing-2;
+    margin-bottom: $spacing-5;
   }
 
   &__fill {
     height: 100%;
-    background: linear-gradient(90deg, $primary, $secondary);
+    background: $primary;
     border-radius: $radius-full;
-    transition: width 0.5s ease;
+    transition: width .6s ease;
+
+    &--warn { background: #f59e0b; }
+    &--full { background: #dc2626; }
   }
 
-  &__text { font-size: 0.78rem; color: $gray-600; text-align: right; margin: 0; }
+  &__stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $spacing-3;
+    padding-top: $spacing-4;
+    border-top: 1px solid $gray-100;
+  }
+
+  &__stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+
+    &--hi &__stat-val { color: $success; }
+  }
+
+  &__stat-val {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: $gray-800;
+    line-height: 1;
+  }
+
+  &__stat-label {
+    font-size: 0.72rem;
+    color: $gray-500;
+    font-weight: 500;
+    text-align: center;
+  }
 }
 
-.av-tips-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-2;
+@keyframes pulse-av {
+  0%, 100% { box-shadow: 0 0 0 0 rgba($success, .5); }
+  50%       { box-shadow: 0 0 0 4px rgba($success, 0); }
+}
 
-  li {
-    font-size: 0.875rem;
-    color: $gray-600;
-    padding-left: $spacing-4;
-    position: relative;
-    line-height: 1.5;
-    &::before { content: '✓'; position: absolute; left: 0; color: $success; font-weight: 700; }
+// ── Book CTA ───────────────────────────────────────────────────────────────
+.av-cta {
+  background: $primary;
+  border-radius: $radius-xl;
+  padding: $spacing-6 $spacing-6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-5;
+
+  @include mobile { flex-direction: column; text-align: center; }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    strong { font-size: 1rem; font-weight: 700; color: $white; }
+    span   { font-size: 0.85rem; color: rgba($white, .8); }
+  }
+
+  .av-check-btn {
+    background: $white;
+    color: $primary;
+    box-shadow: none;
+    font-weight: 700;
+    white-space: nowrap;
+    &:hover { background: $gray-100; transform: none; }
+    @include mobile { width: 100%; justify-content: center; }
   }
 }

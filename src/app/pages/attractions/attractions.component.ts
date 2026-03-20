@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AttractionsService } from '../../services/attractions.service';
-import { AvailabilityService } from '../../services/availability.service';
 import { Attraction } from '../../models/attraction.model';
-import { ParkStatus } from '../../models/availability.model';
 
 type SortOption = 'popularity' | 'name' | 'height';
 type Category   = 'All' | 'Thrill' | 'Family' | 'Kids' | 'Relax' | 'Entertainment';
@@ -16,7 +14,6 @@ type Category   = 'All' | 'Thrill' | 'Family' | 'Kids' | 'Relax' | 'Entertainmen
 export class AttractionsComponent implements OnInit {
   allAttractions:      Attraction[] = [];
   filteredAttractions: Attraction[] = [];
-  parkStatus: ParkStatus | null = null;
   loading = true;
 
   searchQuery    = '';
@@ -26,18 +23,14 @@ export class AttractionsComponent implements OnInit {
   categories: Category[] = ['All', 'Thrill', 'Family', 'Kids', 'Relax', 'Entertainment'];
 
   constructor(
-    private attractionsService: AttractionsService,
-    private availabilityService: AvailabilityService
+    private attractionsService: AttractionsService
   ) {}
 
   ngOnInit(): void {
-    this.attractionsService.getAll().subscribe(data => {
+    this.attractionsService.getAll().subscribe((data: Attraction[]) => {
       this.allAttractions = data;
       this.applyFilters();
       this.loading = false;
-    });
-    this.availabilityService.getAvailability().subscribe(data => {
-      this.parkStatus = data.parkInfo;
     });
   }
 
@@ -62,11 +55,6 @@ export class AttractionsComponent implements OnInit {
   setCategory(cat: Category): void { this.activeCategory = cat; this.applyFilters(); }
   onSearch(): void  { this.applyFilters(); }
   onSort(): void    { this.applyFilters(); }
-
-  getOccupancyPercent(): number {
-    if (!this.parkStatus) return 0;
-    return Math.round((this.parkStatus.currentOccupancy / this.parkStatus.maxCapacity) * 100);
-  }
 
   getCategoryClass(cat: string): string { return cat.toLowerCase().replace(/\s+/g, '-'); }
 

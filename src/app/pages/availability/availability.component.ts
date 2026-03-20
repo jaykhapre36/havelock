@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AvailabilityService } from '../../services/availability.service';
-import { AvailabilityResponse, TimeSlot } from '../../models/availability.model';
+import { AvailabilityData, AvailabilitySlot } from '../../models/availability.model';
 
 @Component({
   standalone: false,
@@ -11,60 +11,79 @@ import { AvailabilityResponse, TimeSlot } from '../../models/availability.model'
 })
 export class AvailabilityComponent implements OnInit {
 
-  data: AvailabilityResponse | null = null;
-  loading = true;
-
-  selectedDate  = this.getTodayDate();
-  selectedSlot: TimeSlot | null = null;
-  adults   = 2;
-  children = 1;
+  selectedDate = this.getTodayDate();
+  loading = false;
+  error = '';
+  result: AvailabilityData | null = null;
+  checked = false;
+  availableDates: Set<string> = new Set();
+  minDate = '';
+  maxDate = '';
 
   constructor(
     private availabilityService: AvailabilityService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.availabilityService.getAvailability().subscribe(res => {
-      this.data = res;
-      this.loading = false;
+    this.availabilityService.getSlots().subscribe(res => {
+      const available = res.data.slots.filter(s => s.remaining > 0);
+      this.availableDates = new Set(available.map(s => s.slot_date));
+      if (available.length) {
+        this.minDate = available[0].slot_date;
+        this.maxDate = available[available.length - 1].slot_date;
+      }
+
+      const dateParam = this.route.snapshot.queryParamMap.get('date');
+      if (dateParam) {
+        this.selectedDate = dateParam;
+        this.checkAvailability();
+      } else if (available.length && !this.availableDates.has(this.selectedDate)) {
+        this.selectedDate = available[0].slot_date;
+      }
     });
   }
 
-  selectSlot(slot: TimeSlot): void {
-    if (slot.status === 'full') return;
-    this.selectedSlot = slot;
+  checkAvailability(): void {
+    if (!this.selectedDate) return;
+    this.loading = true;
+    this.error = '';
+    this.result = null;
+    this.checked = false;
+
+    this.availabilityService.checkAvailability(this.selectedDate).subscribe({
+      next: (res) => {
+        this.result = res.data;
+        this.checked = true;
+        this.loading = false;
+      },
+      error: () => {
+        this.error = 'Failed to check availability. Please try again.';
+        this.loading = false;
+      }
+    });
   }
 
-  increment(type: 'adults' | 'children'): void {
-    if (type === 'adults'   && this.adults   < 10) this.adults++;
-    if (type === 'children' && this.children < 10) this.children++;
+  getOccupancyPct(slot: AvailabilitySlot): number {
+    if (slot.total_capacity === 0) return 0;
+    return Math.round((slot.booked_count / slot.total_capacity) * 100);
   }
 
-  decrement(type: 'adults' | 'children'): void {
-    if (type === 'adults'   && this.adults   > 1) this.adults--;
-    if (type === 'children' && this.children > 0) this.children--;
+  formatTime(time: string): string {
+    const [h, m] = time.split(':');
+    const hour = parseInt(h, 10);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const h12 = hour % 12 || 12;
+    return `${h12}:${m} ${ampm}`;
   }
 
-  get totalGuests(): number { return this.adults + this.children; }
-
-  getOccupancyPct(): number {
-    if (!this.data) return 0;
-    return Math.round((this.data.parkInfo.currentOccupancy / this.data.parkInfo.maxCapacity) * 100);
-  }
-
-  getSlotPct(slot: TimeSlot): number {
-    return Math.round(((slot.totalSeats - slot.availableSeats) / slot.totalSeats) * 100);
-  }
-
-  proceedToTickets(): void {
-    if (!this.selectedSlot) return;
-    this.router.navigate(['/tickets']);
+  bookTickets(): void {
+    this.router.navigate(['/packages']);
   }
 
   getTodayDate(): string {
     return new Date().toISOString().split('T')[0];
   }
 
-  getMinDate(): string { return this.getTodayDate(); }
 }

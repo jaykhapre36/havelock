@@ -9,35 +9,130 @@
 
 // ── Hero ──────────────────────────────────────────────────────────────────
 .detail-hero {
-  position:relative; min-height:420px; @include flex-center; padding-top:$navbar-height; overflow:hidden;
-  &__overlay { position:absolute; inset:0; background:rgba(#001a2e,.55); }
-  &__content { position:relative; z-index:1; padding:$spacing-12 0; }
+  position: relative;
+  min-height: 540px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: $navbar-height;
+  overflow: hidden;
+  background-size: cover !important;
+  background-position: center !important;
+
+  @include mobile { min-height: 460px; }
+
+  // cinematic gradient: clear at top, dark at bottom
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.10) 0%,
+      rgba(0,0,0,0.30) 40%,
+      rgba(0,10,25,0.75) 70%,
+      rgba(0,10,25,0.92) 100%
+    );
+  }
+
+  // breadcrumb at top, in normal flow
+  &__breadcrumb-bar {
+    position: relative;
+    z-index: 2;
+    padding: $spacing-4 0;
+  }
+
+  // title/tags/buttons anchored to bottom
+  &__content {
+    position: relative;
+    z-index: 1;
+    padding-bottom: $spacing-12;
+    width: 100%;
+    @include mobile { padding-bottom: $spacing-8; }
+  }
 }
 
 .breadcrumb {
-  display:flex; align-items:center; gap:$spacing-2; margin-bottom:$spacing-5; flex-wrap:wrap;
-  a { color:rgba($white,.7); font-size:$font-size-sm; text-decoration:none; transition:$transition-fast;
-    &:hover { color:$white; } }
-  span { color:rgba($white,.5); font-size:$font-size-sm; }
-  &__current { color:rgba($white,.9); font-weight:$font-weight-medium; }
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  flex-wrap: wrap;
+  a {
+    color: rgba($white, .85);
+    font-size: $font-size-sm;
+    text-decoration: none;
+    transition: $transition-fast;
+    text-shadow: 0 1px 4px rgba(0,0,0,.6);
+    &:hover { color: $white; }
+  }
+  span {
+    color: rgba($white, .6);
+    font-size: $font-size-sm;
+    text-shadow: 0 1px 4px rgba(0,0,0,.6);
+  }
+  &__current {
+    color: $white;
+    font-weight: $font-weight-medium;
+    text-shadow: 0 1px 4px rgba(0,0,0,.6);
+  }
 }
 
 .detail-hero {
-  &__tags { display:flex; gap:$spacing-2; margin-bottom:$spacing-4; flex-wrap:wrap; }
-  &__tag {
-    background:rgba($white,.15); border:1px solid rgba($white,.3); color:$white;
-    font-size:$font-size-xs; font-weight:$font-weight-semi; padding:$spacing-1 $spacing-3;
-    border-radius:$radius-full; letter-spacing:.07em; text-transform:uppercase; backdrop-filter:blur(6px);
+  &__tags {
+    display: flex;
+    gap: $spacing-2;
+    margin-bottom: $spacing-4;
+    flex-wrap: wrap;
   }
-  &__title { font-family:$font-family-heading; font-size:clamp(2rem,5vw,3rem); font-weight:$font-weight-bold; color:$white; line-height:1.15; margin-bottom:$spacing-4; }
-  &__sub { font-size:$font-size-md; color:rgba($white,.8); max-width:540px; line-height:1.7; margin-bottom:$spacing-8; }
-  &__actions { display:flex; gap:$spacing-4; flex-wrap:wrap; }
-  &__book { @include btn-primary; display:flex; align-items:center; gap:$spacing-2; font-size:$font-size-base; padding:$spacing-4 $spacing-8; }
+  &__tag {
+    background: rgba($white, .12);
+    border: 1px solid rgba($white, .35);
+    color: $white;
+    font-size: 11px;
+    font-weight: $font-weight-semi;
+    padding: 4px 12px;
+    border-radius: $radius-full;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    backdrop-filter: blur(8px);
+  }
+  &__title {
+    font-family: $font-family-heading;
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    font-weight: $font-weight-bold;
+    color: $white;
+    line-height: 1.1;
+    margin-bottom: $spacing-3;
+    text-shadow: 0 2px 12px rgba(0,0,0,.4);
+  }
+  &__sub {
+    font-size: $font-size-base;
+    color: rgba($white, .82);
+    max-width: 520px;
+    line-height: 1.7;
+    margin-bottom: $spacing-8;
+    text-shadow: 0 1px 6px rgba(0,0,0,.3);
+  }
+  &__actions { display: flex; gap: $spacing-4; flex-wrap: wrap; }
+  &__book {
+    @include btn-primary;
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    font-size: $font-size-base;
+    padding: $spacing-4 $spacing-8;
+    box-shadow: 0 4px 16px rgba($primary, .45);
+  }
   &__map-btn {
-    @include btn-base; display:flex; align-items:center; gap:$spacing-2;
-    background:rgba($white,.15); color:$white; border:1.5px solid rgba($white,.4);
-    padding:$spacing-4 $spacing-6; backdrop-filter:blur(6px);
-    &:hover { background:rgba($white,.25); }
+    @include btn-base;
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    background: rgba($white, .12);
+    color: $white;
+    border: 1.5px solid rgba($white, .4);
+    padding: $spacing-4 $spacing-6;
+    backdrop-filter: blur(8px);
+    &:hover { background: rgba($white, .22); border-color: rgba($white, .7); }
   }
 }
 
@@ -132,7 +227,9 @@
 
 .related-card {
   @include card; display:block; text-decoration:none; color:inherit;
-  &__img { height:160px; @include flex-center; flex-direction:column; position:relative; }
+  &__img { height:160px; position:relative; overflow:hidden; }
+  &__photo { width:100%; height:100%; object-fit:cover; display:block; transition:transform .4s ease; }
+  &:hover &__photo { transform:scale(1.06); }
   &__fastpass { position:absolute; top:$spacing-2; left:$spacing-2; background:$secondary; color:$gray-900;
                 font-size:9px; font-weight:$font-weight-bold; padding:2px 6px; border-radius:$radius-full; letter-spacing:.05em; }
   &__body { padding:$spacing-4;

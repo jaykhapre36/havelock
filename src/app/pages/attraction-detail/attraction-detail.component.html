@@ -19,27 +19,30 @@
 <ng-container *ngIf="!loading && attraction">
 
   <!-- ── HERO ──────────────────────────────────────────────────────────── -->
-  <section class="detail-hero" [style.background]="getGradient(attraction.category)">
+  <section class="detail-hero"
+    [style.background]="attraction.images.length ? 'url(' + attraction.images[0] + ') center / cover no-repeat' : getGradient(attraction.category)">
     <div class="detail-hero__overlay"></div>
+
+    <!-- Breadcrumb pinned to top -->
+    <div class="detail-hero__breadcrumb-bar">
+      <div class="container">
+        <nav class="breadcrumb">
+          <a routerLink="/">Home</a>
+          <span>/</span>
+          <a routerLink="/attractions">Attractions</a>
+          <span>/</span>
+          <span class="breadcrumb__current">{{ attraction.name }}</span>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content anchored to bottom -->
     <div class="container detail-hero__content">
-
-      <!-- Breadcrumb -->
-      <nav class="breadcrumb">
-        <a routerLink="/">Home</a>
-        <span>/</span>
-        <a routerLink="/attractions">Attractions</a>
-        <span>/</span>
-        <span class="breadcrumb__current">{{ attraction.name }}</span>
-      </nav>
-
-      <!-- Tags -->
       <div class="detail-hero__tags">
         <span class="detail-hero__tag" *ngFor="let tag of attraction.tags">{{ tag }}</span>
       </div>
-
       <h1 class="detail-hero__title">{{ attraction.name }}</h1>
       <p class="detail-hero__sub">{{ attraction.shortDescription }}</p>
-
       <div class="detail-hero__actions">
         <button class="btn-primary detail-hero__book" (click)="bookTickets()">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -200,9 +203,10 @@
       <p class="related__sub">Other high-thrill rides in Adventure Peak</p>
       <div class="related__grid">
         <a class="related-card" *ngFor="let r of relatedAttractions" [routerLink]="['/attractions', r.id]">
-          <div class="related-card__img" [style.background]="getGradient(r.category)">
-            <span class="related-card__fastpass" *ngIf="r.fastPassAvailable">FASTPASS</span>
-            <span style="font-size:2rem; opacity:.6">🌊</span>
+          <div class="related-card__img" [style.background]="r.images.length ? '' : getGradient(r.category)">
+            <ng-container *ngIf="r.images.length">
+              <img class="related-card__photo" [src]="r.images[0]" [alt]="r.name" loading="lazy" />
+            </ng-container>
           </div>
           <div class="related-card__body">
             <h4>{{ r.name }}</h4>

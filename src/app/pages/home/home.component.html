@@ -3,13 +3,16 @@
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <section class="hero">
   <div class="hero__bg">
+    <video class="hero__video" autoplay muted loop playsinline>
+      <source src="mock-data/videos/Website-Master-Video-Desktop.mp4" type="video/mp4" />
+    </video>
     <div class="hero__overlay"></div>
   </div>
 
   <div class="container hero__content">
-    <div class="hero__badge">
-      <span class="hero__badge-dot"></span>
-      Open Today: 10:00 AM – 8:00 PM &nbsp;|&nbsp; Online Offer Available
+    <div class="hero__badge" [class.hero__badge--closed]="!isOpenToday">
+      <span class="hero__badge-dot" [class.hero__badge-dot--closed]="!isOpenToday"></span>
+      {{ isOpenToday ? 'Open Today: 10:00 AM – 6:00 PM' : 'Closed Today' }} &nbsp;
     </div>
 
     <h1 class="hero__title">
@@ -18,8 +21,8 @@
     </h1>
 
     <p class="hero__subtitle">
-      Book tickets online and enjoy a memorable family day out
-      with world-class rides and safety.
+      Book tickets online, load your park wallet, and enjoy a fully cashless
+      day out with world-class rides, food, and fun — no cash needed inside.
     </p>
 
     <div class="hero__ctas">
@@ -32,35 +35,13 @@
   <div class="container">
     <div class="availability-widget">
       <div class="availability-widget__field">
-        <label>Date</label>
-        <input type="date" [(ngModel)]="selectedDate" />
-      </div>
-      <div class="availability-widget__field">
-        <label>Ticket Type</label>
-        <select [(ngModel)]="ticketType">
-          <option>General Admission</option>
-          <option>Family Combo</option>
-          <option>Group Booking</option>
-        </select>
-      </div>
-      <div class="availability-widget__field">
-        <label>Guests</label>
-        <select [(ngModel)]="guests">
-          <option>2 Adults, 1 Child</option>
-          <option>1 Adult</option>
-          <option>2 Adults</option>
-          <option>2 Adults, 2 Children</option>
-        </select>
-      </div>
-      <div class="availability-widget__field">
-        <label>Time Slot</label>
-        <select [(ngModel)]="timeSlot">
-          <option>Morning (10 AM - 1 PM)</option>
-          <option>Afternoon (12 PM - 4 PM)</option>
-          <option>Evening (4 PM - 8 PM)</option>
-        </select>
+        <label>DATE</label>
+        <input type="date" [(ngModel)]="selectedDate" [min]="minDate" [max]="maxDate" />
       </div>
       <button class="availability-widget__btn" (click)="checkAvailability()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
         Check Availability
       </button>
     </div>

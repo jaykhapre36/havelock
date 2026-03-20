@@ -4,11 +4,26 @@
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 .ct-hero {
   background: linear-gradient(135deg, $primary-dark 0%, $primary 60%, $secondary 100%);
-  padding: $spacing-16 0 $spacing-10;
+  padding: $spacing-16 0 $spacing-12;
   text-align: center;
   color: $white;
 
+  &__badge {
+    display: inline-block;
+    background: rgba($white, .15);
+    border: 1px solid rgba($white, .3);
+    color: $white;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: $radius-full;
+    margin-bottom: $spacing-4;
+  }
+
   &__title {
+    font-family: $font-family-heading;
     font-size: clamp(1.75rem, 4vw, 2.75rem);
     font-weight: 800;
     margin-bottom: $spacing-3;
@@ -19,6 +34,8 @@
     color: rgba($white, 0.85);
     max-width: 520px;
     margin: 0 auto;
+    line-height: 1.7;
+    @include mobile { font-size: 0.9rem; }
   }
 }
 
@@ -31,7 +48,8 @@
   gap: $spacing-10;
   align-items: start;
 
-  @include tablet { grid-template-columns: 1fr; }
+  @include tablet { grid-template-columns: 1fr; gap: $spacing-6; }
+  @include mobile { grid-template-columns: 1fr; gap: $spacing-5; }
 }
 
 // ─── Form wrap ────────────────────────────────────────────────────────────────
@@ -41,40 +59,59 @@
   padding: $spacing-8;
   border: 1px solid $gray-200;
   box-shadow: $shadow-sm;
+  @include mobile { padding: $spacing-5; }
 }
 
 // ─── Success state ────────────────────────────────────────────────────────────
 .ct-success {
   text-align: center;
-  padding: $spacing-10 $spacing-6;
+  padding: $spacing-12 $spacing-6;
 
   &__icon {
-    width: 64px;
-    height: 64px;
+    width: 72px;
+    height: 72px;
     border-radius: 50%;
     background: rgba($success, 0.1);
     color: $success;
-    font-size: 1.5rem;
-    font-weight: 700;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto $spacing-5;
+    border: 2px solid rgba($success, .2);
   }
 
-  h3 { font-size: 1.35rem; font-weight: 700; color: $gray-800; margin-bottom: $spacing-3; }
-  p  { font-size: 0.95rem; color: $gray-700; max-width: 340px; margin: 0 auto $spacing-6; }
+  h3 { font-size: 1.4rem; font-weight: 700; color: $gray-800; margin-bottom: $spacing-3; }
+  p  { font-size: 0.95rem; color: $gray-700; max-width: 340px; margin: 0 auto $spacing-6; line-height: 1.7; }
 
-  button { @include btn-primary; border: none; cursor: pointer; }
+  &__btn { @include btn-primary; border: none; cursor: pointer; }
 }
 
 // ─── Form ─────────────────────────────────────────────────────────────────────
 .ct-form {
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+    margin-bottom: $spacing-6;
+  }
+
+  &__header-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: $radius-lg;
+    background: rgba($primary, .1);
+    color: $primary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
   &__title {
     font-size: 1.25rem;
     font-weight: 700;
     color: $gray-800;
-    margin-bottom: $spacing-6;
+    margin: 0;
   }
 
   &__row {
@@ -102,8 +139,25 @@
     cursor: pointer;
     font-size: 1rem;
     padding: $spacing-4;
-    &:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    &:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
   }
+}
+
+// ─── Spinner ──────────────────────────────────────────────────────────────────
+.ct-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba($white, .4);
+  border-top-color: $white;
+  border-radius: 50%;
+  animation: ct-spin .7s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes ct-spin { to { transform: rotate(360deg); } }
+
+// ─── Success state ────────────────────────────────────────────────────────────
+.ct-success {
+  &__btn { @include btn-primary; border: none; cursor: pointer; }
 }
 
 // ─── Field ────────────────────────────────────────────────────────────────────
@@ -160,6 +214,7 @@
   flex-direction: column;
   gap: $spacing-5;
   @include tablet { position: static; }
+  @include mobile { position: static; gap: $spacing-4; }
 }
 
 .ct-info-card {
@@ -168,6 +223,7 @@
   border-radius: $radius-xl;
   padding: $spacing-6;
   box-shadow: $shadow-sm;
+  @include mobile { padding: $spacing-5; }
 
   &__icon {
     width: 44px;
@@ -253,27 +309,56 @@
   &:hover { background: #1ebe5d; transform: translateY(-1px); }
 }
 
-// ─── Map placeholder ──────────────────────────────────────────────────────────
-.ct-map-placeholder {
+// ─── Map card ─────────────────────────────────────────────────────────────────
+.ct-map-card {
   background: $white;
   border: 1px solid $gray-200;
   border-radius: $radius-xl;
-  padding: $spacing-6;
-  text-align: center;
+  overflow: hidden;
   box-shadow: $shadow-sm;
 
-  svg { color: $gray-600; margin-bottom: $spacing-3; }
-
-  p {
-    font-size: 0.875rem;
-    color: $gray-700;
-    line-height: 1.6;
-    margin-bottom: $spacing-4;
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    padding: $spacing-4 $spacing-5;
+    border-bottom: 1px solid $gray-100;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: $gray-800;
+    svg { color: $primary; flex-shrink: 0; }
   }
 
-  a {
-    @include btn-outline;
+  &__embed {
+    iframe { display: block; }
+  }
+
+  &__footer {
+    padding: $spacing-4 $spacing-5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $spacing-3;
+    flex-wrap: wrap;
+    border-top: 1px solid $gray-100;
+
+    p {
+      font-size: 0.8rem;
+      color: $gray-700;
+      line-height: 1.5;
+      margin: 0;
+    }
+  }
+
+  &__directions {
     display: inline-flex;
+    align-items: center;
+    gap: $spacing-1;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: $primary;
     text-decoration: none;
+    white-space: nowrap;
+    &:hover { text-decoration: underline; }
   }
 }

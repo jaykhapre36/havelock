@@ -60,7 +60,7 @@
   transition: $transition-base;
   text-align: center;
 
-  &:hover { border-color: $primary; color: $primary; }
+  &:hover:not(&--active) { border-color: $primary; color: $primary; }
   &--active { border-color: $primary; background: $primary; color: $white; }
 }
 

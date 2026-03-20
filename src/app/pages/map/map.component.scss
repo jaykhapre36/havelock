@@ -84,7 +84,7 @@
     cursor: pointer;
     transition: $transition-base;
 
-    &:hover { border-color: var(--zone-color); color: var(--zone-color); }
+    &:hover:not(&--active) { border-color: var(--zone-color); color: var(--zone-color); }
 
     &--active {
       background: var(--zone-color);
@@ -103,41 +103,37 @@
   }
 }
 
-// ─── SVG Map ──────────────────────────────────────────────────────────────────
-.map-svg-wrap {
+// ─── Google Map embed ─────────────────────────────────────────────────────────
+.map-embed-wrap {
   background: $white;
   border-radius: $radius-xl;
   border: 1px solid $gray-200;
   box-shadow: $shadow-sm;
   overflow: hidden;
-  position: relative;
-}
 
-.map-svg {
-  width: 100%;
-  height: auto;
-  display: block;
-}
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    padding: $spacing-3 $spacing-5;
+    border-bottom: 1px solid $gray-100;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: $gray-700;
+    svg { color: $primary; flex-shrink: 0; }
+    span { flex: 1; }
+  }
 
-.map-zone-path {
-  transition: fill-opacity 0.2s ease, filter 0.2s ease;
+  &__open {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: $primary;
+    text-decoration: none;
+    white-space: nowrap;
+    &:hover { text-decoration: underline; }
+  }
 
-  &:hover { fill-opacity: 0.75 !important; }
-  &--active { filter: drop-shadow(0 0 8px rgba(0,0,0,0.25)); }
-}
-
-.map-svg-overlay {
-  position: absolute;
-  bottom: $spacing-3;
-  left: $spacing-3;
-  right: $spacing-3;
-  text-align: center;
-  background: rgba($gray-800, 0.75);
-  color: $white;
-  font-size: 0.72rem;
-  padding: $spacing-1 $spacing-3;
-  border-radius: $radius-full;
-  pointer-events: none;
+  iframe { display: block; }
 }
 
 // ─── Facilities ───────────────────────────────────────────────────────────────

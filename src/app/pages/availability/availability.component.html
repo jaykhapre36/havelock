@@ -1,148 +1,136 @@
-<!-- ══ HERO ════════════════════════════════════════════════════════════════ -->
+<!-- ── HERO ──────────────────────────────────────────────────────────────── -->
 <section class="av-hero">
-  <div class="container av-hero__inner">
+  <div class="container">
     <h1 class="av-hero__title">Check Availability</h1>
-    <p class="av-hero__sub">Pick your date, time, and guest count to see available slots and secure your spot.</p>
+    <p class="av-hero__sub">Select a date to see available entry slots and remaining capacity.</p>
   </div>
 </section>
 
-<!-- ══ MAIN ════════════════════════════════════════════════════════════════ -->
-<section class="av-main section">
-  <div class="container av-main__layout">
+<!-- ── MAIN ───────────────────────────────────────────────────────────────── -->
+<section class="av-section section">
+  <div class="container av-section__inner">
 
-    <!-- LEFT: form -->
-    <div class="av-form-col">
-      <div class="av-card">
-        <h2 class="av-card__title">Plan Your Visit</h2>
-
-        <!-- Date -->
-        <div class="av-field">
-          <label class="av-label">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            Select Date
-          </label>
-          <input type="date" class="av-input" [(ngModel)]="selectedDate" [min]="getMinDate()" />
-        </div>
-
-        <!-- Guests -->
-        <div class="av-field">
-          <label class="av-label">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            Number of Guests
-          </label>
-          <div class="av-guests">
-            <div class="av-counter">
-              <span class="av-counter__label">Adults</span>
-              <div class="av-counter__ctrl">
-                <button (click)="decrement('adults')" [disabled]="adults <= 1">−</button>
-                <span>{{ adults }}</span>
-                <button (click)="increment('adults')" [disabled]="adults >= 10">+</button>
-              </div>
-            </div>
-            <div class="av-counter">
-              <span class="av-counter__label">Children</span>
-              <div class="av-counter__ctrl">
-                <button (click)="decrement('children')" [disabled]="children <= 0">−</button>
-                <span>{{ children }}</span>
-                <button (click)="increment('children')" [disabled]="children >= 10">+</button>
-              </div>
-            </div>
-          </div>
-          <p class="av-guests__total">Total guests: <strong>{{ totalGuests }}</strong></p>
-        </div>
-
-        <!-- Time Slots -->
-        <div class="av-field">
-          <label class="av-label">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            Choose Time Slot
-          </label>
-
-          <div class="av-slots" *ngIf="!loading && data">
-            <div
-              class="av-slot"
-              *ngFor="let slot of data.timeSlots"
-              [class.av-slot--selected]="selectedSlot?.id === slot.id"
-              [class.av-slot--full]="slot.status === 'full'"
-              [class.av-slot--limited]="slot.status === 'limited'"
-              (click)="selectSlot(slot)"
-            >
-              <div class="av-slot__info">
-                <p class="av-slot__time">{{ slot.time }}</p>
-                <p class="av-slot__label">{{ slot.label }}</p>
-              </div>
-              <div class="av-slot__right">
-                <span class="av-slot__status av-slot__status--{{ slot.status }}">
-                  {{ slot.status === 'full' ? 'Full' : slot.status === 'limited' ? 'Limited' : 'Available' }}
-                </span>
-                <div class="av-slot__bar">
-                  <div class="av-slot__bar-fill" [style.width.%]="getSlotPct(slot)" [class.warn]="slot.status === 'limited'"></div>
-                </div>
-                <span class="av-slot__seats" *ngIf="slot.status !== 'full'">{{ slot.availableSeats }} seats left</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- skeleton -->
-          <div *ngIf="loading">
-            <div class="skeleton" style="height:72px;border-radius:12px;margin-bottom:10px" *ngFor="let i of [1,2,3,4]"></div>
-          </div>
-        </div>
-
-        <!-- Proceed -->
-        <button
-          class="av-proceed btn-primary"
-          [disabled]="!selectedSlot"
-          (click)="proceedToTickets()"
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-          {{ selectedSlot ? 'Proceed to Tickets' : 'Select a Time Slot' }}
+    <!-- Date picker card -->
+    <div class="av-card">
+      <div class="av-card__icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+      </div>
+      <div class="av-card__text">
+        <h2 class="av-card__title">Select Visit Date</h2>
+        <p class="av-card__sub">Choose the date you'd like to visit Havelock Water Park.</p>
+      </div>
+      <div class="av-date-row">
+        <input
+          class="av-date-input"
+          type="date"
+          [(ngModel)]="selectedDate"
+          [min]="minDate"
+          [max]="maxDate"
+        />
+        <button class="av-check-btn" (click)="checkAvailability()" [disabled]="loading || !selectedDate">
+          <svg *ngIf="!loading" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <span class="av-spinner" *ngIf="loading"></span>
+          {{ loading ? 'Checking...' : 'Check Availability' }}
         </button>
-
-        <p class="av-note" *ngIf="selectedSlot">
-          ✓ Slot selected: <strong>{{ selectedSlot.time }}</strong> · {{ totalGuests }} guest{{ totalGuests > 1 ? 's' : '' }} · {{ selectedDate }}
-        </p>
       </div>
     </div>
 
-    <!-- RIGHT: status sidebar -->
-    <aside class="av-sidebar">
+    <!-- Error -->
+    <div class="av-error" *ngIf="error">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      {{ error }}
+    </div>
 
-      <!-- Park Status -->
-      <div class="av-info-card" *ngIf="data">
-        <h4 class="av-info-card__title">Park Status</h4>
-        <div class="av-status-indicator">
-          <span class="av-status-dot" [class.open]="data.parkInfo.status === 'open'"></span>
-          <span class="av-status-text">Currently {{ data.parkInfo.status === 'open' ? 'Open' : 'Closed' }}</span>
+    <!-- Results -->
+    <ng-container *ngIf="checked && result">
+
+      <!-- Result header -->
+      <div class="av-result-header">
+        <div class="av-result-header__left">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          {{ result.date | date: 'EEEE, d MMMM yyyy' }}
         </div>
-        <div class="av-info-row"><span>Opening Time</span><strong>{{ data.parkInfo.openingTime }}</strong></div>
-        <div class="av-info-row"><span>Closing Time</span><strong>{{ data.parkInfo.closingTime }}</strong></div>
-        <div class="av-info-row"><span>Avg Wait Time</span><strong>{{ data.parkInfo.avgWaitTime }}</strong></div>
-        <div class="av-occ">
-          <div class="av-occ__label"><span>Park Capacity</span><span>{{ getOccupancyPct() }}% full</span></div>
-          <div class="av-occ__bar"><div class="av-occ__fill" [style.width.%]="getOccupancyPct()"></div></div>
-          <p class="av-occ__text">{{ data.parkInfo.currentOccupancy }} / {{ data.parkInfo.maxCapacity }} visitors today</p>
+        <span class="av-result-header__count">{{ result.total_slots }} slot{{ result.total_slots !== 1 ? 's' : '' }}</span>
+      </div>
+
+      <!-- No slots -->
+      <div class="av-empty" *ngIf="result.slots.length === 0">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/>
+        </svg>
+        <p>No slots available for this date.</p>
+        <button class="av-check-btn" (click)="checked = false">Pick Another Date</button>
+      </div>
+
+      <!-- Slot cards -->
+      <div class="av-slots" *ngIf="result.slots.length > 0">
+        <div class="av-slot" *ngFor="let slot of result.slots" [class.av-slot--unavailable]="!slot.is_available">
+
+          <div class="av-slot__header">
+            <div class="av-slot__time">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+              </svg>
+              {{ formatTime(slot.slot_start) }} – {{ formatTime(slot.slot_end) }}
+            </div>
+            <span class="av-slot__badge" [class.av-slot__badge--full]="!slot.is_available">
+              <span class="av-slot__dot" [class.av-slot__dot--full]="!slot.is_available"></span>
+              {{ slot.is_available ? 'Available' : 'Full' }}
+            </span>
+          </div>
+
+          <div class="av-slot__cap-row">
+            <span>Capacity used</span>
+            <span>{{ slot.booked_count }} / {{ slot.total_capacity }}</span>
+          </div>
+          <div class="av-slot__bar">
+            <div class="av-slot__fill"
+              [style.width.%]="getOccupancyPct(slot)"
+              [class.av-slot__fill--warn]="getOccupancyPct(slot) >= 75 && slot.is_available"
+              [class.av-slot__fill--full]="!slot.is_available">
+            </div>
+          </div>
+
+          <div class="av-slot__stats">
+            <div class="av-slot__stat">
+              <span class="av-slot__stat-val">{{ slot.total_capacity }}</span>
+              <span class="av-slot__stat-label">Total Capacity</span>
+            </div>
+            <div class="av-slot__stat">
+              <span class="av-slot__stat-val">{{ slot.booked_count }}</span>
+              <span class="av-slot__stat-label">Booked</span>
+            </div>
+            <div class="av-slot__stat av-slot__stat--hi">
+              <span class="av-slot__stat-val">{{ slot.remaining }}</span>
+              <span class="av-slot__stat-label">Remaining</span>
+            </div>
+          </div>
+
         </div>
       </div>
 
-      <!-- Tips card -->
-      <div class="av-info-card av-info-card--tips">
-        <h4 class="av-info-card__title">💡 Visit Tips</h4>
-        <ul class="av-tips-list">
-          <li>Morning slots are least crowded</li>
-          <li>Book at least 2 hours in advance</li>
-          <li>Weekend slots fill up fast</li>
-          <li>Bring valid ID for senior discounts</li>
-        </ul>
+      <!-- Book CTA -->
+      <div class="av-cta" *ngIf="result.slots.length > 0">
+        <div class="av-cta__text">
+          <strong>Ready to visit on {{ result.date | date: 'd MMM' }}?</strong>
+          <span>Book your tickets now and skip the queue.</span>
+        </div>
+        <button class="av-check-btn" (click)="bookTickets()">Book Tickets Now →</button>
       </div>
 
-      <!-- Need to reschedule? -->
-      <div class="av-info-card">
-        <h4 class="av-info-card__title">Need to Reschedule?</h4>
-        <p class="av-info-card__text">Free rescheduling up to 48 hours before your visit. Contact us for help.</p>
-        <a routerLink="/contact" class="btn-outline" style="width:100%;justify-content:center;margin-top:.5rem">Contact Support</a>
-      </div>
-    </aside>
+    </ng-container>
 
   </div>
 </section>

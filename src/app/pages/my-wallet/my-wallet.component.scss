@@ -284,7 +284,16 @@
     white-space: nowrap;
   }
 
-  &__date { font-size: 0.78rem; color: $gray-400; margin: 0; }
+  &__sub-desc {
+    font-size: 0.78rem;
+    color: $gray-500;
+    margin: 0 0 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__date { font-size: 0.75rem; color: $gray-400; margin: 0; }
 
   &__amount {
     font-size: 0.95rem;
