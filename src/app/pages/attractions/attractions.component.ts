@@ -49,6 +49,13 @@ export class AttractionsComponent implements OnInit {
     }
     if (this.sortBy === 'name')   result.sort((a, b) => a.name.localeCompare(b.name));
     if (this.sortBy === 'height') result.sort((a, b) => (b.heightRequirement ?? 0) - (a.heightRequirement ?? 0));
+
+    // When showing All with default sort: non-rides (Entertainment, Relax) first, rides below
+    if (this.activeCategory === 'All' && this.sortBy === 'popularity') {
+      const order: Record<string, number> = { Entertainment: 0, Relax: 1, Thrill: 2, Family: 3, Kids: 4 };
+      result.sort((a, b) => (order[a.category] ?? 9) - (order[b.category] ?? 9));
+    }
+
     this.filteredAttractions = result;
   }
 

@@ -1,0 +1,101 @@
+<!-- ── HERO ──────────────────────────────────────────────────────────────── -->
+<section class="rides-hero">
+  <div class="container">
+    <h1 class="rides-hero__title">All Rides</h1>
+    <p class="rides-hero__sub">Thrill seekers, families, and kids — every ride at Havelock in one place.</p>
+  </div>
+</section>
+
+<!-- ── MAIN ─────────────────────────────────────────────────────────────── -->
+<section class="rides-content section">
+  <div class="container">
+
+    <!-- Category filters -->
+    <div class="rides-filters">
+      <button
+        class="rides-filter-btn"
+        *ngFor="let cat of rideCategories"
+        [class.active]="activeCategory === cat"
+        (click)="setCategory(cat)"
+      >{{ cat }}</button>
+    </div>
+
+    <p class="rides-count">Showing <strong>{{ filteredRides.length }}</strong> ride{{ filteredRides.length !== 1 ? 's' : '' }}</p>
+
+    <!-- Skeletons -->
+    <div class="rides-grid" *ngIf="loading">
+      <div class="rides-card-skeleton" *ngFor="let i of [1,2,3,4,5,6]">
+        <div class="skeleton" style="height:200px; border-radius:12px 12px 0 0"></div>
+        <div style="padding:1.25rem; display:flex; flex-direction:column; gap:.75rem">
+          <div class="skeleton" style="height:18px; width:60%; border-radius:4px"></div>
+          <div class="skeleton" style="height:13px; border-radius:4px"></div>
+          <div class="skeleton" style="height:13px; width:75%; border-radius:4px"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty -->
+    <div class="rides-empty" *ngIf="!loading && filteredRides.length === 0">
+      <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <p>No rides match <strong *ngIf="searchQuery">"{{ searchQuery }}"</strong></p>
+      <button class="btn-outline" (click)="searchQuery=''; setCategory('All')">Clear Filters</button>
+    </div>
+
+    <!-- Grid -->
+    <div class="rides-grid" *ngIf="!loading && filteredRides.length > 0">
+      <a class="rides-card" *ngFor="let ride of filteredRides" [routerLink]="['/attractions', ride.id]">
+        <div class="rides-card__img-wrap">
+          <div class="rides-card__bg" [style.background]="getGradient(ride.category)"></div>
+          <ng-container *ngIf="ride.images && ride.images.length > 0">
+            <img
+              class="rides-card__img"
+              [src]="ride.images[0]"
+              [alt]="ride.name"
+              loading="lazy"
+            />
+          </ng-container>
+          <span class="rides-card__cat badge" [ngClass]="'badge-' + getCategoryClass(ride.category)">{{ ride.category }}</span>
+          <span class="rides-card__status" [class.rides-card__status--closed]="ride.status !== 'open'">
+            {{ ride.status === 'open' ? 'Open' : ride.status === 'maintenance' ? 'Maintenance' : 'Closed' }}
+          </span>
+        </div>
+        <div class="rides-card__body">
+          <div class="rides-card__top-row">
+            <h3 class="rides-card__name">{{ ride.name }}</h3>
+            <span class="rides-card__wait" *ngIf="ride.waitTime > 0">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+              </svg>
+              {{ ride.waitTime }}m
+            </span>
+          </div>
+          <p class="rides-card__desc">{{ ride.shortDescription }}</p>
+          <div class="rides-card__meta">
+            <span class="rides-card__tag" *ngIf="ride.heightRequirement">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="20" x2="12" y2="4"/><polyline points="8 8 12 4 16 8"/>
+              </svg>
+              {{ ride.heightRequirement }}cm+
+            </span>
+            <span class="rides-card__tag">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+              </svg>
+              {{ ride.intensity }}
+            </span>
+            <span class="rides-card__tag">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+              {{ ride.zone }}
+            </span>
+          </div>
+          <span class="rides-card__cta">View Details →</span>
+        </div>
+      </a>
+    </div>
+
+  </div>
+</section>

@@ -16,6 +16,14 @@ const routes: Routes = [
     loadChildren: () => import('./pages/attractions/attractions.module').then(m => m.AttractionsModule)
   },
   {
+    path: 'all-rides',
+    loadChildren: () => import('./pages/all-rides/all-rides.module').then(m => m.AllRidesModule)
+  },
+  {
+    path: 'amenities',
+    loadChildren: () => import('./pages/amenities/amenities.module').then(m => m.AmenitiesModule)
+  },
+  {
     path: 'attractions/:id',
     loadChildren: () => import('./pages/attraction-detail/attraction-detail.module').then(m => m.AttractionDetailModule)
   },

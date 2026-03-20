@@ -829,6 +829,423 @@
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
+// PARK EXPERIENCES — 2×2 overlay grid
+// ═══════════════════════════════════════════════════════════════════════════
+.experiences__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-5;
+  @include mobile { grid-template-columns: 1fr; }
+}
+
+.exp-card {
+  position: relative;
+  display: block;
+  border-radius: $radius-xl;
+  overflow: hidden;
+  height: 320px;
+  text-decoration: none;
+  cursor: pointer;
+
+  @include mobile { height: 240px; }
+
+  // gradient background (shown while image loads or if no image)
+  &__bg {
+    position: absolute;
+    inset: 0;
+  }
+
+  // photo
+  &__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform .5s ease;
+  }
+
+  &:hover &__img { transform: scale(1.06); }
+
+  // dark gradient so white text is always readable
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(#000, .75) 0%,
+      rgba(#000, .25) 55%,
+      rgba(#000, .05) 100%
+    );
+    transition: background .3s ease;
+  }
+
+  &:hover &__overlay {
+    background: linear-gradient(
+      to top,
+      rgba(#000, .82) 0%,
+      rgba(#000, .35) 55%,
+      rgba(#000, .1) 100%
+    );
+  }
+
+  // text block pinned to bottom
+  &__content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: $spacing-6;
+    gap: $spacing-2;
+  }
+
+  &__cat {
+    align-self: flex-start;
+    margin-bottom: $spacing-1;
+  }
+
+  &__name {
+    font-family: $font-family-heading;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $white;
+    line-height: 1.2;
+    @include mobile { font-size: $font-size-lg; }
+  }
+
+  &__desc {
+    font-size: $font-size-sm;
+    color: rgba($white, .8);
+    line-height: 1.5;
+    @include text-clamp(2);
+  }
+
+  &__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-1;
+    margin-top: $spacing-2;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semi;
+    color: $white;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity .3s ease, transform .3s ease;
+  }
+
+  &:hover &__cta {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ALL RIDES HORIZONTAL SCROLL
+// ═══════════════════════════════════════════════════════════════════════════
+// ── All Rides Strip ──────────────────────────────────────────────────────────
+.all-rides-strip {
+  background: #0d1b2a;
+  padding: $spacing-12 0 $spacing-10;
+  overflow: hidden;
+}
+
+.rides-strip-header {
+  @include flex-between;
+  align-items: flex-end;
+  margin-bottom: $spacing-8;
+  gap: $spacing-4;
+  @include mobile { flex-direction: column; align-items: flex-start; gap: $spacing-3; }
+}
+
+.rides-strip-eyebrow {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semi;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #00B4D8;
+  margin-bottom: $spacing-2;
+}
+
+.rides-strip-title {
+  font-family: $font-family-heading;
+  font-size: $font-size-3xl;
+  font-weight: $font-weight-bold;
+  color: $white;
+  @include mobile { font-size: $font-size-2xl; }
+}
+
+.rides-strip-viewall {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semi;
+  color: rgba($white, .7);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: $transition-fast;
+  padding-bottom: 3px; // align with title baseline
+
+  &:hover { color: $white; gap: $spacing-3; }
+}
+
+.experiences {
+  padding-top: $spacing-8;
+}
+
+// ── Scroll container ─────────────────────────────────────────────────────────
+.rides-scroll-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba($white,.15) transparent;
+  padding-left: max(1rem, calc((100vw - 1200px) / 2));
+  padding-right: max(1rem, calc((100vw - 1200px) / 2));
+  padding-bottom: $spacing-3;
+
+  &::-webkit-scrollbar { height: 3px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb { background: rgba($white,.2); border-radius: $radius-full; }
+}
+
+.rides-scroll {
+  display: flex;
+  gap: $spacing-4;
+  width: max-content;
+  padding-bottom: $spacing-1;
+}
+
+// ── Ride Scroll Card (rsc) ────────────────────────────────────────────────────
+.rsc {
+  width: 290px;
+  flex-shrink: 0;
+  border-radius: $radius-xl;
+  overflow: hidden;
+  background: $white;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  transition: transform .3s ease, box-shadow .3s ease;
+  box-shadow: 0 4px 24px rgba(#000, .35);
+
+  &:hover { transform: translateY(-6px); box-shadow: 0 12px 36px rgba(#000, .5); }
+
+  // ── 4px coloured accent bar at the very top ──
+  &__accent {
+    height: 4px;
+    width: 100%;
+  }
+
+  // category colours for accent bar
+  &--thrill  .rsc__accent { background: linear-gradient(90deg,#c0392b,#e74c3c); }
+  &--family  .rsc__accent { background: linear-gradient(90deg,#1565c0,#00B4D8); }
+  &--kids    .rsc__accent { background: linear-gradient(90deg,#f39c12,#f1c40f); }
+
+  // ── image ──
+  &__img-wrap {
+    position: relative;
+    overflow: hidden;
+    height: 190px;
+  }
+
+  &__bg  { position: absolute; inset: 0; }
+
+  &__img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center;
+    display: block;
+    transition: transform .45s ease;
+  }
+
+  &:hover &__img { transform: scale(1.08); }
+
+  &__wait {
+    position: absolute; bottom: $spacing-2; right: $spacing-2;
+    display: flex; align-items: center; gap: 4px;
+    background: rgba(#000, .6);
+    color: $white;
+    font-size: 10px;
+    font-weight: $font-weight-bold;
+    padding: 3px 8px;
+    border-radius: $radius-full;
+    backdrop-filter: blur(6px);
+  }
+
+  // ── body ──
+  &__body {
+    padding: $spacing-4 $spacing-5 $spacing-5;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-2;
+  }
+
+  &__meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $spacing-2;
+  }
+
+  &__category {
+    font-size: 10px;
+    font-weight: $font-weight-bold;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: $gray-400;
+  }
+
+  // intensity pill
+  &__intensity {
+    font-size: 10px;
+    font-weight: $font-weight-bold;
+    padding: 2px 8px;
+    border-radius: $radius-full;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+
+    &--intense  { background: #FFE4E4; color: #C0392B; }
+    &--exciting { background: #FFF3E4; color: #C06A1A; }
+    &--relaxed  { background: #E4F4FF; color: #1A6FA8; }
+    &--moderate { background: #E8FFE4; color: #1A7A3A; }
+  }
+
+  &__name {
+    font-size: $font-size-base;
+    font-weight: $font-weight-bold;
+    color: $gray-900;
+    line-height: 1.3;
+  }
+
+  &__desc {
+    font-size: $font-size-xs;
+    color: $gray-500;
+    @include text-clamp(2);
+    line-height: 1.55;
+  }
+
+  &__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-1;
+    margin-top: $spacing-1;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-bold;
+    color: $primary;
+    transition: gap .2s ease, color .2s ease;
+  }
+
+  &:hover &__cta { gap: $spacing-2; color: $primary-dark; }
+
+  // per-category cta accent colour
+  &--thrill:hover  .rsc__cta { color: #c0392b; }
+  &--family:hover  .rsc__cta { color: #1565c0; }
+  &--kids:hover    .rsc__cta { color: #e67e22; }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// AMENITIES
+// ═══════════════════════════════════════════════════════════════════════════
+.amenities {
+  background: #f4f8fb;
+}
+
+.amenities__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $spacing-5;
+
+  @include tablet { grid-template-columns: repeat(2, 1fr); }
+  @include mobile { grid-template-columns: 1fr; }
+}
+
+.amenity-card {
+  background: $white;
+  border: 1px solid $gray-200;
+  border-radius: $radius-xl;
+  padding: $spacing-6;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+  transition: box-shadow .25s ease, transform .25s ease;
+
+  &:hover {
+    box-shadow: $shadow-md;
+    transform: translateY(-3px);
+  }
+
+  // Food card spans 2 columns and gets a teal accent
+  &--food {
+    grid-column: span 2;
+    border-color: rgba($primary, .3);
+    background: linear-gradient(135deg, rgba($primary, .04) 0%, $white 60%);
+
+    @include mobile { grid-column: span 1; }
+  }
+
+  &__icon {
+    width: 52px;
+    height: 52px;
+    border-radius: $radius-lg;
+    background: $primary-light;
+    color: $primary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    .amenity-card--food & {
+      background: rgba($primary, .12);
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-2;
+  }
+
+  &__title {
+    font-size: $font-size-base;
+    font-weight: $font-weight-bold;
+    color: $gray-900;
+  }
+
+  &__subtitle {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semi;
+    color: $primary;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+  }
+
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-2;
+
+    li {
+      font-size: $font-size-sm;
+      color: $gray-600;
+      background: $gray-100;
+      border-radius: $radius-full;
+      padding: $spacing-1 $spacing-3;
+      line-height: 1.4;
+
+      .amenity-card--food & {
+        background: rgba($primary, .08);
+        color: $gray-700;
+      }
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
 // ANIMATIONS
 // ═══════════════════════════════════════════════════════════════════════════
 @keyframes pulse {

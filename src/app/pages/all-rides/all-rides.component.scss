@@ -1,0 +1,128 @@
+@use '../../../assets/styles/variables' as *;
+@use '../../../assets/styles/mixins' as *;
+
+// ── Hero ────────────────────────────────────────────────────────────────────
+.rides-hero {
+  background: linear-gradient(135deg, #001a2e 0%, #0077A8 60%, #00B4D8 100%);
+  padding: $spacing-16 0 $spacing-12;
+  text-align: center;
+  &__title { font-family:$font-family-heading; font-size:$font-size-3xl; font-weight:$font-weight-bold; color:$white; margin-bottom:$spacing-4;
+    @include mobile { font-size:$font-size-2xl; } }
+  &__sub { color:rgba($white,.8); font-size:$font-size-md; max-width:520px; margin:0 auto; line-height:1.7;
+    @include mobile { font-size:$font-size-base; } }
+}
+
+// ── Toolbar ─────────────────────────────────────────────────────────────────
+.rides-toolbar {
+  @include flex-between;
+  gap: $spacing-4;
+  margin-bottom: $spacing-5;
+  @include mobile { flex-direction:column; }
+
+  &__search {
+    flex:1;
+    display:flex;
+    align-items:center;
+    gap: $spacing-3;
+    background:$white;
+    border:1.5px solid $gray-200;
+    border-radius:$radius-full;
+    padding: $spacing-3 $spacing-5;
+    transition:$transition-fast;
+    &:focus-within { border-color:$primary; box-shadow:0 0 0 3px rgba($primary,.1); }
+    svg { color:$gray-400; flex-shrink:0; }
+    input { border:none; outline:none; width:100%; font-size:$font-size-sm; color:$gray-800;
+      &::placeholder { color:$gray-400; } }
+    @include mobile { width:100%; }
+  }
+
+  &__sort {
+    display:flex;
+    align-items:center;
+    gap: $spacing-2;
+    label { font-size:$font-size-sm; color:$gray-500; white-space:nowrap; }
+    select { border:1.5px solid $gray-200; border-radius:$radius-md; padding:$spacing-2 $spacing-4; font-size:$font-size-sm; color:$gray-800; background:$white; outline:none; cursor:pointer;
+      &:focus { border-color:$primary; } }
+  }
+}
+
+// ── Filters ─────────────────────────────────────────────────────────────────
+.rides-filters {
+  display:flex;
+  gap:$spacing-2;
+  flex-wrap:wrap;
+  margin-bottom:$spacing-5;
+}
+
+.rides-filter-btn {
+  padding:$spacing-2 $spacing-5;
+  border-radius:$radius-full;
+  border:1.5px solid $gray-200;
+  background:$white;
+  font-size:$font-size-sm;
+  font-weight:$font-weight-medium;
+  color:$gray-600;
+  cursor:pointer;
+  transition:$transition-fast;
+  &:hover:not(.active) { border-color:$primary; color:$primary; }
+  &.active { background:$primary; border-color:$primary; color:$white; font-weight:$font-weight-semi; }
+}
+
+.rides-count { font-size:$font-size-sm; color:$gray-500; margin-bottom:$spacing-6; }
+
+// ── Grid ────────────────────────────────────────────────────────────────────
+.rides-grid {
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:$spacing-5;
+  @include tablet { grid-template-columns:repeat(2, 1fr); }
+  @include mobile { grid-template-columns:1fr; }
+}
+
+// ── Card ────────────────────────────────────────────────────────────────────
+.rides-card {
+  @include card;
+  display:block;
+  text-decoration:none;
+  color:inherit;
+
+  &__img-wrap { position:relative; overflow:hidden; height:210px; }
+  &__bg { position:absolute; inset:0; }
+  &__img {
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    display:block; object-fit:cover; object-position:center;
+    transition:transform .4s ease;
+  }
+  &:hover &__img { transform:scale(1.06); }
+
+  &__cat { position:absolute; top:$spacing-3; left:$spacing-3; }
+
+  &__status {
+    position:absolute; top:$spacing-3; right:$spacing-3;
+    background:rgba(#4ade80,.9); color:#14532d;
+    font-size:10px; font-weight:$font-weight-bold;
+    padding:2px 8px; border-radius:$radius-full; letter-spacing:.05em;
+    &--closed { background:rgba(#ef4444,.9); color:$white; }
+  }
+
+  &__body { padding:$spacing-5; display:flex; flex-direction:column; gap:$spacing-2; }
+  &__top-row { @include flex-between; gap:$spacing-2; }
+  &__name { font-size:$font-size-base; font-weight:$font-weight-semi; color:$gray-900; }
+  &__wait { display:flex; align-items:center; gap:4px; font-size:$font-size-xs; color:$gray-500; white-space:nowrap; flex-shrink:0; }
+  &__desc { font-size:$font-size-sm; color:$gray-500; @include text-clamp(2); line-height:1.5; }
+  &__meta { display:flex; gap:$spacing-3; flex-wrap:wrap; }
+  &__tag { display:flex; align-items:center; gap:4px; font-size:$font-size-xs; color:$gray-500; font-weight:$font-weight-medium; }
+  &__cta { font-size:$font-size-sm; font-weight:$font-weight-semi; color:$primary; margin-top:$spacing-2; transition:$transition-fast; }
+  &:hover &__cta { color:$primary-dark; letter-spacing:.02em; }
+}
+
+.rides-card-skeleton { background:$white; border-radius:$radius-lg; overflow:hidden; border:1px solid $gray-200; }
+
+// ── Empty ───────────────────────────────────────────────────────────────────
+.rides-empty {
+  text-align:center; padding:$spacing-16 $spacing-8;
+  display:flex; flex-direction:column; align-items:center; gap:$spacing-4;
+  svg { color:$gray-300; }
+  p { color:$gray-500; font-size:$font-size-base; }
+}

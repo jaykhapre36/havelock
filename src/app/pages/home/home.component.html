@@ -12,7 +12,7 @@
   <div class="container hero__content">
     <div class="hero__badge" [class.hero__badge--closed]="!isOpenToday">
       <span class="hero__badge-dot" [class.hero__badge-dot--closed]="!isOpenToday"></span>
-      {{ isOpenToday ? 'Open Today: 10:00 AM – 6:00 PM' : 'Closed Today' }} &nbsp;
+      {{ isOpenToday ? 'Open Today: 10:00 AM – 6:00 PM' : 'Closed For Today' }} &nbsp;
     </div>
 
     <h1 class="hero__title">
@@ -49,6 +49,167 @@
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- ALL RIDES HORIZONTAL SCROLL                                             -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="all-rides-strip">
+  <div class="container">
+    <div class="rides-strip-header">
+      <div>
+        <p class="rides-strip-eyebrow">Water Slides & Rides</p>
+        <h2 class="rides-strip-title">All Rides</h2>
+      </div>
+      <a routerLink="/all-rides" class="rides-strip-viewall">
+        View All Rides
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="rides-scroll-wrap">
+    <div class="rides-scroll">
+      <a
+        class="rsc"
+        *ngFor="let ride of allRides"
+        [routerLink]="['/attractions', ride.id]"
+        [ngClass]="'rsc--' + getCategoryClass(ride.category)"
+      >
+        <!-- accent bar top -->
+        <div class="rsc__accent"></div>
+
+        <!-- image -->
+        <div class="rsc__img-wrap">
+          <div class="rsc__bg" [style.background]="getRideGradient(ride.category)"></div>
+          <img
+            *ngIf="ride.images && ride.images.length > 0"
+            class="rsc__img"
+            [src]="ride.images[0]"
+            [alt]="ride.name"
+            loading="lazy"
+          />
+        </div>
+
+        <!-- body -->
+        <div class="rsc__body">
+          <div class="rsc__meta-row">
+            <span class="rsc__category">{{ ride.category }}</span>
+            <span class="rsc__intensity rsc__intensity--{{ ride.intensity.toLowerCase() }}">{{ ride.intensity }}</span>
+          </div>
+          <h4 class="rsc__name">{{ ride.name }}</h4>
+          <p class="rsc__desc">{{ ride.shortDescription }}</p>
+          <span class="rsc__cta">
+            Ride it
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- PARK EXPERIENCES (non-ride attractions)                                 -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="experiences section">
+  <div class="container">
+    <div class="section-header section-header--row">
+      <div>
+        <p class="section-eyebrow">Beyond the Rides</p>
+        <h2 class="section-title">Park Experiences</h2>
+      </div>
+      <a routerLink="/attractions" class="view-all-link">
+        View All Attractions
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+
+    <div class="experiences__grid">
+      <a
+        class="exp-card"
+        *ngFor="let a of parkAttractions"
+        [routerLink]="['/attractions', a.id]"
+      >
+        <!-- background gradient fallback -->
+        <div class="exp-card__bg" [style.background]="getAttrGradient(a.category)"></div>
+        <!-- photo -->
+        <img
+          *ngIf="a.images && a.images.length > 0"
+          class="exp-card__img"
+          [src]="a.images[0]"
+          [alt]="a.name"
+          loading="lazy"
+        />
+        <!-- dark gradient overlay so text is always readable -->
+        <div class="exp-card__overlay"></div>
+        <!-- text -->
+        <div class="exp-card__content">
+          <span class="exp-card__cat badge" [ngClass]="'badge-' + getCategoryClass(a.category)">{{ a.category }}</span>
+          <h3 class="exp-card__name">{{ a.name }}</h3>
+          <p class="exp-card__desc">{{ a.shortDescription }}</p>
+          <span class="exp-card__cta">
+            Explore
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- AMENITIES                                                               -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="amenities section">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-eyebrow">Everything You Need</p>
+      <h2 class="section-title">Park Amenities</h2>
+      <p class="section-subtitle">From hearty Gujarati street food to private cabanas — we've got you covered.</p>
+    </div>
+
+    <div class="amenities__grid">
+      <div
+        class="amenity-card"
+        *ngFor="let group of amenities"
+        [class.amenity-card--food]="group.highlight"
+      >
+        <!-- icon -->
+        <div class="amenity-card__icon">
+          <ng-container [ngSwitch]="group.icon">
+            <svg *ngSwitchCase="'facilities'" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <rect x="3" y="3" width="7" height="18" rx="1"/><rect x="14" y="3" width="7" height="18" rx="1"/>
+              <circle cx="6.5" cy="12" r="1"/><circle cx="17.5" cy="12" r="1"/>
+            </svg>
+            <svg *ngSwitchCase="'food'" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><line x1="7" y1="2" x2="7" y2="22"/>
+              <path d="M21 15V2a5 5 0 0 0-5 5v6h3v7"/><line x1="16" y1="11" x2="19" y2="11"/>
+            </svg>
+            <svg *ngSwitchCase="'comfort'" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v9a2 2 0 0 1-2 2h-2"/>
+              <circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/>
+            </svg>
+            <svg *ngSwitchCase="'services'" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+              <line x1="7" y1="7" x2="7.01" y2="7"/>
+            </svg>
+            <svg *ngSwitchCase="'relax'" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M23 12a11.05 11.05 0 0 0-22 0zm-5 7a3 3 0 0 1-6 0v-7"/>
+            </svg>
+          </ng-container>
+        </div>
+
+        <div class="amenity-card__content">
+          <h4 class="amenity-card__title">{{ group.title }}</h4>
+          <p class="amenity-card__subtitle" *ngIf="group.subtitle">{{ group.subtitle }}</p>
+          <ul class="amenity-card__list">
+            <li *ngFor="let item of group.items">{{ item }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
 <!-- WHY CHOOSE US                                                           -->
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <section class="why-us section">
@@ -70,56 +231,6 @@
         <h4 class="why-us__title">{{ item.title }}</h4>
         <p class="why-us__desc">{{ item.desc }}</p>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!-- FEATURED ATTRACTIONS                                                    -->
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<section class="featured section">
-  <div class="container">
-    <div class="section-header section-header--row">
-      <div>
-        <p class="section-eyebrow">Discover the Park</p>
-        <h2 class="section-title">Featured Attractions</h2>
-      </div>
-      <a routerLink="/attractions" class="view-all-link">
-        View All Attractions
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </a>
-    </div>
-
-    <div class="featured__grid">
-      <a
-        class="attraction-card"
-        *ngFor="let attraction of featuredAttractions"
-        [routerLink]="['/attractions', attraction.id]"
-      >
-        <div class="attraction-card__img-wrap">
-          <div class="attraction-card__img" [style.background]="'linear-gradient(135deg, #0077A8, #00B4D8)'">
-            <span class="attraction-card__placeholder-icon">🌊</span>
-          </div>
-          <span class="attraction-card__badge badge" [ngClass]="'badge-' + getCategoryClass(attraction.category)">
-            {{ attraction.category }}
-          </span>
-        </div>
-        <div class="attraction-card__body">
-          <h4 class="attraction-card__name">{{ attraction.name }}</h4>
-          <p class="attraction-card__desc">{{ attraction.shortDescription }}</p>
-          <div class="attraction-card__meta">
-            <span class="attraction-card__height" *ngIf="attraction.heightRequirement">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
-              {{ attraction.heightRequirement }}cm+
-            </span>
-            <span class="attraction-card__intensity">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-              {{ attraction.intensity }}
-            </span>
-          </div>
-          <span class="attraction-card__cta">View Details →</span>
-        </div>
-      </a>
     </div>
   </div>
 </section>
@@ -198,36 +309,7 @@
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!-- GUEST REVIEWS                                                           -->
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<section class="reviews section">
-  <div class="container">
-    <div class="section-header">
-      <p class="section-eyebrow">Happy Visitors</p>
-      <h2 class="section-title">What Our Guests Say</h2>
-      <div class="reviews__stars">
-        <span *ngFor="let s of [1,2,3,4,5]">★</span>
-        <span class="reviews__rating-label">4.9 / 5 average rating</span>
-      </div>
-    </div>
-    <div class="reviews__grid">
-      <div class="review-card" *ngFor="let review of reviews">
-        <div class="review-card__stars">
-          <span *ngFor="let s of [1,2,3,4,5]" [class.filled]="s <= review.rating">★</span>
-        </div>
-        <p class="review-card__text">"{{ review.review }}"</p>
-        <div class="review-card__author">
-          <div class="review-card__avatar">{{ review.name.charAt(0) }}</div>
-          <div>
-            <p class="review-card__name">{{ review.name }}</p>
-            <p class="review-card__type">{{ review.visitType | titlecase }} visit</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+<!-- GUEST REVIEWS — hidden for now -->
 
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <!-- MINI FAQ                                                                -->
