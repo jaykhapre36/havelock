@@ -10,10 +10,17 @@
   </div>
 
   <div class="container hero__content">
-    <div class="hero__badge" [class.hero__badge--closed]="!isOpenToday">
-      <span class="hero__badge-dot" [class.hero__badge-dot--closed]="!isOpenToday"></span>
-      {{ isOpenToday ? 'Open Today: 10:00 AM – 6:00 PM' : 'Closed For Today' }} &nbsp;
-    </div>
+    @if (isOpenToday) {
+      <div class="hero__badge">
+        <span class="hero__badge-dot"></span>
+        Open Today: 10:00 AM – 6:00 PM &nbsp;
+      </div>
+    } @else if (isOpenTomorrow) {
+      <div class="hero__badge hero__badge--tomorrow">
+        <span class="hero__badge-dot hero__badge-dot--tomorrow"></span>
+        Opens Tomorrow: 10:00 AM – 6:00 PM &nbsp;
+      </div>
+    } 
 
     <h1 class="hero__title">
       Make a Splash at <span class="hero__title-highlight">Gujarat's</span><br>
@@ -30,8 +37,10 @@
       <a routerLink="/attractions" class="btn-outline hero__cta-secondary">Explore Attractions</a>
     </div>
   </div>
+</section>
 
-  <!-- Availability Widget -->
+<!-- ─── Availability Widget Bridge ──────────────────────────────────────── -->
+<div class="avail-bridge">
   <div class="container">
     <div class="availability-widget">
       <div class="availability-widget__field">
@@ -46,7 +55,7 @@
       </button>
     </div>
   </div>
-</section>
+</div>
 
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <!-- ALL RIDES HORIZONTAL SCROLL                                             -->

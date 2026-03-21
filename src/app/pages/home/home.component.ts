@@ -28,6 +28,7 @@ export class HomeComponent implements OnInit {
   minDate = '';
   maxDate = '';
   isOpenToday = false;
+  isOpenTomorrow = false;
 
   // Mini FAQ
   openFaqId: number | null = null;
@@ -101,6 +102,9 @@ export class HomeComponent implements OnInit {
       const available = res.data.slots.filter(s => s.remaining > 0);
       this.availableDates = new Set(available.map(s => s.slot_date));
       this.isOpenToday = this.availableDates.has(today);
+      const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
+      const tomorrowStr = tomorrow.toISOString().split('T')[0];
+      this.isOpenTomorrow = !this.isOpenToday && this.availableDates.has(tomorrowStr);
       if (available.length) {
         this.minDate = available[0].slot_date;
         this.maxDate = available[available.length - 1].slot_date;
