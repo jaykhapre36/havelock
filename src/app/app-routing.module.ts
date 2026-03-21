@@ -29,7 +29,8 @@ const routes: Routes = [
   },
   {
     path: 'tickets',
-    loadChildren: () => import('./pages/tickets/tickets.module').then(m => m.TicketsModule)
+    redirectTo: 'packages',
+    pathMatch: 'full'
   },
   {
     path: 'group-booking',
@@ -46,7 +47,8 @@ const routes: Routes = [
   },
   {
     path: 'faq-safety',
-    loadChildren: () => import('./pages/faq-safety/faq-safety.module').then(m => m.FaqSafetyModule)
+    redirectTo: '/',
+    pathMatch: 'full'
   },
   {
     path: 'contact',
@@ -84,6 +86,10 @@ const routes: Routes = [
     path: 'my-extras',
     loadChildren: () => import('./pages/my-extras/my-extras.module').then(m => m.MyExtrasModule),
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'terms',
+    loadChildren: () => import('./pages/terms/terms.module').then(m => m.TermsModule)
   },
   {
     path: '**',

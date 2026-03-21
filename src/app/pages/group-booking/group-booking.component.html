@@ -381,12 +381,20 @@
         </div>
       </div>
 
+      <label class="gb-terms" *ngIf="!paymentFailed">
+        <input type="checkbox" [(ngModel)]="agreedToTerms" />
+        <span class="gb-terms__text">
+          I have read and agree to the
+          <a routerLink="/terms" target="_blank" class="gb-terms__link">Terms &amp; Conditions</a>
+        </span>
+      </label>
+
       <div class="gb-actions gb-actions--split" *ngIf="!paymentFailed">
         <button class="gb-btn gb-btn--outline" (click)="currentStep = 2" [disabled]="loading">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
           Back
         </button>
-        <button class="gb-btn gb-btn--primary" (click)="onConfirm()" [disabled]="loading">
+        <button class="gb-btn gb-btn--primary" (click)="onConfirm()" [disabled]="loading || !agreedToTerms">
           <span class="gb-spinner" *ngIf="loading"></span>
           {{ loading ? 'Processing...' : 'Confirm & Pay' }}
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" *ngIf="!loading">

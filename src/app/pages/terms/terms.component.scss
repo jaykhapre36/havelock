@@ -1,0 +1,188 @@
+@use '../../../assets/styles/variables' as *;
+@use '../../../assets/styles/mixins' as *;
+
+// ─── Hero ─────────────────────────────────────────────────────────────────
+.terms-hero {
+  background: linear-gradient(135deg, #001a2e 0%, #0077a8 100%);
+  padding: 7rem 0 $spacing-16;
+  text-align: center;
+
+  &__eyebrow {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semi;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba($white, 0.6);
+    margin-bottom: $spacing-3;
+  }
+
+  &__title {
+    font-family: $font-family-heading;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: $font-weight-bold;
+    color: $white;
+    margin-bottom: $spacing-3;
+  }
+
+  &__meta {
+    font-size: $font-size-sm;
+    color: rgba($white, 0.5);
+    margin-bottom: $spacing-5;
+  }
+
+  &__intro {
+    font-size: $font-size-md;
+    color: rgba($white, 0.8);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+}
+
+// ─── Layout ───────────────────────────────────────────────────────────────
+.terms-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: $spacing-12;
+  align-items: start;
+
+  @include tablet  { grid-template-columns: 1fr; }
+  @include mobile  { grid-template-columns: 1fr; }
+}
+
+// ─── Sidebar Nav ──────────────────────────────────────────────────────────
+.terms-nav {
+  position: sticky;
+  top: 100px;
+  background: $gray-100;
+  border-radius: $radius-xl;
+  padding: $spacing-5;
+  border: 1px solid $gray-100;
+
+  @include tablet { display: none; }
+  @include mobile { display: none; }
+
+  &__label {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semi;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: $gray-400;
+    margin-bottom: $spacing-4;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-1;
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    font-size: $font-size-sm;
+    color: $gray-600;
+    text-decoration: none;
+    padding: $spacing-2 $spacing-3;
+    border-radius: $radius-md;
+    transition: $transition-fast;
+
+    &:hover {
+      background: rgba($primary, 0.08);
+      color: $primary;
+    }
+  }
+
+  &__icon { font-size: 1rem; }
+}
+
+// ─── Content ──────────────────────────────────────────────────────────────
+.terms-content {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-10;
+}
+
+// ─── Section ──────────────────────────────────────────────────────────────
+.terms-section {
+  scroll-margin-top: 100px;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+    margin-bottom: $spacing-6;
+    padding-bottom: $spacing-4;
+    border-bottom: 2px solid $gray-100;
+  }
+
+  &__icon {
+    font-size: 1.5rem;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba($primary, 0.08);
+    border-radius: $radius-lg;
+    flex-shrink: 0;
+  }
+
+  &__title {
+    font-family: $font-family-heading;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $gray-900;
+  }
+}
+
+// ─── Item ─────────────────────────────────────────────────────────────────
+.terms-item {
+  padding: $spacing-5;
+  background: $white;
+  border: 1px solid $gray-100;
+  border-radius: $radius-lg;
+  margin-bottom: $spacing-3;
+  transition: box-shadow 0.2s ease;
+
+  &:hover { box-shadow: $shadow-sm; }
+
+  &__heading {
+    font-size: $font-size-base;
+    font-weight: $font-weight-semi;
+    color: $gray-800;
+    margin-bottom: $spacing-2;
+  }
+
+  &__body {
+    font-size: $font-size-sm;
+    color: $gray-600;
+    line-height: 1.75;
+  }
+}
+
+// ─── Footer Note ──────────────────────────────────────────────────────────
+.terms-note {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-3;
+  background: rgba($primary, 0.06);
+  border: 1px solid rgba($primary, 0.15);
+  border-radius: $radius-lg;
+  padding: $spacing-4 $spacing-5;
+  color: $gray-600;
+  font-size: $font-size-sm;
+  line-height: 1.7;
+
+  svg { flex-shrink: 0; margin-top: 2px; color: $primary; }
+
+  a { color: $primary; font-weight: $font-weight-semi; text-decoration: none;
+    &:hover { text-decoration: underline; }
+  }
+
+  p { margin: 0; }
+}

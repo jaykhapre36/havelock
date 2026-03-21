@@ -1,0 +1,60 @@
+<!-- ─── Page Header ───────────────────────────────────────────────────────── -->
+<section class="terms-hero">
+  <div class="container">
+    <p class="terms-hero__eyebrow">Legal</p>
+    <h1 class="terms-hero__title">Terms & Conditions</h1>
+    <p class="terms-hero__meta">Last updated: {{ lastUpdated }}</p>
+    <p class="terms-hero__intro">
+      By purchasing a ticket or entering Havelock Water Park, you agree to the
+      following terms and conditions. Please read them carefully before your visit.
+    </p>
+  </div>
+</section>
+
+<!-- ─── Content ──────────────────────────────────────────────────────────── -->
+<section class="terms-body section">
+  <div class="container terms-layout">
+
+    <!-- Sticky sidebar nav -->
+    <aside class="terms-nav">
+      <p class="terms-nav__label">Jump to section</p>
+      <ul>
+        <li *ngFor="let sec of sections">
+          <a [href]="'#section-' + sec.id" class="terms-nav__link">
+            <span class="terms-nav__icon">{{ sec.icon }}</span>
+            {{ sec.title }}
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Sections -->
+    <div class="terms-content">
+      <div
+        *ngFor="let sec of sections"
+        [id]="'section-' + sec.id"
+        class="terms-section"
+      >
+        <div class="terms-section__header">
+          <span class="terms-section__icon">{{ sec.icon }}</span>
+          <h2 class="terms-section__title">{{ sec.id }}. {{ sec.title }}</h2>
+        </div>
+
+        <div class="terms-item" *ngFor="let item of sec.items">
+          <h3 class="terms-item__heading">{{ item.heading }}</h3>
+          <p class="terms-item__body">{{ item.body }}</p>
+        </div>
+      </div>
+
+      <!-- Footer note -->
+      <div class="terms-note">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <p>
+          These terms are subject to change without prior notice. For queries, please
+          <a routerLink="/contact">contact us</a> or visit the park's guest relations desk.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>

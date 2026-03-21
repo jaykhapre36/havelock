@@ -95,7 +95,7 @@
     border: 1.5px solid $gray-200; border-radius: $radius-lg;
     font-size: 0.9rem; color: $gray-800; background: $white;
     outline: none; transition: border-color 0.2s, box-shadow 0.2s; font-family: inherit;
-    &::placeholder { color: $gray-600; }
+    &::placeholder { color: $gray-500; }
     &:focus { border-color: $primary; box-shadow: 0 0 0 3px rgba($primary, 0.12); }
   }
 

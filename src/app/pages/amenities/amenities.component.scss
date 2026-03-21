@@ -127,6 +127,84 @@
   }
 }
 
+// ── Food category cards ──────────────────────────────────────────────────────
+.am-food-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $spacing-5;
+  @include tablet { grid-template-columns: repeat(2, 1fr); }
+  @include mobile { grid-template-columns: 1fr; }
+}
+
+.am-food-cat {
+  background: $white;
+  border: 1.5px solid $gray-200;
+  border-radius: $radius-xl;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.09);
+    transform: translateY(-2px);
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+    padding: $spacing-4 $spacing-5;
+    background: color-mix(in srgb, var(--cat-color) 12%, transparent);
+    border-bottom: 1.5px solid color-mix(in srgb, var(--cat-color) 20%, transparent);
+  }
+
+  &__emoji {
+    font-size: 1.8rem;
+    line-height: 1;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: color-mix(in srgb, var(--cat-color) 15%, white);
+    border-radius: $radius-lg;
+    flex-shrink: 0;
+  }
+
+  &__name {
+    font-size: $font-size-base;
+    font-weight: $font-weight-semi;
+    color: $gray-800;
+  }
+
+  &__list {
+    list-style: none;
+    padding: $spacing-4 $spacing-5;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-3;
+
+    li {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding-left: $spacing-3;
+      border-left: 2.5px solid color-mix(in srgb, var(--cat-color) 40%, transparent);
+    }
+  }
+
+  &__item-name {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semi;
+    color: $gray-800;
+  }
+
+  &__item-note {
+    font-size: 0.75rem;
+    color: $gray-500;
+  }
+}
+
 // ── Items grid ──────────────────────────────────────────────────────────────
 .am-items {
   display: grid;

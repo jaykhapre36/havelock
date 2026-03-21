@@ -23,7 +23,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     { label: 'Home',             route: '/',             exact: true  },
     { label: 'Attractions',      route: '/attractions',  exact: false },
     { label: 'All Rides',        route: '/all-rides',    exact: false },
-    { label: 'Restaurants',      route: '/restaurants',  exact: false },
     { label: 'Ticket Packages',  route: '/packages',     exact: false },
     { label: 'Map',              route: '/map',           exact: false },
     { label: 'Amenities',        route: '/amenities',     exact: false },

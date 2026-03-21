@@ -105,6 +105,15 @@
     </div>
   </div>
 
+  <!-- ── Terms Agreement ──────────────────────────────────────────────────── -->
+  <label class="bk-terms" *ngIf="!paymentFailed">
+    <input type="checkbox" [(ngModel)]="agreedToTerms" />
+    <span class="bk-terms__text">
+      I have read and agree to the
+      <a routerLink="/terms" target="_blank" class="bk-terms__link">Terms &amp; Conditions</a>
+    </span>
+  </label>
+
   <!-- ── Actions ───────────────────────────────────────────────────────────── -->
   <div class="bk-actions" *ngIf="!paymentFailed">
     <button class="bk-btn bk-btn--outline" (click)="onBack()" [disabled]="loading">
@@ -113,7 +122,7 @@
       </svg>
       Back
     </button>
-    <button class="bk-btn bk-btn--primary" (click)="onConfirm()" [disabled]="loading">
+    <button class="bk-btn bk-btn--primary" (click)="onConfirm()" [disabled]="loading || !agreedToTerms">
       <span class="bk-spinner" *ngIf="loading"></span>
       {{ loading ? 'Processing...' : 'Confirm & Pay' }}
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" *ngIf="!loading">

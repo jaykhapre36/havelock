@@ -122,7 +122,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
             this.authService.login(phone).subscribe({
               next: (loginRes) => {
                 this.loading = false;
-                this.successMessage = loginRes.message || 'Registration successful! Welcome to Havelock.';
+                this.successMessage = loginRes.message || 'Registration and Login successful! Welcome to Havelock.';
                 setTimeout(() => this.router.navigate(['/packages']), 1500);
               },
               error: (err) => {

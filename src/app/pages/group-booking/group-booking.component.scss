@@ -732,3 +732,32 @@
     @include mobile { flex-direction: column; }
   }
 }
+
+.gb-terms {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  margin-bottom: $spacing-4;
+  cursor: pointer;
+
+  input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    accent-color: $primary;
+    cursor: pointer;
+  }
+
+  &__text {
+    font-size: $font-size-sm;
+    color: $gray-600;
+    line-height: 1.5;
+  }
+
+  &__link {
+    color: $primary;
+    font-weight: $font-weight-semi;
+    text-decoration: none;
+    &:hover { text-decoration: underline; }
+  }
+}

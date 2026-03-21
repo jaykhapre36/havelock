@@ -62,7 +62,7 @@
           </svg>
           {{ result.date | date: 'EEEE, d MMMM yyyy' }}
         </div>
-        <span class="av-result-header__count">{{ result.total_slots }} slot{{ result.total_slots !== 1 ? 's' : '' }}</span>
+        <!-- <span class="av-result-header__count">{{ result.total_slots }} slot{{ result.total_slots !== 1 ? 's' : '' }}</span> -->
       </div>
 
       <!-- No slots -->
@@ -91,10 +91,10 @@
             </span>
           </div>
 
-          <div class="av-slot__cap-row">
+          <!-- <div class="av-slot__cap-row">
             <span>Capacity used</span>
             <span>{{ slot.booked_count }} / {{ slot.total_capacity }}</span>
-          </div>
+          </div> -->
           <div class="av-slot__bar">
             <div class="av-slot__fill"
               [style.width.%]="getOccupancyPct(slot)"
@@ -103,18 +103,32 @@
             </div>
           </div>
 
-          <div class="av-slot__stats">
-            <div class="av-slot__stat">
-              <span class="av-slot__stat-val">{{ slot.total_capacity }}</span>
-              <span class="av-slot__stat-label">Total Capacity</span>
+          <div class="av-slot__remaining" *ngIf="slot.is_available">
+            <div class="av-slot__remaining-count">
+              <span class="av-slot__remaining-num">{{ slot.remaining }}</span>
+              <span class="av-slot__remaining-label">tickets left</span>
             </div>
-            <div class="av-slot__stat">
-              <span class="av-slot__stat-val">{{ slot.booked_count }}</span>
-              <span class="av-slot__stat-label">Booked</span>
+            <div class="av-slot__remaining-divider"></div>
+            <div class="av-slot__remaining-text">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+              </svg>
+              Hurry! Limited spots available.<br/>
+              <span>Book your tickets before they run out.</span>
             </div>
-            <div class="av-slot__stat av-slot__stat--hi">
-              <span class="av-slot__stat-val">{{ slot.remaining }}</span>
-              <span class="av-slot__stat-label">Remaining</span>
+          </div>
+          <div class="av-slot__remaining av-slot__remaining--full" *ngIf="!slot.is_available">
+            <div class="av-slot__remaining-count">
+              <span class="av-slot__remaining-num">0</span>
+              <span class="av-slot__remaining-label">tickets left</span>
+            </div>
+            <div class="av-slot__remaining-divider"></div>
+            <div class="av-slot__remaining-text">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/>
+              </svg>
+              This slot is fully booked.<br/>
+              <span>Try checking another date.</span>
             </div>
           </div>
 

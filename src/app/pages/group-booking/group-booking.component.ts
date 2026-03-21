@@ -56,6 +56,7 @@ export class GroupBookingComponent implements OnInit, OnDestroy {
   bookingReference = '';
   paymentFailed = false;
   paymentFailedMsg = '';
+  agreedToTerms = false;
 
   readonly MIN_GROUP = 10;
 

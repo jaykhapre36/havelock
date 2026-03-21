@@ -154,3 +154,42 @@ h6 { font-family: $font-family-heading; font-size: $font-size-md;  font-weight: 
   0%   { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
+
+// ─── Floating Book Tickets button (shared across pages) ──────────────────────
+// ─── Floating Book Tickets button (shared across pages) ──────────────────────
+.float-book {
+  position: fixed;
+  bottom: $spacing-10;
+  right: $spacing-6;
+  z-index: 100;
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  padding: $spacing-3 $spacing-5;
+  border-radius: $radius-full;
+  background: $primary;
+  color: $white;
+  text-decoration: none;
+  border: 5px solid #0077A8;
+  box-shadow: 0 4px 16px rgba(#00B4D8, 0.5), 0 2px 6px rgba(#000, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semi;
+  white-space: nowrap;
+
+  svg { flex-shrink: 0; }
+
+  &:hover {
+    transform: translateY(-4px) scale(1.08);
+    box-shadow: 0 10px 28px rgba(#00B4D8, 0.55), 0 4px 10px rgba(#000, 0.2);
+  }
+
+  &:active { transform: scale(0.96); }
+
+  @include mobile {
+    bottom: $spacing-8;
+    right: $spacing-4;
+    padding: $spacing-3 $spacing-4;
+    font-size: $font-size-xs;
+  }
+}

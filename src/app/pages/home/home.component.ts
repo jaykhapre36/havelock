@@ -58,7 +58,7 @@ export class HomeComponent implements OnInit {
       highlight: true,
       subtitle: '10 Food Stalls · 1 Restaurant',
       items: [
-        'Sheetal Ice Cream', 'Coconut Water', 'Sugarcane Juice',
+        'Ice Cream', 'Coconut Water', 'Sugarcane Juice',
         'Popcorn & Soft Drinks', 'Chinese Food', 'South Indian',
         'Live Dhokla', 'Makai & Chana Chor Garam',
         'Fruit Dish', 'Dabeli, Vada Pav & Samosa'

@@ -22,6 +22,7 @@ export class Step3Component implements OnInit {
   error = '';
   paymentFailed = false;
   paymentFailedMsg = '';
+  agreedToTerms = false;
 
   constructor(
     private stateService: BookingStateService,
