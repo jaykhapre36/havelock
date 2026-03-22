@@ -24,6 +24,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/amenities/amenities.module').then(m => m.AmenitiesModule)
   },
   {
+    path: 'adventure-park',
+    loadChildren: () => import('./pages/adventure/adventure.module').then(m => m.AdventureModule)
+  },
+  {
     path: 'attractions/:id',
     loadChildren: () => import('./pages/attraction-detail/attraction-detail.module').then(m => m.AttractionDetailModule)
   },
@@ -98,7 +102,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { scrollPositionRestoration: 'top' })],
+  imports: [RouterModule.forRoot(routes, { scrollPositionRestoration: 'top', anchorScrolling: 'enabled' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

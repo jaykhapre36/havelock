@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AttractionsService } from '../../services/attractions.service';
 import { TicketsService } from '../../services/tickets.service';
@@ -14,7 +14,9 @@ import { Review } from '../../models/review.model';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
+
+  @ViewChild('heroVideo') heroVideo!: ElementRef<HTMLVideoElement>;
 
   featuredAttractions: Attraction[] = [];
   allRides: Attraction[] = [];
@@ -95,6 +97,14 @@ export class HomeComponent implements OnInit {
     private availabilityService: AvailabilityService,
     private router: Router
   ) {}
+
+  ngAfterViewInit(): void {
+    const video = this.heroVideo?.nativeElement;
+    if (video) {
+      video.muted = true;
+      video.play().catch(() => {});
+    }
+  }
 
   ngOnInit(): void {
     this.availabilityService.getSlots().subscribe(res => {

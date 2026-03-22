@@ -43,6 +43,14 @@
 .auth-form-wrap {
   width: 100%;
   max-width: 440px;
+  &__page-title {
+    font-size: 2rem;
+    font-weight: $font-weight-bold;
+    color: $gray-900;
+    text-align: center;
+    margin-bottom: $spacing-6;
+  }
+
   &__header { margin-bottom: $spacing-6; }
   &__title { font-size: 1.75rem; font-weight: 800; color: $gray-800; margin-bottom: $spacing-2; }
   &__sub { font-size: 0.95rem; color: $gray-700; margin-bottom: $spacing-6; }

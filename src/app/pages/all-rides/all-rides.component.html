@@ -57,9 +57,6 @@
             />
           </ng-container>
           <span class="rides-card__cat badge" [ngClass]="'badge-' + getCategoryClass(ride.category)">{{ ride.category }}</span>
-          <span class="rides-card__status" [class.rides-card__status--closed]="ride.status !== 'open'">
-            {{ ride.status === 'open' ? 'Open' : ride.status === 'maintenance' ? 'Maintenance' : 'Closed' }}
-          </span>
         </div>
         <div class="rides-card__body">
           <div class="rides-card__top-row">

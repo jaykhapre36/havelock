@@ -7,19 +7,48 @@
   svg { color:$gray-300; } h2 { font-size:$font-size-2xl; color:$gray-800; } p { color:$gray-500; }
 }
 
+// ── Breadcrumb bar ────────────────────────────────────────────────────────
+.detail-breadcrumb-bar {
+  background: $white;
+  border-bottom: 1px solid $gray-200;
+  padding: $spacing-3 0;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  flex-wrap: wrap;
+  a {
+    color: $gray-900;
+    font-size: $font-size-sm;
+    text-decoration: none;
+    transition: $transition-fast;
+    &:hover { color: $primary; }
+  }
+  span:not(.breadcrumb__current) {
+    color: $gray-900;
+    font-size: $font-size-sm;
+  }
+  &__current {
+    color: $gray-500 !important;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-sm;
+  }
+}
+
 // ── Hero ──────────────────────────────────────────────────────────────────
 .detail-hero {
   position: relative;
-  min-height: 540px;
+  min-height: 480px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding-top: $navbar-height;
+  justify-content: flex-end;
   overflow: hidden;
   background-size: cover !important;
   background-position: center !important;
 
-  @include mobile { min-height: 460px; }
+  @include mobile { min-height: 380px; }
 
   // cinematic gradient: clear at top, dark at bottom
   &__overlay {
@@ -34,13 +63,6 @@
     );
   }
 
-  // breadcrumb at top, in normal flow
-  &__breadcrumb-bar {
-    position: relative;
-    z-index: 2;
-    padding: $spacing-4 0;
-  }
-
   // title/tags/buttons anchored to bottom
   &__content {
     position: relative;
@@ -48,31 +70,6 @@
     padding-bottom: $spacing-12;
     width: 100%;
     @include mobile { padding-bottom: $spacing-8; }
-  }
-}
-
-.breadcrumb {
-  display: flex;
-  align-items: center;
-  gap: $spacing-2;
-  flex-wrap: wrap;
-  a {
-    color: rgba($white, .85);
-    font-size: $font-size-sm;
-    text-decoration: none;
-    transition: $transition-fast;
-    text-shadow: 0 1px 4px rgba(0,0,0,.6);
-    &:hover { color: $white; }
-  }
-  span {
-    color: rgba($white, .6);
-    font-size: $font-size-sm;
-    text-shadow: 0 1px 4px rgba(0,0,0,.6);
-  }
-  &__current {
-    color: $white;
-    font-weight: $font-weight-medium;
-    text-shadow: 0 1px 4px rgba(0,0,0,.6);
   }
 }
 
