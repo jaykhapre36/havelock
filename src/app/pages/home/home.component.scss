@@ -46,12 +46,13 @@
     object-fit: cover;
     object-position: center;
     z-index: 0;
+    // opacity: 0.7;
   }
 
   &__overlay {
     position: absolute;
     inset: 0;
-    background: rgba(#001a2e, 0.5);
+    background: rgba(#001a2e, 0);
     z-index: 1;
   }
 

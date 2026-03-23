@@ -165,31 +165,42 @@ h6 { font-family: $font-family-heading; font-size: $font-size-md;  font-weight: 
   display: inline-flex;
   align-items: center;
   gap: $spacing-2;
-  padding: $spacing-4 $spacing-8;
+  padding: $spacing-3 $spacing-6;
   border-radius: $radius-full;
-  background: $primary;
+  background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
   color: $white;
   text-decoration: none;
-  border: 5px solid #0077A8;
-  box-shadow: 0 4px 16px rgba(#00B4D8, 0.5), 0 2px 6px rgba(#000, 0.15);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  font-size: $font-size-base;
-  font-weight: $font-weight-semi;
+  border: none;
+  box-shadow: 0 6px 24px rgba($primary, 0.45), 0 2px 8px rgba(#000, 0.12);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  letter-spacing: 0.03em;
   white-space: nowrap;
+  animation: float-pulse 3s ease-in-out infinite;
 
-  svg { flex-shrink: 0; }
+  svg {
+    flex-shrink: 0;
+    filter: drop-shadow(0 1px 2px rgba(#000, 0.2));
+  }
 
   &:hover {
-    transform: translateY(-4px) scale(1.08);
-    box-shadow: 0 10px 28px rgba(#00B4D8, 0.55), 0 4px 10px rgba(#000, 0.2);
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 14px 32px rgba($primary, 0.55), 0 4px 12px rgba(#000, 0.15);
+    animation: none;
   }
 
-  &:active { transform: scale(0.96); }
+  &:active { transform: scale(0.97); }
 
   @include mobile {
-    bottom: $spacing-8;
+    bottom: $spacing-6;
     right: $spacing-4;
-    padding: $spacing-3 $spacing-4;
+    padding: $spacing-2 $spacing-5;
     font-size: $font-size-xs;
   }
+}
+
+@keyframes float-pulse {
+  0%, 100% { box-shadow: 0 6px 24px rgba($primary, 0.45), 0 2px 8px rgba(#000, 0.12); }
+  50%       { box-shadow: 0 8px 32px rgba($primary, 0.65), 0 4px 12px rgba(#000, 0.15); transform: translateY(-3px); }
 }

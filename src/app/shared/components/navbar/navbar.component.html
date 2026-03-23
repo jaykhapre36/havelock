@@ -67,13 +67,13 @@
   <div class="navbar__mobile-menu" [class.open]="isMenuOpen">
 
     <!-- Logged-in greeting card -->
-    <div class="navbar__mobile-profile" *ngIf="currentUser">
+    <!-- <div class="navbar__mobile-profile" *ngIf="currentUser">
       <div class="navbar__mobile-profile__avatar">{{ currentUser.name.charAt(0).toUpperCase() }}</div>
       <div class="navbar__mobile-profile__info">
         <span class="navbar__mobile-profile__hi">Welcome back 👋</span>
         <span class="navbar__mobile-profile__name">{{ currentUser.name }}</span>
       </div>
-    </div>
+    </div> -->
 
     <ul class="navbar__mobile-links">
       <li *ngFor="let link of navLinks">

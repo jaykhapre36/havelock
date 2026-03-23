@@ -256,18 +256,12 @@
 }
 
 // ─── Hours ────────────────────────────────────────────────────────────────────
-.ct-hours {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-2;
-
-  &__row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.875rem;
-    span { color: $gray-700; }
-    strong { font-weight: 600; color: $gray-700; }
-  }
+.ct-info-card__hours-time {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: $primary;
+  margin: $spacing-1 0 $spacing-1;
+  letter-spacing: -0.01em;
 }
 
 // ─── Contact list ─────────────────────────────────────────────────────────────
