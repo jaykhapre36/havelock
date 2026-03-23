@@ -19,7 +19,7 @@ export class FooterComponent {
   supportLinks = [
     { label: 'Contact Us',     route: '/contact'    },
     { label: 'FAQ & Safety',   route: '/', fragment: 'faq' },
-    { label: 'Privacy Policy', route: '/contact'    },
+    // { label: 'Privacy Policy', route: '/contact'    },
     { label: 'Terms of Service', route: '/terms'    }
   ];
 }

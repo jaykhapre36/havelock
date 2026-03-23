@@ -64,12 +64,6 @@
           <div class="attr-card__body">
             <div class="attr-card__top-row">
               <h3 class="attr-card__name">{{ a.name }}</h3>
-              <span class="attr-card__wait" *ngIf="a.waitTime > 0">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-                </svg>
-                {{ a.waitTime }}m
-              </span>
             </div>
             <p class="attr-card__desc">{{ a.shortDescription }}</p>
             <div class="attr-card__meta">
@@ -92,39 +86,9 @@
       </div>
     </div>
 
-    <!-- RIGHT: sidebar -->
-    <aside class="attr-sidebar">
-      <div class="sidebar-card">
-        <h4 class="sidebar-card__title">Park Zones</h4>
-        <p class="sidebar-card__sub">Navigate through Thrill Island, Family Cove, and Kids Kingdom with ease.</p>
-        <a routerLink="/map" class="btn-primary sidebar-card__mapbtn">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21 3 6"/>
-          </svg>
-          Open Park Map
-        </a>
-      </div>
-
-      <div class="sidebar-card sidebar-card--cta">
-        <h4>Found your favorites?</h4>
-        <p>Skip the queues and secure your spot today.</p>
-        <a routerLink="/packages" class="btn-secondary">Book Tickets Now</a>
-      </div>
-    </aside>
-
   </div>
 </section>
 
-<!-- ── BOTTOM CTA ─────────────────────────────────────────────────────── -->
-<section class="attr-bottom-cta">
-  <div class="container attr-bottom-cta__inner">
-    <div>
-      <h2>Found your favorites?</h2>
-      <p>Skip the queues and secure your spot today.</p>
-    </div>
-    <a routerLink="/packages" class="attr-bottom-cta__btn">Book Tickets Now</a>
-  </div>
-</section>
 
 <a routerLink="/packages" class="float-book">
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

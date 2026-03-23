@@ -21,8 +21,13 @@ export class MyWalletComponent implements OnInit {
         this.data = res.data;
         this.loading = false;
       },
-      error: () => {
-        this.error = 'Failed to load wallet. Please try again.';
+      error: (err) => {
+        // 404 = wallet not created yet (new user) — show empty wallet instead of error
+        if (err?.status === 404) {
+          this.data = { balance: 0, transactions: [] } as any;
+        } else {
+          this.error = 'Failed to load wallet. Please try again.';
+        }
         this.loading = false;
       }
     });

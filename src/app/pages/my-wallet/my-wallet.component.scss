@@ -11,9 +11,11 @@
   background: $white;
   border-bottom: 2px solid $gray-100;
   position: sticky;
-  top: 70px;
+  top: $navbar-height;
   z-index: 40;
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+
+  @include mobile { top: $navbar-height-mobile; }
 
   &__inner {
     display: flex;

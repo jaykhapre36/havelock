@@ -39,17 +39,29 @@
   }
 
   &__logo {
-    @include flex-center;
-    justify-content: flex-start;
-    gap: $spacing-2;
     text-decoration: none;
+    display: inline-flex;
+  }
 
-    span {
-      font-family: $font-family-heading;
-      font-size: $font-size-lg;
-      font-weight: $font-weight-bold;
-      color: $white;
-    }
+  &__logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+  }
+
+  &__logo-name {
+    font-family: $font-family-heading;
+    font-size: 1.5rem;
+    font-weight: $font-weight-bold;
+    color: $primary;
+    letter-spacing: -0.01em;
+  }
+
+  &__logo-sub {
+    font-size: 0.65rem;
+    font-weight: $font-weight-semi;
+    color: $gray-400;
+    letter-spacing: 0.12em;
   }
 
   &__tagline {

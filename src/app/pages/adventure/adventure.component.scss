@@ -149,7 +149,6 @@
   &__desc {
     font-size: $font-size-sm;
     color: $gray-500;
-    @include text-clamp(2);
     line-height: 1.5;
   }
 

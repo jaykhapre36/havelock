@@ -14,12 +14,7 @@
 
 // ── Content layout ─────────────────────────────────────────────────────────
 .attr-content__layout {
-  display: grid;
-  grid-template-columns: 1fr 300px;
-  gap: $spacing-8;
-  align-items: start;
-  @include mobile { grid-template-columns:1fr; }
-  @include tablet { grid-template-columns:1fr 260px; }
+  display: block;
 }
 
 // ── Toolbar ────────────────────────────────────────────────────────────────
@@ -83,8 +78,9 @@
 // ── Grid ───────────────────────────────────────────────────────────────────
 .attr-grid {
   display:grid;
-  grid-template-columns:repeat(2, 1fr);
+  grid-template-columns:repeat(3, 1fr);
   gap:$spacing-5;
+  @include tablet { grid-template-columns:repeat(2, 1fr); }
   @include mobile { grid-template-columns:1fr; }
 }
 

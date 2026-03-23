@@ -46,22 +46,6 @@
             [alt]="activity.name"
             loading="lazy"
           />
-
-          <!-- Category badge top-left -->
-          <span
-            class="adventure-card__cat-badge"
-            [style.background-color]="getCategoryColor(activity.category)"
-          >{{ activity.category }}</span>
-
-          <!-- Intensity badge top-right -->
-          <!-- <span
-            class="adventure-card__intensity-badge"
-            [ngClass]="{
-              'intensity-intense':  activity.intensity === 'Intense',
-              'intensity-moderate': activity.intensity === 'Moderate',
-              'intensity-relaxed':  activity.intensity === 'Relaxed'
-            }"
-          >{{ activity.intensity }}</span> -->
         </div>
 
         <!-- Card body -->

@@ -86,12 +86,12 @@ export class AdventureComponent {
     },
     {
       id: 8,
-      name: 'ATV Quad Bike',
-      description: 'Ride our powerful quad bikes around the park circuit. A thrilling off-road experience for adventure lovers of all ages.',
+      name: 'ATV Bike',
+      description: 'Ride our powerful bikes around the park circuit. A thrilling off-road experience for adventure lovers of all ages.',
       category: 'Thrill Rides',
       intensity: 'Moderate',
       image: 'mock-data/adventure_images/adventure-atv-1.webp',
-      features: ['Quad bikes', 'Helmet provided', 'Family-friendly']
+      features: ['Helmet provided', 'Family-friendly']
     },
     {
       id: 9,
@@ -99,7 +99,7 @@ export class AdventureComponent {
       description: 'Soar high into the sky on our giant swing — experience the rush of flying with the riverfront as your backdrop.',
       category: 'Heights',
       intensity: 'Intense',
-      image: 'mock-data/adventure_images/adventure-swing-1.webp',
+      image: 'mock-data/adventure_images/adventure-sky-jump-1.webp',
       features: ['High altitude swing', 'Safety harness', 'Breathtaking views']
     },
     {
@@ -108,7 +108,7 @@ export class AdventureComponent {
       description: 'Take the leap! Jump from a great height secured by bungee ropes — the ultimate adrenaline experience at Havelock.',
       category: 'Heights',
       intensity: 'Intense',
-      image: 'mock-data/adventure_images/adventure-sky-jump-1.webp',
+      image: 'mock-data/adventure_images/adventure-swing-1.webp',
       features: ['Bungee secured', 'Professional supervision', 'Height experience']
     },
     {

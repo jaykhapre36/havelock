@@ -45,6 +45,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     const params = this.route.snapshot.queryParams;
     this.returnUrl = params['returnUrl'] || '/';
     if (params['reason'] === 'session_expired') {
+      this.stage = 'phone';
       this.sessionExpiredMsg = 'Your session has expired. Please log in again to continue.';
     }
   }
