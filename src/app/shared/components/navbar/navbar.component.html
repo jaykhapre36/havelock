@@ -1,11 +1,16 @@
 <nav class="navbar" [class.scrolled]="isScrolled" [class.menu-open]="isMenuOpen">
   <div class="navbar__inner">
 
-    <!-- Logo -->
-    <a class="navbar__logo" routerLink="/" (click)="closeMenu()">
-      <img src="mock-data/images/havelock_logo.jpeg" alt="Havelock Logo" class="navbar__logo-img" />
-      <!-- <span class="navbar__logo-text">Havelock</span> -->
-    </a>
+    <!-- Logo + mobile greeting -->
+    <div class="navbar__brand">
+      <a class="navbar__logo" routerLink="/" (click)="closeMenu()">
+        <img src="mock-data/images/havelock_logo.jpeg" alt="Havelock Logo" class="navbar__logo-img" />
+      </a>
+      <div class="navbar__mobile-greeting" *ngIf="currentUser">
+        <span class="navbar__mobile-greeting__hi">Welcome</span>
+        <span class="navbar__mobile-greeting__name">{{ currentUser.name.split(' ')[0] | titlecase }}</span>
+      </div>
+    </div>
     
     <!-- Desktop Nav Links -->
     <ul class="navbar__links">
@@ -60,6 +65,16 @@
 
   <!-- Mobile Menu -->
   <div class="navbar__mobile-menu" [class.open]="isMenuOpen">
+
+    <!-- Logged-in greeting card -->
+    <div class="navbar__mobile-profile" *ngIf="currentUser">
+      <div class="navbar__mobile-profile__avatar">{{ currentUser.name.charAt(0).toUpperCase() }}</div>
+      <div class="navbar__mobile-profile__info">
+        <span class="navbar__mobile-profile__hi">Welcome back 👋</span>
+        <span class="navbar__mobile-profile__name">{{ currentUser.name }}</span>
+      </div>
+    </div>
+
     <ul class="navbar__mobile-links">
       <li *ngFor="let link of navLinks">
         <a
@@ -86,7 +101,6 @@
         <a routerLink="/packages" class="btn-primary" (click)="closeMenu()">Book Tickets</a>
       </ng-container>
       <ng-container *ngIf="currentUser">
-        <span class="navbar__mobile-greeting">Hi, {{ currentUser.name }}</span>
         <button class="btn-outline" (click)="logout()">Logout</button>
         <a routerLink="/packages" class="btn-primary" (click)="closeMenu()">Book Tickets</a>
       </ng-container>

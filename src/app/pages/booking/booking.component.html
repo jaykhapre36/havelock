@@ -40,18 +40,7 @@
       <app-bk-step2
         *ngIf="currentStep === 2"
         (back)="goTo(1)"
-        (next)="onStep2Next()"
       ></app-bk-step2>
-
-      <app-bk-step3
-        *ngIf="currentStep === 3"
-        (back)="onStep3Back()"
-        (confirm)="onStep3Confirm()"
-      ></app-bk-step3>
-
-      <app-bk-step4
-        *ngIf="currentStep === 4"
-      ></app-bk-step4>
     </ng-container>
   </div>
 

@@ -286,7 +286,7 @@ export class GroupBookingComponent implements OnInit, OnDestroy {
       this.form.markAllAsTouched();
       return;
     }
-    this.advanceStep(3);
+    this.onConfirm();
   }
 
   get formValue() { return this.form.getRawValue(); }
@@ -313,7 +313,29 @@ export class GroupBookingComponent implements OnInit, OnDestroy {
     this.paymentFailedMsg = '';
 
     const fv = this.form.getRawValue();
+    const slotDate = this.selectedSlot!.slot_date.slice(0, 10);
 
+    // Check for duplicate booking on same slot before opening payment
+    this.bookingService.getMyBookings(fv.phone).subscribe({
+      next: (res) => {
+        const alreadyBooked = (res?.data?.active_bookings ?? []).some(
+          b => b.slot_date.slice(0, 10) === slotDate
+        );
+        if (alreadyBooked) {
+          this.loading = false;
+          this.error = 'You have already booked this slot. Only one booking is allowed per slot.';
+          return;
+        }
+        this.proceedToPayment(fv);
+      },
+      error: () => {
+        // If check fails, proceed anyway — server will reject duplicate
+        this.proceedToPayment(fv);
+      }
+    });
+  }
+
+  private proceedToPayment(fv: any): void {
     this.paymentService.openCheckout(
       this.grandTotal,
       { name: fv.fullName, email: fv.email, contact: fv.phone },

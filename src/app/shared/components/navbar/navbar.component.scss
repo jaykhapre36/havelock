@@ -30,6 +30,14 @@
     gap: $spacing-6;
   }
 
+  // ─── Brand (logo + mobile greeting) ────────────────────────────────────
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+    flex-shrink: 0;
+  }
+
   // ─── Logo ───────────────────────────────────────────────────────────────
   &__logo {
     @include flex-center;
@@ -285,11 +293,82 @@
     }
   }
 
+  // ─── Mobile greeting (inside brand, right after logo) ───────────────────
   &__mobile-greeting {
-    font-weight: $font-weight-semi;
-    color: $gray-700;
-    font-size: $font-size-sm;
-    text-align: center;
+    display: none;
+    flex-direction: column;
+    gap: 1px;
+    padding-left: $spacing-3;
+    border-left: 2px solid $gray-200;
+
+    @include mobile { display: flex; }
+
+    &__hi {
+      font-size: 0.65rem;
+      font-weight: $font-weight-medium;
+      color: $gray-400;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 1;
+    }
+
+    &__name {
+      font-size: 1rem;
+      font-weight: 800;
+      color: $gray-900;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 120px;
+      text-shadow: 0 1px 6px rgba($gray-600, 0.35);
+    }
+  }
+
+  // ─── Mobile menu profile card ────────────────────────────────────────────
+  &__mobile-profile {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+    background: rgba($primary, 0.06);
+    border: 1px solid rgba($primary, 0.15);
+    border-radius: $radius-lg;
+    padding: $spacing-3 $spacing-4;
+    margin-bottom: $spacing-3;
+
+    &__avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: $radius-full;
+      background: $primary;
+      color: $white;
+      @include flex-center;
+      font-weight: $font-weight-bold;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    &__info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    &__hi {
+      font-size: 0.75rem;
+      color: $gray-500;
+    }
+
+    &__name {
+      font-size: 0.95rem;
+      font-weight: $font-weight-bold;
+      color: $gray-900;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 
   // ─── Overlay ─────────────────────────────────────────────────────────────

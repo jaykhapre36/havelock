@@ -20,9 +20,7 @@ export class BookingComponent implements OnInit, OnDestroy {
 
   steps = [
     { n: 1, label: 'Tickets' },
-    { n: 2, label: 'Details' },
-    { n: 3, label: 'Review' },
-    { n: 4, label: 'Done' }
+    { n: 2, label: 'Details & Pay' },
   ];
 
   constructor(
@@ -83,11 +81,6 @@ export class BookingComponent implements OnInit, OnDestroy {
   goTo(step: 1 | 2 | 3 | 4): void { this.advanceStep(step); }
 
   onStep1Next(): void { this.advanceStep(2); }
-  onStep2Next(): void { this.advanceStep(3); }
-  onStep3Back(): void { this.currentStep = 2; window.scrollTo({ top: 0, behavior: 'smooth' }); }
-
-  // Step3 navigates to /booking-success directly after payment
-  onStep3Confirm(): void {}
 
   ngOnDestroy(): void {
     this.stateService.reset();
