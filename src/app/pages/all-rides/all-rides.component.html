@@ -11,16 +11,14 @@
   <div class="container">
 
     <!-- Category filters -->
-    <div class="rides-filters">
+    <!-- <div class="rides-filters">
       <button
         class="rides-filter-btn"
         *ngFor="let cat of rideCategories"
         [class.active]="activeCategory === cat"
         (click)="setCategory(cat)"
       >{{ cat }}</button>
-    </div>
-
-    <p class="rides-count">Showing <strong>{{ filteredRides.length }}</strong> ride{{ filteredRides.length !== 1 ? 's' : '' }}</p>
+    </div> -->
 
     <!-- Skeletons -->
     <div class="rides-grid" *ngIf="loading">
@@ -56,7 +54,7 @@
               loading="lazy"
             />
           </ng-container>
-          <span class="rides-card__cat badge" [ngClass]="'badge-' + getCategoryClass(ride.category)">{{ ride.category }}</span>
+          <!-- <span class="rides-card__cat badge" [ngClass]="'badge-' + getCategoryClass(ride.category)">{{ ride.category }}</span> -->
         </div>
         <div class="rides-card__body">
           <div class="rides-card__top-row">

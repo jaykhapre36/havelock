@@ -11,16 +11,14 @@
   <div class="container">
 
     <!-- Category filters -->
-    <div class="adventure-filters">
+    <!-- <div class="adventure-filters">
       <button
         class="adventure-filter-btn"
         *ngFor="let cat of categories"
         [class.active]="activeCategory === cat"
         (click)="setCategory(cat)"
       >{{ cat }}</button>
-    </div>
-
-    <p class="adventure-count">Showing <strong>{{ filteredActivities.length }}</strong> activit{{ filteredActivities.length !== 1 ? 'ies' : 'y' }}</p>
+    </div> -->
 
     <!-- Empty state -->
     <div class="adventure-empty" *ngIf="filteredActivities.length === 0">

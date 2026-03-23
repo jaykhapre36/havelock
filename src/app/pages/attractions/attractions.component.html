@@ -14,14 +14,12 @@
     <div class="attr-list-col">
 
       <!-- Category tabs -->
-      <div class="attr-filters">
+      <!-- <div class="attr-filters">
         <button class="attr-filter-btn" *ngFor="let cat of categories"
           [class.active]="activeCategory === cat" (click)="setCategory(cat)">
           {{ cat }}
         </button>
-      </div>
-
-      <p class="attr-count">Showing <strong>{{ filteredAttractions.length }}</strong> result{{ filteredAttractions.length !== 1 ? 's' : '' }}</p>
+      </div> -->
 
       <!-- Skeletons -->
       <div class="attr-grid" *ngIf="loading">
@@ -59,7 +57,7 @@
                 loading="lazy"
               />
             </ng-container>
-            <span class="attr-card__cat badge" [ngClass]="'badge-' + getCategoryClass(a.category)">{{ a.category }}</span>
+            <!-- <span class="attr-card__cat badge" [ngClass]="'badge-' + getCategoryClass(a.category)">{{ a.category }}</span> -->
           </div>
           <div class="attr-card__body">
             <div class="attr-card__top-row">
