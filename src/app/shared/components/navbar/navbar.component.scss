@@ -115,23 +115,33 @@
   &__login-btn {
     font-size: $font-size-sm;
     font-weight: $font-weight-semi;
-    color: $gray-700;
+    color: $primary;
     text-decoration: none;
     padding: $spacing-2 $spacing-4;
     border-radius: $radius-full;
-    border: 1px solid $gray-300;
+    border: 1.5px solid $primary;
     transition: $transition-fast;
 
     &:hover {
-      border-color: $primary;
-      color: $primary;
+      background: rgba($primary, 0.08);
     }
   }
 
   &__book-btn {
-    @include btn-primary;
+    @include btn-base;
     padding: $spacing-2 $spacing-5;
     font-size: $font-size-sm;
+    font-weight: $font-weight-bold;
+    background-color: #0df2f2;
+    color: $gray-900;
+    border-radius: $radius-full;
+    box-shadow: 0 0 12px rgba(#0df2f2, 0.45);
+
+    &:hover:not(:disabled) {
+      background-color: darken(#0df2f2, 8%);
+      box-shadow: 0 0 18px rgba(#0df2f2, 0.60);
+      transform: translateY(-1px);
+    }
   }
 
   // ─── User Avatar ────────────────────────────────────────────────────────
@@ -289,9 +299,48 @@
     gap: $spacing-3;
     padding-top: $spacing-4;
 
-    a, button {
-      text-align: center;
+    // Login button — outline cyan
+    .btn-outline {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: 100%;
+      padding: $spacing-4;
+      border-radius: $radius-full;
+      border: 2px solid $primary;
+      background: transparent;
+      color: $primary;
+      font-size: $font-size-base;
+      font-weight: $font-weight-bold;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      transition: $transition-fast;
+
+      &:hover { background: rgba($primary, 0.08); }
+    }
+
+    // Book Tickets button — solid bright cyan
+    .btn-primary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: $spacing-4;
+      border-radius: $radius-full;
+      border: none;
+      background: #0df2f2;
+      color: $gray-900;
+      font-size: $font-size-base;
+      font-weight: $font-weight-bold;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      box-shadow: 0 0 16px rgba(#0df2f2, 0.50);
+      transition: $transition-fast;
+
+      &:hover {
+        background: darken(#0df2f2, 8%);
+        box-shadow: 0 0 22px rgba(#0df2f2, 0.65);
+      }
     }
   }
 

@@ -21,8 +21,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   navLinks: NavLink[] = [
     { label: 'Home',             route: '/',             exact: true  },
-    { label: 'Attractions',      route: '/attractions',  exact: false },
-    { label: 'All Rides',        route: '/all-rides',       exact: false },
+    // { label: 'Attractions',      route: '/attractions',  exact: false },
+    // { label: 'All Rides',        route: '/all-rides',       exact: false },
     { label: 'Adventure Park',   route: '/adventure-park',  exact: false },
     { label: 'Ticket Packages',  route: '/packages',        exact: false },
     { label: 'Map',              route: '/map',           exact: false },

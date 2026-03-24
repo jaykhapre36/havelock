@@ -75,6 +75,18 @@
   @include mobile { padding: $spacing-6 $spacing-4; align-items: flex-start; }
 }
 
+.auth-logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: $spacing-6;
+
+  img {
+    height: 160px;
+    width: auto;
+    object-fit: contain;
+  }
+}
+
 .auth-form-wrap {
   width: 100%;
   max-width: 440px;
@@ -475,6 +487,27 @@ button.auth-back {
 
     &:hover { color: $primary-dark; }
     &:disabled { opacity: 0.5; cursor: not-allowed; }
+  }
+}
+
+.auth-new-here-banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: rgba($primary, 0.08);
+  border: 1.5px solid rgba($primary, 0.3);
+  border-radius: $radius-lg;
+  padding: $spacing-3 $spacing-4;
+  font-size: $font-size-sm;
+  color: $gray-700;
+  margin-bottom: $spacing-4;
+
+  a {
+    color: $primary-dark;
+    font-weight: $font-weight-bold;
+    text-decoration: none;
+    &:hover { text-decoration: underline; }
   }
 }
 

@@ -108,7 +108,8 @@
     max-width: 700px;
 
     &-highlight {
-      color: $secondary;
+      color: $primary;
+      // color: $secondary;
       position: relative;
     }
   }
@@ -223,11 +224,20 @@
   }
 
   &__btn {
-    @include btn-primary;
+    @include btn-base;
+    background-color: #0df2f2;
     white-space: nowrap;
     padding: $spacing-3 $spacing-6;
     height: 48px;
     flex-shrink: 0;
+    color: $gray-900;
+
+    &:hover:not(:disabled) {
+      background-color: #3a7bd5;
+      color: $white;
+      transform: translateY(-1px);
+      box-shadow: $shadow-md;
+    }
 
     @include mobile { width: 100%; }
   }
@@ -1021,22 +1031,12 @@
 
 // ── Scroll container ─────────────────────────────────────────────────────────
 .rides-scroll-wrap {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-  scrollbar-color: rgba($white,.15) transparent;
-  padding-left: $spacing-20;
-  padding-right: $spacing-20;
+  overflow: hidden;
   padding-bottom: $spacing-3;
 
-  @include mobile {
-    padding-left: $spacing-4;
-    padding-right: $spacing-4;
+  &:hover .rides-scroll {
+    animation-play-state: paused;
   }
-
-  &::-webkit-scrollbar { height: 3px; }
-  &::-webkit-scrollbar-track { background: transparent; }
-  &::-webkit-scrollbar-thumb { background: rgba($white,.2); border-radius: $radius-full; }
 }
 
 .rides-scroll {
@@ -1044,15 +1044,23 @@
   gap: $spacing-4;
   width: max-content;
   padding-bottom: $spacing-1;
+  animation: rides-marquee 30s linear infinite;
+}
+
+@keyframes rides-marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 // ── Ride Scroll Card (rsc) ────────────────────────────────────────────────────
 .rsc {
   width: 290px;
   flex-shrink: 0;
-  border-radius: $radius-xl;
+  border-radius: $radius-2xl;
   overflow: hidden;
   background: $white;
+  box-shadow: $shadow-xl;
+  border: 1px solid rgba($white, 0.2);
   display: block;
   text-decoration: none;
   color: inherit;
@@ -1077,6 +1085,7 @@
     position: relative;
     overflow: hidden;
     height: 190px;
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
   }
 
   &__bg  { position: absolute; inset: 0; }
@@ -1156,22 +1165,30 @@
   }
 
   &__cta {
-    display: inline-flex;
+    display: flex;
     align-items: center;
+    justify-content: center;
     gap: $spacing-1;
-    margin-top: $spacing-1;
+    margin-top: $spacing-3;
+    width: 100%;
+    padding: $spacing-3 $spacing-4;
+    background: #0df2f2;
+    color: $gray-900;
     font-size: $font-size-sm;
     font-weight: $font-weight-bold;
-    color: $primary;
-    transition: gap .2s ease, color .2s ease;
+    border-radius: $radius-full;
+    box-shadow: 0 4px 14px rgba(#0df2f2, 0.35);
+    transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+
+    svg { display: none; }
   }
 
-  &:hover &__cta { gap: $spacing-2; color: $primary-dark; }
-
-  // per-category cta accent colour
-  &--thrill:hover  .rsc__cta { color: #c0392b; }
-  &--family:hover  .rsc__cta { color: #1565c0; }
-  &--kids:hover    .rsc__cta { color: #e67e22; }
+  &:hover &__cta {
+    background: #3a7bd5;
+    color: $white;
+    box-shadow: 0 6px 18px rgba(#3a7bd5, 0.4);
+    transform: translateY(-1px);
+  }
 }
 
 // ═══════════════════════════════════════════════════════════════════════════

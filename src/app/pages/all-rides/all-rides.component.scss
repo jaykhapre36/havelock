@@ -3,7 +3,7 @@
 
 // ── Hero ────────────────────────────────────────────────────────────────────
 .rides-hero {
-  background: linear-gradient(135deg, #001a2e 0%, #0077A8 60%, #00B4D8 100%);
+  background: linear-gradient(135deg, #3775d1 0%, #05d1d1 70%, #3775d1 100%);
   padding: $spacing-16 0 $spacing-12;
   text-align: center;
   &__title { font-family:$font-family-heading; font-size:$font-size-3xl; font-weight:$font-weight-bold; color:$white; margin-bottom:$spacing-4;
@@ -85,8 +85,11 @@
   display:block;
   text-decoration:none;
   color:inherit;
+  border-radius: $radius-2xl;
+  box-shadow: $shadow-xl;
+  border: 1px solid rgba($white, 0.2);
 
-  &__img-wrap { position:relative; overflow:hidden; height:210px; }
+  &__img-wrap { position:relative; overflow:hidden; height:210px; clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%); }
   &__bg { position:absolute; inset:0; }
   &__img {
     position:absolute; inset:0;
@@ -113,8 +116,21 @@
   &__desc { font-size:$font-size-sm; color:$gray-500; @include text-clamp(2); line-height:1.5; }
   &__meta { display:flex; gap:$spacing-3; flex-wrap:wrap; }
   &__tag { display:flex; align-items:center; gap:4px; font-size:$font-size-xs; color:$gray-500; font-weight:$font-weight-medium; }
-  &__cta { font-size:$font-size-sm; font-weight:$font-weight-semi; color:$primary; margin-top:$spacing-2; transition:$transition-fast; }
-  &:hover &__cta { color:$primary-dark; letter-spacing:.02em; }
+  &__cta {
+    display:flex; align-items:center; justify-content:center;
+    margin-top:$spacing-3; width:100%;
+    padding:$spacing-3 $spacing-4;
+    background:#0df2f2; color:$gray-900;
+    font-size:$font-size-sm; font-weight:$font-weight-bold;
+    border-radius:$radius-full;
+    box-shadow:0 4px 14px rgba(#0df2f2, 0.35);
+    transition:background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  &:hover &__cta {
+    background:#3a7bd5; color:$white;
+    box-shadow:0 6px 18px rgba(#3a7bd5, 0.4);
+    transform:translateY(-1px);
+  }
 }
 
 .rides-card-skeleton { background:$white; border-radius:$radius-lg; overflow:hidden; border:1px solid $gray-200; }

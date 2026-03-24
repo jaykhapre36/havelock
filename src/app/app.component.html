@@ -3,7 +3,7 @@
   <div class="route-loader__bar"></div>
 </div>
 
-<app-navbar></app-navbar>
+<app-navbar *ngIf="!isAuthPage"></app-navbar>
 
 <main class="page-wrapper">
   <router-outlet></router-outlet>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AttractionsService } from '../../services/attractions.service';
 import { Attraction } from '../../models/attraction.model';
@@ -19,7 +20,8 @@ export class AttractionDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private attractionsService: AttractionsService
+    private attractionsService: AttractionsService,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -63,7 +65,7 @@ export class AttractionDetailComponent implements OnInit {
 
   getCategoryClass(cat: string): string { return cat.toLowerCase().replace(/\s+/g, '-'); }
 
-  goBack(): void { this.router.navigate(['/attractions']); }
+  goBack(): void { this.location.back(); }
 
   bookTickets(): void { this.router.navigate(['/packages']); }
 }

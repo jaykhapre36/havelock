@@ -12,7 +12,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   @ViewChild('otpInput') otpInput!: ElementRef<HTMLInputElement>;
 
-  stage: 'details' | 'otp' = 'details';
+  stage: 'details' | 'otp' | 'success' = 'details';
+  registeredName = '';
 
   // Stage 1 — details
   name   = '';
@@ -77,6 +78,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
             this.otpId = otpRes.data.otp_id;
             this.stage = 'otp';
             this.startCountdown();
+            setTimeout(() => this.otpInput?.nativeElement.focus(), 50);
           },
           error: (err) => {
             this.loading = false;
@@ -120,10 +122,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
             }
             // Registration successful — now login to get token
             this.authService.login(phone).subscribe({
-              next: (loginRes) => {
+              next: () => {
                 this.loading = false;
-                this.successMessage = loginRes.message || 'Registration and Login successful! Welcome to Havelock.';
-                setTimeout(() => this.router.navigate(['/packages']), 1500);
+                this.registeredName = this.name.trim();
+                this.stage = 'success';
               },
               error: (err) => {
                 this.loading = false;
@@ -165,6 +167,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         this.otpDigits = ['', '', '', ''];
         if (this.otpInput) this.otpInput.nativeElement.value = '';
         this.startCountdown();
+        setTimeout(() => this.otpInput?.nativeElement.focus(), 50);
       },
       error: () => {
         this.loading = false;

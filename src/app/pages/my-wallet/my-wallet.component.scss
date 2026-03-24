@@ -6,43 +6,6 @@
   background: $gray-100;
 }
 
-// ─── Account nav tabs ─────────────────────────────────────────────────────────
-.acct-tabs {
-  background: $white;
-  border-bottom: 2px solid $gray-100;
-  position: sticky;
-  top: $navbar-height;
-  z-index: 40;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-
-  @include mobile { top: $navbar-height-mobile; }
-
-  &__inner {
-    display: flex;
-    overflow-x: auto;
-    scrollbar-width: none;
-    &::-webkit-scrollbar { display: none; }
-  }
-
-  &__tab {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 14px 20px;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: $gray-500;
-    text-decoration: none;
-    border-bottom: 3px solid transparent;
-    white-space: nowrap;
-    transition: color 0.2s, border-color 0.2s;
-
-    svg { flex-shrink: 0; }
-    &:hover { color: $primary; }
-    &--active { color: $primary; border-bottom-color: $primary; }
-  }
-}
-
 // ─── Body ─────────────────────────────────────────────────────────────────────
 .wallet-body {
   max-width: 640px;

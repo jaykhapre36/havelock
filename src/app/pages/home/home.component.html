@@ -20,7 +20,7 @@
         <span class="hero__badge-dot hero__badge-dot--tomorrow"></span>
         Opens Tomorrow: 10:00 AM – 6:00 PM &nbsp;
       </div>
-    } 
+    }
 
     <h1 class="hero__title">
       Make a Splash at <span class="hero__title-highlight">Gujarat's</span><br>
@@ -73,7 +73,7 @@
     <div class="rides-scroll">
       <a
         class="rsc"
-        *ngFor="let ride of allRides"
+        *ngFor="let ride of allRidesLoop"
         [routerLink]="['/attractions', ride.id]"
         [ngClass]="'rsc--' + getCategoryClass(ride.category)"
       >
@@ -94,14 +94,14 @@
 
         <!-- body -->
         <div class="rsc__body">
-          <div class="rsc__meta-row">
+          <!-- <div class="rsc__meta-row">
             <span class="rsc__category">{{ ride.category }}</span>
             <span class="rsc__intensity rsc__intensity--{{ ride.intensity.toLowerCase() }}">{{ ride.intensity }}</span>
-          </div>
+          </div> -->
           <h4 class="rsc__name">{{ ride.name }}</h4>
-          <p class="rsc__desc">{{ ride.shortDescription }}</p>
+          <!-- <p class="rsc__desc">{{ ride.shortDescription }}</p> -->
           <span class="rsc__cta">
-            Ride it
+            See Details
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </span>
         </div>
@@ -146,7 +146,7 @@
         <div class="exp-card__overlay"></div>
         <!-- text -->
         <div class="exp-card__content">
-          <span class="exp-card__cat badge" [ngClass]="'badge-' + getCategoryClass(a.category)">{{ a.category }}</span>
+          <!-- <span class="exp-card__cat badge" [ngClass]="'badge-' + getCategoryClass(a.category)">{{ a.category }}</span> -->
           <h3 class="exp-card__name">{{ a.name }}</h3>
           <p class="exp-card__desc">{{ a.shortDescription }}</p>
           <span class="exp-card__cta">
@@ -162,7 +162,7 @@
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <!-- AMENITIES                                                               -->
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
-<section class="amenities section">
+<!-- <section class="amenities section">
   <div class="container">
     <div class="section-header">
       <p class="section-eyebrow">Everything You Need</p>
@@ -176,7 +176,6 @@
         *ngFor="let group of amenities"
         [class.amenity-card--food]="group.highlight"
       >
-        <!-- icon -->
         <div class="amenity-card__icon">
           <ng-container [ngSwitch]="group.icon">
             <svg *ngSwitchCase="'facilities'" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
@@ -211,12 +210,12 @@
       </div>
     </div>
   </div>
-</section>
+</section> -->
 
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <!-- WHY CHOOSE US                                                           -->
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
-<section class="why-us section">
+<!-- <section class="why-us section">
   <div class="container">
     <div class="section-header">
       <h2 class="section-title">Why Choose Havelock?</h2>
@@ -237,12 +236,12 @@
       </div>
     </div>
   </div>
-</section>
+</section> -->
 
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <!-- CHOOSE YOUR ADVENTURE (PRICING)                                         -->
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
-<section class="pricing section">
+<!-- <section class="pricing section">
   <div class="container">
     <div class="section-header">
       <p class="section-eyebrow">Simple Pricing</p>
@@ -283,7 +282,7 @@
       <a routerLink="/packages">View all ticket options →</a>
     </p>
   </div>
-</section>
+</section> -->
 
 <!-- GUEST REVIEWS — hidden for now -->
 

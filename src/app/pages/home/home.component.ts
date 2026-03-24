@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   featuredAttractions: Attraction[] = [];
   allRides: Attraction[] = [];
+  allRidesLoop: Attraction[] = [];
   parkAttractions: Attraction[] = [];
   pricingCards: Ticket[] = [];
   reviews: Review[] = [];
@@ -38,7 +39,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     { id: 1, question: 'What are the park timings?',            answer: 'Havelock is open every day from 10:00 AM – 6:00 PM.' },
     { id: 2, question: 'Is swimwear mandatory?',                answer: 'Yes. Proper nylon/lycra swimwear is required for all rides and pools. Board shorts are acceptable.' },
     { id: 3, question: 'Are outside food and drinks allowed?',  answer: 'Outside food and drinks are not permitted. We have a full food court and multiple snack bars.' },
-    { id: 4, question: 'Is there a parking facility available?',answer: 'Yes, parking is available for 500+ vehicles. ₹100 for two-wheelers, ₹200 for four-wheelers.' }
+    { id: 4, question: 'Is there a parking facility available?',answer: 'Yes, parking is available.' }
   ];
 
   whyChooseUs = [
@@ -130,6 +131,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     this.attractionsService.getAll().subscribe(data => {
       this.allRides        = data.filter(a => ['Thrill', 'Family', 'Kids'].includes(a.category));
+      this.allRidesLoop    = [...this.allRides, ...this.allRides];
       this.parkAttractions = data.filter(a => ['Relax', 'Entertainment'].includes(a.category));
     });
 

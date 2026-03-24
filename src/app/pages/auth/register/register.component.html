@@ -4,10 +4,10 @@
   <div class="auth-brand">
     <div class="auth-brand__inner">
       <div class="auth-brand__logo">
-        <svg width="36" height="36" viewBox="0 0 32 32" fill="none">
+        <!-- <svg width="36" height="36" viewBox="0 0 32 32" fill="none">
           <path d="M16 2C16 2 6 12 6 20C6 25.523 10.477 30 16 30C21.523 30 26 25.523 26 20C26 12 16 2 16 2Z" fill="white"/>
-        </svg>
-        <span>Havelock</span>
+        </svg> -->
+        <span>The Havelock Waterpark & Resort</span>
       </div>
       <h2 class="auth-brand__title">Join Havelock Water Park</h2>
       <p class="auth-brand__sub">Create your free account and get access to exclusive offers, faster booking, and more.</p>
@@ -31,6 +31,10 @@
   <!-- ── Right form panel ────────────────────────────────────────────────── -->
   <div class="auth-form-panel">
     <div class="auth-form-wrap">
+
+      <div class="auth-logo">
+        <img src="mock-data/images/havelock_logo_png.png" alt="Havelock Water Park" />
+      </div>
 
       <h1 class="auth-form-wrap__page-title">Registration</h1>
 
@@ -71,7 +75,7 @@
       <!-- ══ Stage 1 — Details ═══════════════════════════════════════════════ -->
       <ng-container *ngIf="stage === 'details'">
 
-        <h1 class="auth-form-wrap__title">Create Account</h1>
+        <h6>Create Account</h6>
         <br>
         <!-- Full Name -->
         <div class="auth-field" [class.auth-field--error]="nameError">
@@ -213,12 +217,43 @@
 
       </ng-container>
 
-      <!-- Divider + switch -->
-      <div class="auth-divider"><span>or</span></div>
-      <p class="auth-switch">
-        Already have an account?
-        <a routerLink="/auth/login">Sign in →</a>
-      </p>
+      <!-- ══ Stage 3 — Success ══════════════════════════════════════════════ -->
+      <ng-container *ngIf="stage === 'success'">
+        <div class="auth-success-screen">
+          <div class="auth-success-screen__icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+          <h2 class="auth-success-screen__title">You're all set, {{ registeredName }}!</h2>
+          <p class="auth-success-screen__sub">Your account has been created and you're now logged in. Welcome to Havelock Water Park!</p>
+          <div class="auth-success-screen__pills">
+            <div class="auth-success-screen__pill">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Registration Successful
+            </div>
+            <div class="auth-success-screen__pill">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Log In Successful
+            </div>
+          </div>
+          <a routerLink="/packages" class="auth-submit" style="text-align:center; text-decoration:none;">
+            Book Tickets Now →
+          </a>
+          <a routerLink="/" class="auth-switch" style="text-align:center; display:block; margin-top:12px;">
+            Go to Home
+          </a>
+        </div>
+      </ng-container>
+
+      <!-- Divider + switch (only on details/otp stage) -->
+      <ng-container *ngIf="stage !== 'success'">
+        <div class="auth-divider"><span>or</span></div>
+        <p class="auth-switch">
+          Already have an account?
+          <a routerLink="/auth/login">Sign in →</a>
+        </p>
+      </ng-container>
 
     </div>
   </div>
