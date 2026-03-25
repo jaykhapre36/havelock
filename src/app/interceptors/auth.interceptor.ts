@@ -29,7 +29,8 @@ export class AuthInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         if (
           error.status === 401 &&
-          !req.url.includes('/auth/')   // skip login/OTP endpoints → prevents redirect loops
+          token &&                        // only if user had an active token (was logged in)
+          !req.url.includes('/auth/')     // skip login/OTP endpoints → prevents redirect loops
         ) {
           // Session expired — wipe local state
           this.authService.clearSession();
