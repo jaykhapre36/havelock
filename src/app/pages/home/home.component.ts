@@ -109,12 +109,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.availabilityService.getSlots().subscribe(res => {
-      const today = new Date().toISOString().split('T')[0];
+      const now = new Date();
+      const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
       const available = res.data.slots.filter(s => s.remaining > 0);
       this.availableDates = new Set(available.map(s => s.slot_date));
       this.isOpenToday = this.availableDates.has(today);
-      const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
-      const tomorrowStr = tomorrow.toISOString().split('T')[0];
+      const tom = new Date(now); tom.setDate(tom.getDate() + 1);
+      const tomorrowStr = `${tom.getFullYear()}-${String(tom.getMonth() + 1).padStart(2, '0')}-${String(tom.getDate()).padStart(2, '0')}`;
       this.isOpenTomorrow = !this.isOpenToday && this.availableDates.has(tomorrowStr);
       if (available.length) {
         this.minDate = available[0].slot_date;
