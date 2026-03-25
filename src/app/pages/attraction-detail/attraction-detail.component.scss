@@ -30,7 +30,15 @@
 .rd-page {
   background: $gray-100;
   min-height: 100vh;
-  padding-bottom: 88px; // space for fixed CTA bar
+  padding-bottom: 88px;
+
+  // Desktop: side-by-side layout
+  @media (min-width: 900px) {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding-bottom: 0;
+  }
 }
 
 // ── Hero ──────────────────────────────────────────────────────────────────────
@@ -39,6 +47,15 @@
   height: 45vh;
   min-height: 280px;
   overflow: hidden;
+
+  // Desktop: sticky full-height left column
+  @media (min-width: 900px) {
+    width: 48%;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    flex-shrink: 0;
+  }
 
   &__img {
     position: absolute;
@@ -59,9 +76,9 @@
     inset: 0;
     background: linear-gradient(
       to bottom,
-      rgba(0,0,0,0.15) 0%,
+      rgba(0,0,0,0.25) 0%,
       rgba(0,0,0,0.10) 50%,
-      rgba(16,34,34,0.60) 100%
+      rgba(16,34,34,0.70) 100%
     );
     z-index: 1;
   }
@@ -83,7 +100,7 @@
     gap: $spacing-2;
   }
 
-  // Gradient fade merging hero into content
+  // Gradient fade — mobile only
   &__fade {
     position: absolute;
     bottom: 0;
@@ -92,6 +109,8 @@
     height: 96px;
     background: linear-gradient(to top, $gray-100 0%, transparent 100%);
     z-index: 2;
+
+    @media (min-width: 900px) { display: none; }
   }
 }
 
@@ -129,6 +148,16 @@
   @include mobile {
     padding: $spacing-5 $spacing-5 $spacing-8;
     margin-top: -40px;
+  }
+
+  // Desktop: right column, scrollable
+  @media (min-width: 900px) {
+    flex: 1;
+    max-width: none;
+    margin: 0;
+    padding: $spacing-10 $spacing-10 $spacing-16;
+    min-height: 100vh;
+    overflow-y: auto;
   }
 }
 

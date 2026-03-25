@@ -1,11 +1,11 @@
 [
   {
     "id": 1,
-    "name": "Cyclone",
+    "name": "Cyclone Drop",
     "slug": "cyclone",
     "category": "Thrill",
     "tags": ["HIGH THRILL", "SIGNATURE RIDE"],
-    "description": "The Cyclone is Havelock's most iconic ride — a massive bowl-shaped funnel that sends you spinning at high speed before dropping through the centre. The striking blue and orange structure is visible from across the entire park.",
+    "description": "The Cyclone Drop is Havelock's most iconic ride — a massive bowl-shaped funnel that sends you spinning at high speed before dropping through the centre. The striking blue and orange structure is visible from across the entire park.",
     "shortDescription": "Our signature bowl-shaped funnel ride — spin at high speed before the thrilling drop.",
     "heightRequirement": null,
     "thrillLevel": "Expert",
@@ -27,37 +27,36 @@
   },
   {
     "id": 2,
-    "name": "Multilane Speed Slides",
+    "name": "Multilane Racer",
     "slug": "multilane-speed-slides",
     "category": "Thrill",
     "tags": ["THRILL RIDE", "RACING"],
-    "description": "Race your friends on our towering multilane speed slides launching from the multi slide tower. Multiple tracks in every colour of the rainbow — choose your lane and see who reaches the splash pool first.",
-    "shortDescription": "Race friends down colourful high-speed lanes from our towering multi slide tower.",
+    "description": "Race your friends on our towering multilane speed slides launching from the slide tower. Multiple tracks in every colour of the rainbow — choose your lane and see who reaches the splash pool first.",
+    "shortDescription": "Race friends down colourful high-speed lanes from our towering slide tower.",
     "heightRequirement": null,
     "thrillLevel": "Intermediate",
     "intensity": "Exciting",
     "zone": "Thrill Zone",
     "maxVelocity": null,
-    "features": ["Multi-lane racing", "multi tower", "Splash pool finish"],
+    "features": ["Multi-lane racing", "Splash pool finish"],
     "healthAdvisory": null,
     "nearbyFacilities": ["Locker Zone", "Snack Bar"],
     "isFeatured": true,
     "fastPassAvailable": false,
     "images": [
-      "/mock-data/images/multilane-1.jpeg",
-      "/mock-data/images/multilane-2.jpeg"
+      "/mock-data/images/multilane-1.webp"
     ],
     "waitTime": 15,
     "status": "open"
   },
   {
     "id": 3,
-    "name": "Boomerang",
-    "slug": "boomerang",
+    "name": "King Cobra Slide",
+    "slug": "king-cobra-racer",
     "category": "Thrill",
     "tags": ["HIGH THRILL"],
-    "description": "The Boomerang sends you up a steep ramp, holds you at the top, then releases you back through the same looping track in reverse. A thrilling back-and-forth experience unlike any other slide in the park.",
-    "shortDescription": "Fly up, pause at the top, then shoot back — a heart-pounding back-and-forth thrill ride.",
+    "description": "The King Cobra Slide sends you up a steep ramp, holds you at the top, then releases you back through the same looping track in reverse. A thrilling back-and-forth experience unlike any other slide in the park.",
+    "shortDescription": "Race through the coils of a giant cobra and face the drop into its massive fangs.",
     "heightRequirement": null,
     "thrillLevel": "Expert",
     "intensity": "Intense",
@@ -69,31 +68,31 @@
     "isFeatured": false,
     "fastPassAvailable": false,
     "images": [
-      "/mock-data/images/boomerang-1.jpeg"
+      "/mock-data/images/boomerang-1.webp"
     ],
     "waitTime": 25,
     "status": "open"
   },
   {
     "id": 4,
-    "name": "Bamboo Slide",
-    "slug": "bamboo-slide",
+    "name": "Spiral Serpentine",
+    "slug": "spiral-serpentine-slide",
     "category": "Thrill",
-    "tags": ["THRILL RIDE", "UNIQUE"],
-    "description": "A one-of-a-kind slide wrapped in traditional bamboo-pattern casing. The twin looping tubes rise high above the pool before sweeping you through dramatic curves into a refreshing splash below.",
-    "shortDescription": "Twin bamboo-style looping tubes — a uniquely themed high-speed thrill.",
-    "heightRequirement": null,
+    "tags": ["FAMILY THRILL", "POOL SPLASH"],
+    "description": "The Spiral Serpentine features a high-speed journey through a series of enclosed tunnels and open-air curves. Riders experience high centrifugal forces as they twist through 360-degree loops before a massive splash landing in the arrival pool.",
+    "shortDescription": "A twisting, turning journey through high-banked curves and dark tunnels.",
+    "heightRequirement": "Any",
     "thrillLevel": "Intermediate",
-    "intensity": "Exciting",
-    "zone": "Thrill Zone",
-    "maxVelocity": null,
-    "features": ["Twin tubes", "Bamboo theme", "Open-air loops"],
-    "healthAdvisory": null,
-    "nearbyFacilities": ["Locker Zone", "Snack Bar"],
+    "intensity": "Moderate",
+    "zone": "Spiral Zone",
+    "maxVelocity": "35 km/h",
+    "features": ["360-degree loops", "Enclosed & Open flumes", "Pool landing"],
+    "healthAdvisory": "Standard water park safety rules apply. Must be a confident swimmer for pool landing.",
+    "nearbyFacilities": ["Changing Rooms", "Life Guard Station"],
     "isFeatured": false,
-    "fastPassAvailable": false,
+    "fastPassAvailable": true,
     "images": [
-      "/mock-data/images/bamboo-slide-1.jpeg"
+      "/mock-data/images/rounded_multilane.webp"
     ],
     "waitTime": 15,
     "status": "open"
@@ -118,7 +117,7 @@
     "fastPassAvailable": false,
     "images": [
       "/mock-data/images/jungle-friends-1.jpeg",
-      "/mock-data/images/kids-slide-1.jpeg"
+      "/mock-data/images/kids-slide-1.webp"
     ],
     "waitTime": 0,
     "status": "open"
@@ -167,7 +166,7 @@
     "isFeatured": true,
     "fastPassAvailable": false,
     "images": [
-      "/mock-data/images/wave-pool-1.jpeg"
+      "/mock-data/images/wave-pool-1.webp"
     ],
     "waitTime": 10,
     "status": "open"
@@ -215,7 +214,7 @@
     "isFeatured": true,
     "fastPassAvailable": false,
     "images": [
-      "/mock-data/images/rain-dance-1.jpeg"
+      "/mock-data/images/rain-dance-1.webp"
     ],
     "waitTime": 0,
     "status": "open"
@@ -267,6 +266,29 @@
       "/mock-data/images/riverside-view-1.jpeg"
     ],
     "waitTime": 0,
+    "status": "open"
+  },
+  {
+    "id": 12,
+    "name": "Kamikaze Drop",
+    "slug": "kamikaze-body-slide",
+    "category": "Thrill",
+    "tags": ["HIGH SPEED", "BODY SLIDE"],
+    "description": "The Kamikaze is a high-speed body slide designed for the ultimate adrenaline junkie. Experience a near-vertical plummet followed by a series of bumps that provide thrilling 'airtime' before a high-speed finish in the splash lane.",
+    "shortDescription": "A heart-stopping, high-speed vertical drop slide for the bravest riders.",
+    "heightRequirement": "Any",
+    "thrillLevel": "Expert",
+    "intensity": "High",
+    "zone": "Thrill Zone",
+    "maxVelocity": null,
+    "features": ["Steep drop", "High-speed run-out", "Aerodynamic design"],
+    "healthAdvisory": "Strictly no heart conditions or back injuries. Riders must maintain a crossed-arm position.",
+    "isFeatured": true,
+    "fastPassAvailable": false,
+    "images": [
+      "/mock-data/images/single-lane-slides-1.webp"
+    ],
+    "waitTime": 20,
     "status": "open"
   }
 ]
