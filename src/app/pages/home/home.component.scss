@@ -974,6 +974,122 @@
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
+// ADVENTURE HORIZONTAL SCROLL
+// ═══════════════════════════════════════════════════════════════════════════
+.adventure-strip {
+  background: #1a0a2e;
+  padding: $spacing-12 0 $spacing-10;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+.adventure-strip-header {
+  @include flex-between;
+  align-items: flex-end;
+  margin-bottom: $spacing-8;
+  gap: $spacing-4;
+  @include mobile { flex-direction: column; align-items: flex-start; gap: $spacing-3; }
+}
+
+.adventure-strip-eyebrow {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semi;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #a78bfa;
+  margin-bottom: $spacing-2;
+}
+
+.adventure-strip-title {
+  font-family: $font-family-heading;
+  font-size: $font-size-3xl;
+  font-weight: $font-weight-bold;
+  color: $white;
+  @include mobile { font-size: $font-size-2xl; }
+}
+
+.adventure-strip-viewall {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semi;
+  color: rgba($white, .7);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: $transition-fast;
+  padding-bottom: 3px;
+
+  &:hover { color: $white; gap: $spacing-3; }
+}
+
+.adventure-scroll-wrap {
+  overflow: hidden;
+  padding-bottom: $spacing-3;
+
+  &:hover .adventure-scroll {
+    animation-play-state: paused;
+  }
+}
+
+.adventure-scroll {
+  display: flex;
+  gap: $spacing-4;
+  width: max-content;
+  padding-bottom: $spacing-1;
+  animation: adv-marquee 35s linear infinite;
+}
+
+@keyframes adv-marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+// ── Adventure Scroll Card (asc) ───────────────────────────────────────────────
+.asc {
+  width: 260px;
+  flex-shrink: 0;
+  border-radius: $radius-2xl;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid rgba(#a78bfa, 0.2);
+  display: block;
+  transition: transform .3s ease;
+
+  &:hover { transform: translateY(-6px); }
+
+  &__img-wrap {
+    position: relative;
+    overflow: hidden;
+    height: 180px;
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
+    background: rgba(#a78bfa, 0.15);
+  }
+
+  &__img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center;
+    display: block;
+    transition: transform .45s ease;
+  }
+
+  &:hover &__img { transform: scale(1.08); }
+
+  &__body {
+    padding: $spacing-4 $spacing-5 $spacing-5;
+  }
+
+  &__name {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semi;
+    color: $black;
+    margin: 0;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
 // ALL RIDES HORIZONTAL SCROLL
 // ═══════════════════════════════════════════════════════════════════════════
 // ── All Rides Strip ──────────────────────────────────────────────────────────

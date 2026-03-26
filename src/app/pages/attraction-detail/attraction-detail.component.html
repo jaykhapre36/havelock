@@ -64,7 +64,7 @@
       <div class="rd-header">
         <div class="rd-header__left">
           <span class="rd-badge" [ngClass]="'rd-badge--' + getCategoryClass(attraction.category)">
-            {{ attraction.isFeatured ? 'Featured' : attraction.category }}
+            {{ attraction.category }}
           </span>
           <h1 class="rd-title">{{ attraction.name }}</h1>
           <p class="rd-sub">{{ attraction.shortDescription }}</p>

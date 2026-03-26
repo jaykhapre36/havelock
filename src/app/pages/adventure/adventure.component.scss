@@ -5,7 +5,7 @@
 .adventure-hero {
   background:
     linear-gradient(135deg, rgba(55,117,209,0.72) 0%, rgba(5,209,209,0.68) 100%),
-    url('/mock-data/images/wide_view_WP.webp') center/cover no-repeat;
+    url('/mock-data/adventure_images/adventure.jpeg') center/cover no-repeat;
   min-height: 320px;
   display: flex;
   align-items: center;
@@ -81,15 +81,19 @@
 // ── Card ────────────────────────────────────────────────────────────────────
 .adventure-card {
   @include card;
-  border-radius: $radius-xl;
+  border-radius: $radius-2xl;
+  box-shadow: $shadow-xl;
+  border: 1px solid rgba($white, 0.2);
   display: flex;
   flex-direction: column;
 
   &__img-wrap {
     position: relative;
-    height: 240px;
+    height: 210px;
     overflow: hidden;
     flex-shrink: 0;
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
+    background: rgba($primary, 0.15);
   }
 
   &__img {
@@ -105,32 +109,6 @@
 
   &:hover &__img {
     transform: scale(1.06);
-  }
-
-  &__cat-badge {
-    position: absolute;
-    top: $spacing-3;
-    left: $spacing-3;
-    color: $white;
-    font-size: $font-size-xs;
-    font-weight: $font-weight-semi;
-    padding: 3px $spacing-3;
-    border-radius: $radius-full;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    backdrop-filter: brightness(0.85);
-  }
-
-  &__intensity-badge {
-    position: absolute;
-    top: $spacing-3;
-    right: $spacing-3;
-    font-size: $font-size-xs;
-    font-weight: $font-weight-bold;
-    padding: 3px $spacing-3;
-    border-radius: $radius-full;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
   }
 
   &__body {
@@ -162,26 +140,13 @@
   }
 
   &__feature-pill {
+    display: flex;
+    align-items: center;
+    gap: 4px;
     font-size: $font-size-xs;
-    color: $gray-600;
-    background: $gray-100;
-    border: 1px solid $gray-200;
-    border-radius: $radius-full;
-    padding: 2px $spacing-3;
+    color: $primary;
     font-weight: $font-weight-medium;
-  }
-
-  &__cta {
-    font-size: $font-size-sm;
-    font-weight: $font-weight-semi;
-    color: #0077A8;
-    margin-top: $spacing-2;
-    transition: $transition-fast;
-  }
-
-  &:hover &__cta {
-    color: darken(#0077A8, 12%);
-    letter-spacing: 0.02em;
+    svg { color: $primary; }
   }
 }
 

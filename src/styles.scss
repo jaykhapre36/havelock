@@ -231,7 +231,7 @@ h6 { font-family: $font-family-heading; font-size: $font-size-md;  font-weight: 
 
   &:hover {
     transform: translateY(-4px) scale(1.05);
-    background: darken(#0df2f2, 8%);
+    background: #0ac8c8;
     color: $gray-900;
     box-shadow: 0 0 28px rgba(#0df2f2, 0.75), 0 6px 16px rgba(#000, 0.12);
     animation: none;

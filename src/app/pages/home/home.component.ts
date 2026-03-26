@@ -22,6 +22,22 @@ export class HomeComponent implements OnInit, AfterViewInit {
   allRides: Attraction[] = [];
   allRidesLoop: Attraction[] = [];
   parkAttractions: Attraction[] = [];
+
+  adventures = [
+    { id: 1,  name: 'High Ropes Course',     image: 'mock-data/adventure_images/adventure-ropes-1.webp' },
+    { id: 2,  name: 'Rock Climbing Wall',    image: 'mock-data/adventure_images/adventure-climbing-1.webp' },
+    { id: 3,  name: 'Tyre Wall Climbing',    image: 'mock-data/adventure_images/adventure-tyre-wall-1.webp' },
+    { id: 4,  name: 'Rope Net Traverse',     image: 'mock-data/adventure_images/adventure-rope-net-1.webp' },
+    { id: 5,  name: 'Human Gyroscope',       image: 'mock-data/adventure_images/adventure-gyroscope-1.webp' },
+    { id: 6,  name: 'Water Zorbing',         image: 'mock-data/adventure_images/adventure-zorbing-1.webp' },
+    { id: 7,  name: 'Kayaking',              image: 'mock-data/adventure_images/adventure-kayaking-1.webp' },
+    { id: 8,  name: 'ATV Bike',              image: 'mock-data/adventure_images/adventure-atv-1.webp' },
+    { id: 9,  name: 'Giant Swing',           image: 'mock-data/adventure_images/adventure-sky-jump-1.webp' },
+    { id: 10, name: 'Sky Jump',              image: 'mock-data/adventure_images/adventure-swing-1.webp' },
+    { id: 11, name: 'Mechanical Bull Riding',image: 'mock-data/adventure_images/adventure-bull-ride-1.webp' },
+    { id: 12, name: 'Wipeout Arena',         image: 'mock-data/adventure_images/adventure-wipeout-1.webp' },
+  ];
+  adventuresLoop = [...this.adventures, ...this.adventures];
   pricingCards: Ticket[] = [];
   reviews: Review[] = [];
 

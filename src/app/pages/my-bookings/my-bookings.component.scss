@@ -126,14 +126,14 @@
 
   &--active {
     background: $primary;
-    color: $white;
+    color: $gray-900;
     box-shadow: $shadow-sm;
 
-    &:hover { color: $white; }
+    &:hover { color: $gray-900; }
 
     .mb-tab__count {
       background: rgba($white, 0.25);
-      color: $white;
+      color: $gray-900;
     }
   }
 
@@ -202,113 +202,89 @@
   border: 1px solid $gray-200;
   box-shadow: $shadow-sm;
   overflow: hidden;
+  padding: $spacing-5;
 
-  &__header {
+  &__top {
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: $spacing-3;
-    padding: $spacing-5 $spacing-5 $spacing-4;
-    border-bottom: 1px solid $gray-100;
-    @include mobile { flex-direction: column; gap: $spacing-2; }
+    gap: $spacing-2;
+    margin-bottom: $spacing-3;
   }
 
-  &__header-left {
+  &__heading {
+    margin-bottom: $spacing-4;
+    padding-bottom: $spacing-4;
+    border-bottom: 1px solid $gray-100;
+  }
+
+  &__pkg {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: $gray-900;
+    margin-bottom: $spacing-1;
+  }
+
+  &__id {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.8rem;
+    color: $gray-500;
+    font-weight: 500;
+    svg { color: $gray-400; flex-shrink: 0; }
+  }
+
+  &__rows {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: $spacing-4;
+    padding: $spacing-3 0;
+    border-bottom: 1px solid $gray-100;
+
+    &:last-child { border-bottom: none; }
+  }
+
+  &__row-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba($primary, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    svg { color: $primary; }
+  }
+
+  &__row-info {
     display: flex;
     flex-direction: column;
     gap: 2px;
   }
 
-  &__pkg {
-    font-size: 1.05rem;
-    font-weight: 800;
-    color: $gray-900;
-  }
-
-  &__id {
-    font-size: 0.78rem;
-    color: $gray-600;
-    font-weight: 600;
-    font-family: monospace;
-    letter-spacing: 0.04em;
-  }
-
-  &__badges {
-    display: flex;
-    gap: $spacing-2;
-    flex-wrap: wrap;
-    flex-shrink: 0;
-  }
-
-  &__date-row {
-    display: flex;
-    align-items: center;
-    gap: $spacing-2;
-    padding: $spacing-3 $spacing-5;
-    background: rgba($primary, 0.04);
-    border-bottom: 1px solid $gray-100;
-    flex-wrap: wrap;
-    svg { color: $primary; flex-shrink: 0; }
-  }
-
-  &__date {
-    font-size: 0.92rem;
+  &__row-label {
+    font-size: 0.7rem;
     font-weight: 700;
-    color: $gray-900;
-    flex: 1;
+    color: $gray-500;
+    letter-spacing: 0.07em;
   }
 
-  &__time {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 0.85rem;
-    color: $gray-700;
-    font-weight: 600;
-    svg { color: $gray-600; }
-  }
-
-  &__details {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    padding: $spacing-4 $spacing-5;
-
-    @include mobile { grid-template-columns: 1fr 1fr; }
-  }
-
-  &__detail {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    padding: $spacing-3 $spacing-2;
-    border-right: 1px solid $gray-100;
-    border-bottom: 1px solid $gray-100;
-
-    &:nth-child(even) { border-right: none; }
-    &:nth-last-child(-n+2) { border-bottom: none; }
-  }
-
-  &__detail-label {
-    font-size: 0.72rem;
-    font-weight: 700;
-    color: $gray-600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-
-  &__detail-val {
+  &__row-val {
     font-size: 0.95rem;
     font-weight: 700;
     color: $gray-900;
     display: flex;
     align-items: center;
     gap: 4px;
-    svg { color: $primary; }
 
     &--amount {
-      font-size: 1.05rem;
       color: $primary;
+      font-size: 1.05rem;
     }
   }
 }
@@ -352,8 +328,8 @@
   letter-spacing: 0.04em;
   width: fit-content;
 
-  &--confirmed { background: #D1FAE5; color: #065F46; }
-  &--done      { background: #D1FAE5; color: #065F46; }
+  &--confirmed { background: #00b859; color: #ffffff; }
+  &--done      { background: #006aff; color: #ffffff; }
   &--pending   { background: #FEF3C7; color: #92400E; }
   &--cancelled { background: #FEE2E2; color: #991B1B; }
   &--failed    { background: #FEE2E2; color: #991B1B; }

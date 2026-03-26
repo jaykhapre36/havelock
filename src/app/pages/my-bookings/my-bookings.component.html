@@ -110,62 +110,99 @@
       <div class="mb-cards" *ngIf="currentList.length > 0">
         <div class="mb-card" *ngFor="let b of currentList">
 
-          <!-- Card header -->
-          <div class="mb-card__header">
-            <div class="mb-card__header-left">
-              <h3 class="mb-card__pkg">{{ b.package_name }}</h3>
-              <span class="mb-card__id">Booking ID: {{ b.id }}</span>
-            </div>
-            <div class="mb-card__badges">
-              <span class="mb-badge mb-badge--type" [class.mb-badge--group]="b.is_group">
-                {{ b.is_group ? 'Group' : 'Individual' }}
-              </span>
-              <span class="mb-badge mb-badge--source" *ngIf="!b.is_online">Counter</span>
-            </div>
+          <!-- Top badges -->
+          <div class="mb-card__top">
+            <span class="mb-badge mb-badge--type" [class.mb-badge--group]="b.is_group">
+              {{ b.is_group ? 'GROUP' : 'INDIVIDUAL' }}
+            </span>
+            <span class="mb-badge mb-badge--source" *ngIf="!b.is_online">COUNTER</span>
           </div>
 
-          <!-- Date & time row -->
-          <div class="mb-card__date-row">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="4" width="18" height="18" rx="2"/>
-              <line x1="16" y1="2" x2="16" y2="6"/>
-              <line x1="8" y1="2" x2="8" y2="6"/>
-              <line x1="3" y1="10" x2="21" y2="10"/>
-            </svg>
-            <span class="mb-card__date">{{ formatDate(b.slot_date) }}</span>
-            <span class="mb-card__time">
+          <!-- Package name + Booking ID -->
+          <div class="mb-card__heading">
+            <h3 class="mb-card__pkg">{{ b.package_name }}</h3>
+            <span class="mb-card__id">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                <path d="M20 12V22H4V12"/><path d="M22 7H2v5h20V7z"/>
+                <path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
+                <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
               </svg>
-              {{ formatTime(b.slot_start) }} – {{ formatTime(b.slot_end) }}
+              Booking ID: {{ b.id }}
             </span>
           </div>
 
-          <!-- Details grid -->
-          <div class="mb-card__details">
-            <div class="mb-card__detail">
-              <span class="mb-card__detail-label">Persons</span>
-              <span class="mb-card__detail-val">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <!-- Vertical info rows -->
+          <div class="mb-card__rows">
+            <div class="mb-card__row">
+              <span class="mb-card__row-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+              </span>
+              <div class="mb-card__row-info">
+                <span class="mb-card__row-label">DATE</span>
+                <span class="mb-card__row-val">{{ formatDate(b.slot_date) }}</span>
+              </div>
+            </div>
+
+            <div class="mb-card__row">
+              <span class="mb-card__row-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                </svg>
+              </span>
+              <div class="mb-card__row-info">
+                <span class="mb-card__row-label">TIMESLOT</span>
+                <span class="mb-card__row-val">{{ formatTime(b.slot_start) }} – {{ formatTime(b.slot_end) }}</span>
+              </div>
+            </div>
+
+            <div class="mb-card__row">
+              <span class="mb-card__row-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
                   <circle cx="9" cy="7" r="4"/>
                   <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
                   <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
                 </svg>
-                {{ b.count }}
               </span>
+              <div class="mb-card__row-info">
+                <span class="mb-card__row-label">VISITORS</span>
+                <span class="mb-card__row-val">{{ b.count }} {{ b.count === 1 ? 'Person' : 'Persons' }}</span>
+              </div>
             </div>
-            <div class="mb-card__detail">
-              <span class="mb-card__detail-label">Total Paid</span>
-              <span class="mb-card__detail-val mb-card__detail-val--amount">₹{{ formatAmount(b.total_amount) }}</span>
+
+            <div class="mb-card__row">
+              <span class="mb-card__row-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="12" y1="1" x2="12" y2="23"/>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+              </span>
+              <div class="mb-card__row-info">
+                <span class="mb-card__row-label">TOTAL PAID</span>
+                <span class="mb-card__row-val mb-card__row-val--amount">₹{{ formatAmount(b.total_amount) }}</span>
+              </div>
             </div>
-            <div class="mb-card__detail">
-              <span class="mb-card__detail-label">Booking Status</span>
-              <span class="mb-status" [ngClass]="'mb-status--' + b.booking_status">{{ b.booking_status }}</span>
-            </div>
-            <div class="mb-card__detail">
-              <span class="mb-card__detail-label">Payment</span>
-              <span class="mb-status" [ngClass]="'mb-status--' + b.payment_status">{{ b.payment_status }}</span>
+
+            <div class="mb-card__row">
+              <span class="mb-card__row-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                  <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+              </span>
+              <div class="mb-card__row-info">
+                <span class="mb-card__row-label">STATUS</span>
+                <span class="mb-card__row-val">
+                  <span class="mb-status" [ngClass]="'mb-status--' + b.booking_status">Booking: {{ b.booking_status }}</span>
+                  &nbsp;&nbsp;
+                  <span class="mb-status" [ngClass]="'mb-status--' + b.payment_status">Payment: {{ b.payment_status }}</span>
+                </span>
+              </div>
             </div>
           </div>
 

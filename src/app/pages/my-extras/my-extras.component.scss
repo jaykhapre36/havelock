@@ -66,9 +66,9 @@
     &--active {
       border-color: $primary;
       background: $primary;
-      color: $white;
+      color: $gray-900;
 
-      .sub-tabs__count { background: rgba($white, 0.25); color: $white; }
+      .sub-tabs__count { background: rgba($white, 0.25); color: $gray-900; }
     }
   }
 

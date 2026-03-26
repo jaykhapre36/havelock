@@ -24,10 +24,10 @@
   }
 
   &__inner {
-    @include container;
-    @include flex-between;
     height: 100%;
     gap: $spacing-6;
+    @include container;
+    @include flex-between;
   }
 
   // ─── Brand (logo + mobile greeting) ────────────────────────────────────
@@ -138,7 +138,7 @@
     box-shadow: 0 0 12px rgba(#0df2f2, 0.45);
 
     &:hover:not(:disabled) {
-      background-color: darken(#0df2f2, 8%);
+      background-color: #0ac8c8;
       box-shadow: 0 0 18px rgba(#0df2f2, 0.60);
       transform: translateY(-1px);
     }
@@ -255,7 +255,6 @@
     opacity: 0;
     transition: $transition-base;
     pointer-events: none;
-    max-height: calc(100dvh - #{$navbar-height-mobile});
     overflow-y: auto;
 
     @include mobile {
@@ -338,7 +337,7 @@
       transition: $transition-fast;
 
       &:hover {
-        background: darken(#0df2f2, 8%);
+        background: #0ac8c8;
         box-shadow: 0 0 22px rgba(#0df2f2, 0.65);
       }
     }

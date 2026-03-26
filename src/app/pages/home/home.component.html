@@ -160,6 +160,40 @@
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- ADVENTURE HORIZONTAL SCROLL                                             -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="adventure-strip">
+  <div class="container">
+    <div class="adventure-strip-header">
+      <div>
+        <p class="adventure-strip-eyebrow">Thrills Beyond the Water</p>
+        <h2 class="adventure-strip-title">Adventure Park</h2>
+      </div>
+      <a routerLink="/adventure-park" class="adventure-strip-viewall">
+        View All Adventure
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="adventure-scroll-wrap">
+    <div class="adventure-scroll">
+      <div
+        class="asc"
+        *ngFor="let act of adventuresLoop"
+      >
+        <div class="asc__img-wrap">
+          <img class="asc__img" [src]="act.image" [alt]="act.name" loading="lazy" />
+        </div>
+        <div class="asc__body">
+          <h4 class="asc__name">{{ act.name }}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
 <!-- AMENITIES                                                               -->
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <!-- <section class="amenities section">

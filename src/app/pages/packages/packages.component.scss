@@ -47,6 +47,8 @@
   max-width: 1100px;
   margin: -$spacing-8 auto 0;
   padding: 0 $spacing-6;
+  position: relative;
+  z-index: 1;
 
   .pkg-card {
     width: 320px;

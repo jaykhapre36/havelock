@@ -267,44 +267,50 @@
           Booking Summary
         </h2>
 
-        <div class="gb-review-meta">
-          <div class="gb-review-meta__item">
-            <span class="gb-review-meta__label">Visit Date</span>
-            <span class="gb-review-meta__val">{{ selectedSlot?.slot_date | date:'d MMMM yyyy' }}</span>
+        <div class="gb-fare-meta">
+          <div class="gb-fare-meta__item">
+            <span class="gb-fare-meta__label">Visit Date</span>
+            <span class="gb-fare-meta__val">{{ selectedSlot?.slot_date | date:'d MMMM yyyy' }}</span>
           </div>
-          <div class="gb-review-meta__item">
-            <span class="gb-review-meta__label">Park Hours</span>
-            <span class="gb-review-meta__val">{{ selectedSlot?.slot_start | slice:0:5 }} – {{ selectedSlot?.slot_end | slice:0:5 }}</span>
+          <div class="gb-fare-meta__item">
+            <span class="gb-fare-meta__label">Park Hours</span>
+            <span class="gb-fare-meta__val">{{ selectedSlot?.slot_start | slice:0:5 }} – {{ selectedSlot?.slot_end | slice:0:5 }}</span>
           </div>
-          <div class="gb-review-meta__item">
-            <span class="gb-review-meta__label">Group Size</span>
-            <span class="gb-review-meta__val">{{ groupSize }} persons</span>
+          <div class="gb-fare-meta__item">
+            <span class="gb-fare-meta__label">Group Size</span>
+            <span class="gb-fare-meta__val">{{ groupSize }} persons</span>
           </div>
         </div>
 
-        <table class="gb-review-table">
-          <thead>
-            <tr><th>Ticket</th><th>Qty</th><th>Unit</th><th>Subtotal</th></tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Group Booking</td>
-              <td class="center">{{ groupSize }}</td>
-              <td>₹{{ pricePerPerson | number }}</td>
-              <td class="right">₹{{ subtotal | number }}</td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr *ngIf="discountPercent > 0">
-              <td colspan="3">Group Discount ({{ discountPercent }}%)</td>
-              <td class="right discount">−₹{{ discountAmount | number }}</td>
-            </tr>
-            <tr class="total-row">
-              <td colspan="3"><strong>Grand Total</strong></td>
-              <td class="right"><strong>₹{{ grandTotal | number }}</strong></td>
-            </tr>
-          </tfoot>
-        </table>
+        <p class="gb-fare-heading">FARE BREAKDOWN</p>
+
+        <div class="gb-fare-list">
+          <div class="gb-fare-row">
+            <span class="gb-fare-row__label">Group Booking (x{{ groupSize }})</span>
+            <span class="gb-fare-row__val">₹{{ subtotal | number:'1.2-2' }}</span>
+          </div>
+          <div class="gb-fare-row">
+            <span class="gb-fare-row__label">Per Person Rate</span>
+            <span class="gb-fare-row__val">₹{{ pricePerPerson | number:'1.2-2' }}</span>
+          </div>
+          <div class="gb-fare-row gb-fare-row--discount" *ngIf="discountPercent > 0">
+            <span class="gb-fare-row__label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/>
+                <line x1="12" y1="22" x2="12" y2="7"/>
+                <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
+                <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+              </svg>
+              Group Discount ({{ discountPercent }}%)
+            </span>
+            <span class="gb-fare-row__val">− ₹{{ discountAmount | number:'1.2-2' }}</span>
+          </div>
+        </div>
+
+        <div class="gb-fare-total">
+          <span class="gb-fare-total__label">Grand Total</span>
+          <span class="gb-fare-total__val">₹{{ grandTotal | number:'1.2-2' }}</span>
+        </div>
       </div>
 
       <!-- API error banner -->

@@ -79,7 +79,7 @@
     </form>
   </div>
 
-  <!-- Booking Summary -->
+  <!-- Fare Breakdown -->
   <div class="bk-card">
     <h2 class="bk-card__title">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -87,49 +87,45 @@
       </svg>
       Booking Summary
     </h2>
-
-    <div class="bk-review-meta">
-      <div class="bk-review-meta__item">
-        <span class="bk-review-meta__label">Visit Date</span>
-        <span class="bk-review-meta__val">{{ state.selectedDate | date:'d MMMM yyyy' }}</span>
+    <div class="bk-fare-meta">
+      <div class="bk-fare-meta__item">
+        <span class="bk-fare-meta__label">Visit Date</span>
+        <span class="bk-fare-meta__val">{{ state.selectedDate | date:'d MMMM yyyy' }}</span>
       </div>
-      <div class="bk-review-meta__item">
-        <span class="bk-review-meta__label">Day Type</span>
-        <span class="bk-review-meta__val bk-review-meta__val--cap">{{ state.dayType }}</span>
+      <div class="bk-fare-meta__item">
+        <span class="bk-fare-meta__label">Day Type</span>
+        <span class="bk-fare-meta__val" style="text-transform:capitalize">{{ state.dayType }}</span>
       </div>
     </div>
 
-    <table class="bk-review-table">
-      <thead>
-        <tr>
-          <th>Ticket</th>
-          <th>Qty</th>
-          <th>Unit</th>
-          <th>Subtotal</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let sel of activeSelections">
-          <td>{{ sel.ticket.label }}</td>
-          <td class="bk-review-table__center">{{ sel.qty }}</td>
-          <td>₹{{ sel.ticket.price | number }}</td>
-          <td class="bk-review-table__right">₹{{ sel.lineTotal | number }}</td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr *ngIf="state.discountAmount > 0">
-          <td colspan="3" class="bk-review-table__discount-label">
-            <span *ngIf="state.bulkDiscount">Group Discount (10%)</span>
-            <span *ngIf="!state.bulkDiscount">Discount</span>
-          </td>
-          <td class="bk-review-table__right bk-review-table__discount">−₹{{ state.discountAmount | number }}</td>
-        </tr>
-        <tr class="bk-review-table__total-row">
-          <td colspan="3"><strong>Grand Total</strong></td>
-          <td class="bk-review-table__right"><strong>₹{{ state.grandTotal | number }}</strong></td>
-        </tr>
-      </tfoot>
-    </table>
+    <p class="bk-fare-heading">FARE BREAKDOWN</p>
+
+    <div class="bk-fare-list">
+      <div class="bk-fare-row" *ngFor="let sel of activeSelections">
+        <span class="bk-fare-row__label">
+          {{ sel.ticket.label }} (x{{ sel.qty }})
+          <span class="bk-fare-row__sub">₹{{ sel.ticket.price | number:'1.2-2' }} / person</span>
+        </span>
+        <span class="bk-fare-row__val">₹{{ sel.lineTotal | number:'1.2-2' }}</span>
+      </div>
+
+      <div class="bk-fare-row bk-fare-row--discount" *ngIf="state.discountAmount > 0">
+        <span class="bk-fare-row__label">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/>
+            <line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
+            <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+          </svg>
+          {{ state.bulkDiscount ? 'Group Discount (10%)' : 'Promo Discount' }}
+        </span>
+        <span class="bk-fare-row__val">− ₹{{ state.discountAmount | number:'1.2-2' }}</span>
+      </div>
+    </div>
+
+    <div class="bk-fare-total">
+      <span class="bk-fare-total__label">Grand Total</span>
+      <span class="bk-fare-total__val">₹{{ state.grandTotal | number:'1.2-2' }}</span>
+    </div>
   </div>
 
   <!-- API error banner -->

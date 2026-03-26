@@ -252,7 +252,7 @@
   margin-top: $spacing-3;
 
   &--closed      { background: rgba($danger, .10); color: $danger; }
-  &--maintenance { background: rgba($warning, .15); color: darken($warning, 20%); }
+  &--maintenance { background: rgba($warning, .15); color: #a07800; }
 }
 
 // ── Stats ─────────────────────────────────────────────────────────────────────
@@ -582,7 +582,7 @@
   transition: $transition-fast;
 
   &:hover {
-    background: darken($primary, 6%);
+    background: #0bc8c8;
     box-shadow: 0 6px 20px rgba($primary, .50);
   }
 }

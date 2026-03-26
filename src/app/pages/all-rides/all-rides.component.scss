@@ -94,7 +94,7 @@
   box-shadow: $shadow-xl;
   border: 1px solid rgba($white, 0.2);
 
-  &__img-wrap { position:relative; overflow:hidden; height:210px; clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%); }
+  &__img-wrap { position:relative; overflow:hidden; height:210px; clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%); background: rgba($primary, 0.15); }
   &__bg { position:absolute; inset:0; }
   &__img {
     position:absolute; inset:0;
