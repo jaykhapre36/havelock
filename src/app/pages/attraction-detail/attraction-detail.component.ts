@@ -13,6 +13,7 @@ import { Attraction } from '../../models/attraction.model';
 export class AttractionDetailComponent implements OnInit {
   attraction: Attraction | null = null;
   relatedAttractions: Attraction[] = [];
+  relatedLoop: Attraction[] = [];
   loading = true;
   notFound = false;
   activeTab: 'about' | 'expect' | 'bestfor' = 'about';
@@ -35,6 +36,7 @@ export class AttractionDetailComponent implements OnInit {
         this.loading = false;
         this.attractionsService.getRelated(id, data.zone).subscribe(rel => {
           this.relatedAttractions = rel;
+          this.relatedLoop = [...rel, ...rel];
         });
       });
     });
@@ -64,6 +66,16 @@ export class AttractionDetailComponent implements OnInit {
   }
 
   getCategoryClass(cat: string): string { return cat.toLowerCase().replace(/\s+/g, '-'); }
+
+  get relatedViewAllRoute(): string {
+    const rideCategories = ['Thrill', 'Family', 'Kids'];
+    return rideCategories.includes(this.attraction?.category ?? '') ? '/all-rides' : '/attractions';
+  }
+
+  get relatedViewAllLabel(): string {
+    const rideCategories = ['Thrill', 'Family', 'Kids'];
+    return rideCategories.includes(this.attraction?.category ?? '') ? 'View All Rides' : 'View All Attractions';
+  }
 
   goBack(): void { this.location.back(); }
 

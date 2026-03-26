@@ -174,8 +174,8 @@
   }
 
   &__bottom-inner {
-    @include flex-between;
     gap: $spacing-4;
+    @include flex-between;
 
     @include mobile {
       flex-direction: column;

@@ -19,9 +19,9 @@
 
 // ── Toolbar ─────────────────────────────────────────────────────────────────
 .rides-toolbar {
-  @include flex-between;
   gap: $spacing-4;
   margin-bottom: $spacing-5;
+  @include flex-between;
   @include mobile { flex-direction:column; }
 
   &__search {
@@ -115,7 +115,7 @@
   }
 
   &__body { padding:$spacing-5; display:flex; flex-direction:column; gap:$spacing-2; }
-  &__top-row { @include flex-between; gap:$spacing-2; }
+  &__top-row { gap:$spacing-2; @include flex-between; }
   &__name { font-size:$font-size-base; font-weight:$font-weight-semi; color:$gray-900; }
   &__wait { display:flex; align-items:center; gap:4px; font-size:$font-size-xs; color:$gray-500; white-space:nowrap; flex-shrink:0; }
   &__desc { font-size:$font-size-sm; color:$gray-500; @include text-clamp(2); line-height:1.5; }

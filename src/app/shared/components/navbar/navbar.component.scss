@@ -255,7 +255,9 @@
     opacity: 0;
     transition: $transition-base;
     pointer-events: none;
+    max-height: calc(100vh - #{$navbar-height-mobile});
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 
     @include mobile {
       display: block;
@@ -423,4 +425,120 @@
 
   // ─── Overlay ─────────────────────────────────────────────────────────────
   &__overlay { display: none; }
+}
+
+// ─── Logout Confirmation Modal ────────────────────────────────────────────────
+.logout-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(#000, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-5;
+  animation: modal-fade-in 0.18s ease;
+}
+
+@keyframes modal-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.logout-modal {
+  background: $white;
+  border-radius: $radius-2xl;
+  padding: $spacing-8 $spacing-6;
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(#000, 0.2);
+  animation: modal-slide-up 0.2s ease;
+
+  &__icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba($danger, 0.08);
+    color: $danger;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto $spacing-5;
+  }
+
+  &__title {
+    font-family: $font-family-heading;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: $gray-900;
+    margin-bottom: $spacing-2;
+  }
+
+  &__msg {
+    font-size: $font-size-sm;
+    color: $gray-500;
+    line-height: 1.6;
+    margin-bottom: $spacing-6;
+  }
+
+  &__actions {
+    display: flex;
+    gap: $spacing-3;
+  }
+
+  &__cancel {
+    flex: 1;
+    padding: $spacing-3 $spacing-4;
+    border: 1.5px solid $gray-200;
+    border-radius: $radius-lg;
+    background: $white;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semi;
+    color: $gray-700;
+    cursor: pointer;
+    transition: $transition-fast;
+    &:hover:not(:disabled) { background: $gray-100; }
+    &:disabled { opacity: 0.6; cursor: not-allowed; }
+  }
+
+  &__confirm {
+    flex: 1;
+    padding: $spacing-3 $spacing-4;
+    border: none;
+    border-radius: $radius-lg;
+    background: $danger;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semi;
+    color: $white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-2;
+    transition: $transition-fast;
+    &:hover:not(:disabled) { background: #c0392b; }
+    &:disabled { opacity: 0.7; cursor: not-allowed; }
+  }
+
+  &__spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba($white, 0.4);
+    border-top-color: $white;
+    border-radius: 50%;
+    animation: logout-spin 0.7s linear infinite;
+    flex-shrink: 0;
+  }
+}
+
+@keyframes modal-slide-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes logout-spin {
+  to { transform: rotate(360deg); }
 }

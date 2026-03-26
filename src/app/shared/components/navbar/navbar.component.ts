@@ -33,6 +33,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   isMenuOpen = false;
   isScrolled   = false;
   currentUser: User | null = null;
+  showLogoutModal = false;
+  loggingOut = false;
 
   private subs = new Subscription();
 
@@ -62,12 +64,27 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.isMenuOpen = false;
   }
 
-  logout(): void {
+  openLogoutModal(): void {
+    this.isMenuOpen = false;
+    this.showLogoutModal = true;
+  }
+
+  cancelLogout(): void {
+    this.showLogoutModal = false;
+  }
+
+  confirmLogout(): void {
+    this.loggingOut = true;
     this.authService.logout().subscribe({
-      next: () => this.router.navigate(['/']),
+      next: () => {
+        this.loggingOut = false;
+        this.showLogoutModal = false;
+        this.router.navigate(['/']);
+      },
       error: () => {
-        // Even if API fails, clear session and redirect
         this.authService.clearSession();
+        this.loggingOut = false;
+        this.showLogoutModal = false;
         this.router.navigate(['/']);
       }
     });

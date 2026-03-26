@@ -71,10 +71,9 @@
 
   <div class="rides-scroll-wrap">
     <div class="rides-scroll">
-      <a
+      <div
         class="rsc"
         *ngFor="let ride of allRidesLoop"
-        [routerLink]="['/attractions', ride.id]"
         [ngClass]="'rsc--' + getCategoryClass(ride.category)"
       >
         <!-- accent bar top -->
@@ -94,18 +93,13 @@
 
         <!-- body -->
         <div class="rsc__body">
-          <!-- <div class="rsc__meta-row">
-            <span class="rsc__category">{{ ride.category }}</span>
-            <span class="rsc__intensity rsc__intensity--{{ ride.intensity.toLowerCase() }}">{{ ride.intensity }}</span>
-          </div> -->
           <h4 class="rsc__name">{{ ride.name }}</h4>
-          <!-- <p class="rsc__desc">{{ ride.shortDescription }}</p> -->
-          <span class="rsc__cta">
+          <a class="rsc__cta" [routerLink]="['/attractions', ride.id]">
             See Details
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </span>
+          </a>
         </div>
-      </a>
+      </div>
     </div>
   </div>
 </section>

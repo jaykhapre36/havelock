@@ -46,7 +46,7 @@ export class AttractionsService {
 
   getRelated(currentId: number, zone: string): Observable<Attraction[]> {
     return this.getAll().pipe(
-      map(attractions => attractions.filter(a => a.id !== currentId).slice(0, 4))
+      map(attractions => attractions.filter(a => a.id !== currentId))
     );
   }
 }

@@ -450,39 +450,84 @@
   svg { color: $primary; flex-shrink: 0; }
 }
 
-// ── Related rides (horizontal scroll) ────────────────────────────────────────
+// ── Related section header ─────────────────────────────────────────────────────
+.rd-related-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-4;
+  margin-bottom: $spacing-4;
+}
+
+.rd-related-viewall {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-1;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semi;
+  color: $primary;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: $transition-fast;
+  flex-shrink: 0;
+
+  &:hover { gap: $spacing-2; }
+}
+
+// ── Related rides (auto-scroll marquee) ───────────────────────────────────────
+.rd-related-wrap {
+  overflow: hidden;
+  margin: 0 (-$spacing-6);
+  padding-bottom: $spacing-2;
+
+  @media (min-width: 900px) {
+    margin: 0 (-$spacing-10);
+  }
+
+  &:hover .rd-related-scroll {
+    animation-play-state: paused;
+  }
+}
+
 .rd-related-scroll {
   display: flex;
   gap: $spacing-4;
-  overflow-x: auto;
-  padding-bottom: $spacing-2;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  margin: 0 (-$spacing-6);
+  width: max-content;
   padding-left: $spacing-6;
   padding-right: $spacing-6;
+  animation: rel-marquee 28s linear infinite;
 
-  &::-webkit-scrollbar { display: none; }
+  @media (min-width: 900px) {
+    padding-left: $spacing-10;
+    padding-right: $spacing-10;
+  }
+}
+
+@keyframes rel-marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 .rd-rel-card {
   flex-shrink: 0;
-  width: 180px;
+  width: 220px;
   scroll-snap-align: start;
-  border-radius: $radius-xl;
+  border-radius: $radius-2xl;
   overflow: hidden;
   background: $white;
-  box-shadow: $shadow-sm;
+  box-shadow: 0 4px 16px rgba(#000, .12);
+  border: 1px solid $gray-100;
   text-decoration: none;
   color: inherit;
-  transition: $transition-fast;
+  transition: transform .3s ease, box-shadow .3s ease;
 
-  &:hover { box-shadow: $shadow-md; transform: translateY(-2px); }
+  &:hover { box-shadow: 0 8px 24px rgba(#000, .18); transform: translateY(-4px); }
 
   &__img {
-    height: 110px;
+    height: 140px;
     position: relative;
     overflow: hidden;
+    clip-path: polygon(0 0, 100% 0, 100% 88%, 0% 100%);
   }
 
   &__bg {
@@ -502,22 +547,26 @@
   &:hover &__photo { transform: scale(1.06); }
 
   &__body {
-    padding: $spacing-3 $spacing-4;
+    padding: $spacing-3 $spacing-4 $spacing-4;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-1;
+  }
 
-    h4 {
-      font-size: $font-size-sm;
-      font-weight: $font-weight-semi;
-      color: $gray-900;
-      margin-bottom: $spacing-1;
-      @include text-clamp(1);
-    }
+  &__cat {
+    font-size: 10px;
+    font-weight: $font-weight-bold;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: $primary;
+  }
 
-    p {
-      font-size: $font-size-xs;
-      color: $gray-500;
-      line-height: 1.5;
-      @include text-clamp(2);
-    }
+  h4 {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semi;
+    color: $gray-900;
+    @include text-clamp(2);
+    line-height: 1.35;
   }
 }
 

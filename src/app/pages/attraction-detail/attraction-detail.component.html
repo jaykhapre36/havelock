@@ -196,18 +196,28 @@
 
       <!-- ── You May Also Like ────────────────────────────────────────────── -->
       <div class="rd-section rd-section--related" *ngIf="relatedAttractions.length">
-        <h3 class="rd-section__title">You May Also Like</h3>
-        <div class="rd-related-scroll">
-          <a class="rd-rel-card" *ngFor="let r of relatedAttractions" [routerLink]="['/attractions', r.id]">
-            <div class="rd-rel-card__img">
-              <div class="rd-rel-card__bg" [style.background]="getGradient(r.category)"></div>
-              <img *ngIf="r.images.length" class="rd-rel-card__photo" [src]="r.images[0]" [alt]="r.name" loading="lazy"/>
-            </div>
-            <div class="rd-rel-card__body">
-              <h4>{{ r.name }}</h4>
-              <p>{{ r.shortDescription }}</p>
-            </div>
+        <div class="rd-related-header">
+          <h3 class="rd-section__title" style="margin-bottom:0">You May Also Like</h3>
+          <a class="rd-related-viewall" [routerLink]="relatedViewAllRoute">
+            {{ relatedViewAllLabel }}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
           </a>
+        </div>
+        <div class="rd-related-wrap">
+          <div class="rd-related-scroll">
+            <a class="rd-rel-card" *ngFor="let r of relatedLoop" [routerLink]="['/attractions', r.id]">
+              <div class="rd-rel-card__img">
+                <div class="rd-rel-card__bg" [style.background]="getGradient(r.category)"></div>
+                <img *ngIf="r.images.length" class="rd-rel-card__photo" [src]="r.images[0]" [alt]="r.name" loading="lazy"/>
+              </div>
+              <div class="rd-rel-card__body">
+                <span class="rd-rel-card__cat">{{ r.category }}</span>
+                <h4>{{ r.name }}</h4>
+              </div>
+            </a>
+          </div>
         </div>
       </div>
 
