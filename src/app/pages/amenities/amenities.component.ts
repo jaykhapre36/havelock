@@ -5,7 +5,7 @@ interface AmenityGroup {
   title: string;
   subtitle?: string;
   highlight?: boolean;
-  items: { name: string; note?: string }[];
+  items: { name: string; note?: string; icon?: string }[];
 }
 
 interface FoodCategory {
@@ -88,9 +88,9 @@ export class AmenitiesComponent {
       title: 'Facilities',
       subtitle: 'Clean, well-maintained for your comfort',
       items: [
-        { name: 'Changing Rooms & Lockers', note: 'Secure lockers available on rent' },
-        { name: 'Shower Areas',             note: 'Hot & cold water showers' },
-        { name: 'Restrooms / Washrooms',    note: 'Available across all zones' }
+        { name: 'Changing Rooms & Lockers', note: 'Secure lockers available on rent', icon: 'locker' },
+        { name: 'Shower Areas',             note: 'Hot & cold water showers',         icon: 'shower' },
+        { name: 'Restrooms / Washrooms',    note: 'Available across all zones',        icon: 'restroom' }
       ]
     },
     {
@@ -116,10 +116,10 @@ export class AmenitiesComponent {
       title: 'Comfort & Convenience',
       subtitle: 'Everything to make your visit stress-free',
       items: [
-        { name: 'Parking — Two-wheeler' },
-        { name: 'Parking — Four-wheeler' },
-        { name: 'First Aid / Medical Room',  note: 'Trained staff on duty' },
-        { name: 'Accessibility Support',     note: 'Wheelchair-friendly pathways' }
+        { name: 'Parking — Two-wheeler',    icon: 'bike' },
+        { name: 'Parking — Four-wheeler',   icon: 'car' },
+        { name: 'First Aid / Medical Room', note: 'Trained staff on duty',         icon: 'firstaid' },
+        { name: 'Accessibility Support',    note: 'Wheelchair-friendly pathways',  icon: 'wheelchair' }
       ]
     },
     {
@@ -127,9 +127,9 @@ export class AmenitiesComponent {
       title: 'In-Park Services',
       subtitle: 'Rentals & experiences inside the park',
       items: [
-        { name: 'Swimwear & Floats Rental', note: 'Available at the entrance' },
-        { name: 'Towel Rental',             note: 'Fresh towels at nominal cost' },
-        { name: 'Photography & Photo Booths', note: 'Capture your best moments' }
+        { name: 'Swimwear & Floats Rental',   note: 'Available at the entrance',    icon: 'swim' },
+        { name: 'Towel Rental',               note: 'Fresh towels at nominal cost', icon: 'towel' },
+        { name: 'Photography & Photo Booths', note: 'Capture your best moments',    icon: 'camera' }
       ]
     },
     {
@@ -137,9 +137,9 @@ export class AmenitiesComponent {
       title: 'Relaxation',
       subtitle: 'Unwind between the splashes',
       items: [
-        { name: 'Seating Areas & Benches',       note: 'Spread across all zones' },
-        { name: 'Shaded Lounges / Sun Beds',     note: 'Relax in the shade' },
-        { name: 'Cabanas',                       note: 'Private shaded areas available' }
+        { name: 'Seating Areas & Benches',   note: 'Spread across all zones',       icon: 'bench' },
+        { name: 'Shaded Lounges / Sun Beds', note: 'Relax in the shade',            icon: 'umbrella' },
+        { name: 'Cabanas',                   note: 'Private shaded areas available', icon: 'cabana' }
       ]
     }
   ];

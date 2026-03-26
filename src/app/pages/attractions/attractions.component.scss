@@ -60,7 +60,7 @@
     &:focus-within { border-color:$primary; box-shadow:0 0 0 3px rgba($primary,.1); }
     svg { color:$gray-400; flex-shrink:0; }
     input { border:none; outline:none; width:100%; font-size:$font-size-sm; color:$gray-800;
-      &::placeholder { color:$gray-400; } }
+      &::placeholder { color:$gray-500; } }
     @include mobile { width:100%; }
   }
 

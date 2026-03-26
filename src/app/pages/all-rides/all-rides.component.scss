@@ -3,8 +3,13 @@
 
 // ── Hero ────────────────────────────────────────────────────────────────────
 .rides-hero {
-  background: linear-gradient(135deg, #3775d1 0%, #05d1d1 70%, #3775d1 100%);
-  padding: $spacing-16 0 $spacing-12;
+  background:
+    linear-gradient(135deg, rgba(55,117,209,0.72) 0%, rgba(5,209,209,0.68) 100%),
+    url('/mock-data/images/wide_view_WP.webp') center/cover no-repeat;
+  padding: $spacing-16 0 $spacing-16;
+  min-height: 320px;
+  display: flex;
+  align-items: center;
   text-align: center;
   &__title { font-family:$font-family-heading; font-size:$font-size-3xl; font-weight:$font-weight-bold; color:$white; margin-bottom:$spacing-4;
     @include mobile { font-size:$font-size-2xl; } }
@@ -32,7 +37,7 @@
     &:focus-within { border-color:$primary; box-shadow:0 0 0 3px rgba($primary,.1); }
     svg { color:$gray-400; flex-shrink:0; }
     input { border:none; outline:none; width:100%; font-size:$font-size-sm; color:$gray-800;
-      &::placeholder { color:$gray-400; } }
+      &::placeholder { color:$gray-500; } }
     @include mobile { width:100%; }
   }
 

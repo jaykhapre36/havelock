@@ -6,8 +6,13 @@
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 .map-hero {
-  background: linear-gradient(135deg, #0077A8 0%, #00B4D8 60%, $secondary 100%);
-  padding: $spacing-16 0 $spacing-10;
+  background:
+    linear-gradient(135deg, rgba(55,117,209,0.72) 0%, rgba(5,209,209,0.68) 100%),
+    url('/mock-data/images/dron_view.webp') center/cover no-repeat;
+  padding: $spacing-16 0 $spacing-16;
+  min-height: 320px;
+  display: flex;
+  align-items: center;
   text-align: center;
   color: $white;
 

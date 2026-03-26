@@ -9,22 +9,32 @@
 
 // ─── Hero ──────────────────────────────────────────────────────────────────
 .pkg-hero {
-  background: linear-gradient(135deg, $primary-dark 0%, $primary 60%, $secondary 100%);
+  position: relative;
+  background:
+    linear-gradient(135deg, rgba(#0BB4C1, 0.82) 0%, rgba(#0DF2F2, 0.72) 55%, rgba(#A8E063, 0.65) 100%),
+    url('/mock-data/images/water_image.webp') center/cover no-repeat;
   color: $white;
   text-align: center;
   padding: $spacing-16 $spacing-6 $spacing-12;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
   &__title {
-    font-size: 2.25rem;
+    font-size: clamp(2rem, 5vw, 3.25rem);
     font-weight: 800;
     margin-bottom: $spacing-3;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.15);
 
     @include mobile { font-size: 1.75rem; }
   }
 
   &__sub {
     font-size: 1.05rem;
-    color: rgba($white, 0.85);
+    color: rgba($white, 0.92);
+    text-shadow: 0 1px 6px rgba(0,0,0,0.1);
   }
 }
 

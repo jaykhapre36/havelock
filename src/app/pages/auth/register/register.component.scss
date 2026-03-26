@@ -112,11 +112,11 @@
 
   input {
     width: 100%; padding: $spacing-3 $spacing-10 $spacing-3 $spacing-10;
-    border: 1.5px solid $gray-200; border-radius: $radius-lg;
-    font-size: 0.9rem; color: $gray-800; background: $white;
+    border: 1.5px solid $gray-300; border-radius: $radius-full;
+    font-size: 0.9rem; color: $gray-800; background: $gray-100;
     outline: none; transition: border-color 0.2s, box-shadow 0.2s; font-family: inherit;
     &::placeholder { color: $gray-500; }
-    &:focus { border-color: $primary; box-shadow: 0 0 0 3px rgba($primary, 0.12); }
+    &:focus { border-color: $primary; box-shadow: 0 0 0 3px rgba($primary, 0.12); background: $white; }
   }
 
   &__toggle { position: absolute; right: $spacing-3; background: none; border: none; color: $gray-600; cursor: pointer; padding: 0; display: flex; align-items: center; &:hover { color: $gray-600; } }

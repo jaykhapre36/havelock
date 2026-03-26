@@ -273,7 +273,7 @@
     align-items: center;
     justify-content: center;
     width: 32px; height: 32px;
-    border: 1.5px solid $gray-200;
+    border: 1.5px solid $gray-300;
     border-radius: $radius-lg;
     background: $white;
     color: $gray-600;
@@ -452,35 +452,40 @@
 .gb-input {
   width: 100%;
   box-sizing: border-box;
-  padding: $spacing-3 $spacing-4;
-  border: 2px solid $gray-200;
-  border-radius: $radius-lg;
+  padding: $spacing-3 $spacing-5;
+  border: 1.5px solid $gray-300;
+  border-radius: $radius-full;
   font-size: 0.95rem;
   color: $gray-800;
-  background: $white;
+  background: $gray-100;
   outline: none;
   transition: $transition-base;
   font-family: inherit;
 
-  &:focus { border-color: $primary; box-shadow: 0 0 0 3px rgba($primary, 0.12); }
+  &:focus { border-color: $primary; box-shadow: 0 0 0 3px rgba($primary, 0.12); background: $white; }
   &--error { border-color: #DC3545 !important; box-shadow: 0 0 0 3px rgba(#DC3545, 0.1) !important; }
-  &--phone { border-left: none; border-radius: 0 $radius-lg $radius-lg 0; }
-  &--prefilled { background: $gray-100; color: $gray-600; cursor: default; }
+  &--phone { border-left: none; border-radius: 0 $radius-full $radius-full 0; background: transparent; &:focus { box-shadow: none; background: transparent; } }
+  &--prefilled { background: $gray-200; color: $gray-600; cursor: default; &:focus { border-color: $gray-200; box-shadow: none; background: $gray-200; } }
 }
 
 .gb-phone-row {
   display: flex;
   align-items: stretch;
+  background: $gray-100;
+  border: 1.5px solid $gray-300;
+  border-radius: $radius-full;
+  overflow: hidden;
+  transition: $transition-base;
+
+  &:focus-within { border-color: $primary; box-shadow: 0 0 0 3px rgba($primary, 0.12); background: $white; }
 }
 
 .gb-phone-prefix {
   display: flex;
   align-items: center;
-  padding: 0 $spacing-3;
-  background: $gray-100;
-  border: 2px solid $gray-200;
-  border-right: none;
-  border-radius: $radius-lg 0 0 $radius-lg;
+  padding: 0 $spacing-3 0 $spacing-5;
+  background: transparent;
+  border: none;
   font-size: 0.95rem;
   font-weight: 600;
   color: $gray-600;
@@ -490,19 +495,19 @@
 .gb-textarea {
   width: 100%;
   box-sizing: border-box;
-  padding: $spacing-3 $spacing-4;
-  border: 2px solid $gray-200;
-  border-radius: $radius-lg;
+  padding: $spacing-3 $spacing-5;
+  border: 1.5px solid $gray-300;
+  border-radius: $radius-xl;
   font-size: 0.95rem;
   color: $gray-800;
-  background: $white;
+  background: $gray-100;
   outline: none;
   transition: $transition-base;
   font-family: inherit;
   resize: vertical;
   line-height: 1.5;
 
-  &:focus { border-color: $primary; box-shadow: 0 0 0 3px rgba($primary, 0.12); }
+  &:focus { border-color: $primary; box-shadow: 0 0 0 3px rgba($primary, 0.12); background: $white; }
 }
 
 .gb-field-error {

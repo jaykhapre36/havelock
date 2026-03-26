@@ -3,38 +3,49 @@
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 .ct-hero {
-  background: linear-gradient(135deg, #0077A8 0%, #00B4D8 60%, $secondary 100%);
+  position: relative;
+  background:
+    linear-gradient(135deg, rgba(#0BB4C1, 0.82) 0%, rgba(#0DF2F2, 0.72) 55%, rgba(#A8E063, 0.65) 100%),
+    url('/mock-data/images/water_image.webp') center/cover no-repeat;
   padding: $spacing-16 0 $spacing-12;
   text-align: center;
   color: $white;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
   &__badge {
     display: inline-block;
-    background: rgba($white, .15);
-    border: 1px solid rgba($white, .3);
-    color: $white;
+    background: $white;
+    border: none;
+    color: $primary;
     font-size: 0.78rem;
     font-weight: 700;
     letter-spacing: .1em;
     text-transform: uppercase;
-    padding: 4px 14px;
+    padding: 8px 22px;
     border-radius: $radius-full;
-    margin-bottom: $spacing-4;
+    margin-bottom: $spacing-5;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.12);
   }
 
   &__title {
     font-family: $font-family-heading;
-    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    font-size: clamp(2rem, 5vw, 3.25rem);
     font-weight: 800;
     margin-bottom: $spacing-3;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.15);
   }
 
   &__sub {
     font-size: 1rem;
-    color: rgba($white, 0.85);
-    max-width: 520px;
+    color: rgba($white, 0.92);
+    max-width: 480px;
     margin: 0 auto;
     line-height: 1.7;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.1);
     @include mobile { font-size: 0.9rem; }
   }
 }
@@ -57,7 +68,7 @@
   background: $white;
   border-radius: $radius-xl;
   padding: $spacing-8;
-  border: 1px solid $gray-200;
+  border: 1px solid rgba(0,0,0,0.06);
   box-shadow: $shadow-sm;
   @include mobile { padding: $spacing-5; }
 }
@@ -173,27 +184,43 @@
     span { color: #DC3545; margin-left: 2px; }
   }
 
-  input, select, textarea {
+  input, select {
     width: 100%;
-    padding: $spacing-3 $spacing-4;
-    border: 1.5px solid $gray-200;
-    border-radius: $radius-lg;
+    padding: $spacing-3 $spacing-5;
+    border: 1.5px solid $gray-300;
+    border-radius: $radius-full;
     font-size: 0.9rem;
     color: $gray-800;
-    background: $white;
+    background: $gray-100;
     transition: border-color 0.2s, box-shadow 0.2s;
     outline: none;
     font-family: inherit;
     &::placeholder { color: $gray-500; }
-    &:focus { border-color: $primary; box-shadow: 0 0 0 3px rgba($primary, 0.12); }
+    &:focus { border-color: $primary; box-shadow: 0 0 0 3px rgba($primary, 0.12); background: $white; }
   }
 
-  textarea { resize: vertical; min-height: 120px; }
+  textarea {
+    width: 100%;
+    padding: $spacing-3 $spacing-5;
+    border: 1.5px solid $gray-300;
+    border-radius: $radius-xl;
+    font-size: 0.9rem;
+    color: $gray-800;
+    background: $gray-100;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 120px;
+    &::placeholder { color: $gray-500; }
+    &:focus { border-color: $primary; box-shadow: 0 0 0 3px rgba($primary, 0.12); background: $white; }
+  }
 
   &--error {
     input, select, textarea {
       border-color: #DC3545;
       box-shadow: 0 0 0 3px rgba(#DC3545, 0.1);
+      background: $white;
     }
   }
 

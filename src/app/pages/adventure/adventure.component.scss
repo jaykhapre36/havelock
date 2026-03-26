@@ -3,11 +3,13 @@
 
 // ── Hero ────────────────────────────────────────────────────────────────────
 .adventure-hero {
-  background: linear-gradient(135deg, #3775d1 0%, #05d1d1 70%, #3775d1 100%);
-  min-height: 280px;
+  background:
+    linear-gradient(135deg, rgba(55,117,209,0.72) 0%, rgba(5,209,209,0.68) 100%),
+    url('/mock-data/images/wide_view_WP.webp') center/cover no-repeat;
+  min-height: 320px;
   display: flex;
   align-items: center;
-  padding: $spacing-16 0 $spacing-12;
+  padding: $spacing-16 0 $spacing-16;
   text-align: center;
 
   &__title {

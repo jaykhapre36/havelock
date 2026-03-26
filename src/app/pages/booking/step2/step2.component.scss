@@ -5,7 +5,7 @@
   background: $white;
   border-radius: $radius-xl;
   box-shadow: $shadow-sm;
-  border: 1px solid $gray-200;
+  border: 1px solid rgba(0,0,0,0.06);
   padding: $spacing-6;
   margin-bottom: $spacing-5;
 
@@ -37,44 +37,47 @@
 
   &__input {
     width: 100%;
-    padding: $spacing-3 $spacing-4;
-    border: 2px solid $gray-200;
-    border-radius: $radius-lg;
+    padding: $spacing-3 $spacing-5;
+    border: 1.5px solid $gray-300;
+    border-radius: $radius-full;
     font-size: 0.95rem;
     color: $gray-800;
+    background: $gray-100;
     outline: none;
     transition: $transition-base;
     box-sizing: border-box;
+    font-family: inherit;
 
-    &:focus { border-color: $primary; }
-    &::placeholder { color: $gray-400; }
+    &:focus { border-color: $primary; box-shadow: 0 0 0 3px rgba($primary, 0.12); background: $white; }
+    &::placeholder { color: $gray-500; }
   }
 
   &__phone-wrap {
     display: flex;
     align-items: center;
-    border: 2px solid $gray-200;
-    border-radius: $radius-lg;
+    border: 1.5px solid $gray-300;
+    border-radius: $radius-full;
     overflow: hidden;
     transition: $transition-base;
+    background: $gray-100;
 
-    &:focus-within { border-color: $primary; }
+    &:focus-within { border-color: $primary; box-shadow: 0 0 0 3px rgba($primary, 0.12); background: $white; }
   }
 
   &__prefix {
-    padding: $spacing-3 $spacing-3;
-    background: $gray-100;
+    padding: $spacing-3 $spacing-4 $spacing-3 $spacing-5;
+    background: transparent;
     color: $gray-600;
     font-size: 0.9rem;
     font-weight: 600;
-    border-right: 1px solid $gray-200;
     white-space: nowrap;
   }
 
   &__phone-wrap .bk-field__input {
     border: none;
     border-radius: 0;
-    &:focus { border: none; }
+    background: transparent;
+    &:focus { border: none; box-shadow: none; background: transparent; }
   }
 
   &__error {
