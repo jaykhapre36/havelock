@@ -5,6 +5,11 @@
     "slug": "cyclone",
     "category": "Thrill",
     "tags": ["HIGH THRILL", "SIGNATURE RIDE"],
+    "labels": [
+      { "key": "Adrenaline", "val": "High" },
+      { "key": "Experience", "val": "Intense" },
+      { "key": "Zone", "val": "Thrill Zone" }
+    ],
     "description": "The Cyclone Drop is Havelock's most iconic ride — a massive bowl-shaped funnel that sends you spinning at high speed before dropping through the centre. The striking blue and orange structure is visible from across the entire park.",
     "shortDescription": "Our signature bowl-shaped funnel ride — spin at high speed before the thrilling drop.",
     "heightRequirement": null,
@@ -31,6 +36,11 @@
     "slug": "multilane-speed-slides",
     "category": "Thrill",
     "tags": ["THRILL RIDE", "RACING"],
+    "labels": [
+      { "key": "Adrenaline", "val": "High" },
+      { "key": "Speed", "val": "Fast" },
+      { "key": "Zone", "val": "Thrill Zone" }
+    ],
     "description": "Race your friends on our towering multilane speed slides launching from the slide tower. Multiple tracks in every colour of the rainbow — choose your lane and see who reaches the splash pool first.",
     "shortDescription": "Race friends down colourful high-speed lanes from our towering slide tower.",
     "heightRequirement": null,
@@ -55,7 +65,12 @@
     "slug": "king-cobra-racer",
     "category": "Thrill",
     "tags": ["HIGH THRILL"],
-    "description": "It is a high-thrill ride where two double-tubes (holding 2 people each) race side-by-side through circular paths and twists. The climax of the ride occurs when both tubes drop simultaneously into the valley of the snake’s head, sliding up the curved hood before oscillating back and forth.",
+    "labels": [
+      { "key": "Adrenaline", "val": "High" },
+      { "key": "Experience", "val": "Intense" },
+      { "key": "Zone", "val": "Thrill Zone" }
+    ],
+    "description": "It is a high-thrill ride where two double-tubes (holding 2 people each) race side-by-side through circular paths and twists. The climax of the ride occurs when both tubes drop simultaneously into the valley of the snake's head, sliding up the curved hood before oscillating back and forth.",
     "shortDescription": "Race through the coils of a giant cobra and face the drop into its massive fangs.",
     "heightRequirement": null,
     "thrillLevel": "Expert",
@@ -79,6 +94,11 @@
     "slug": "spiral-serpentine-slide",
     "category": "Thrill",
     "tags": ["FAMILY THRILL", "POOL SPLASH"],
+    "labels": [
+      { "key": "Adrenaline", "val": "High" },
+      { "key": "Speed", "val": "35 km/h" },
+      { "key": "Zone", "val": "Spiral Zone" }
+    ],
     "description": "The Spiral Serpentine features a high-speed journey through a series of enclosed tunnels and open-air curves. Riders experience high centrifugal forces as they twist through 360-degree loops before a massive splash landing in the arrival pool.",
     "shortDescription": "A twisting, turning journey through high-banked curves and dark tunnels.",
     "heightRequirement": "Any",
@@ -103,6 +123,11 @@
     "slug": "jungle-friends-kids-zone",
     "category": "Kids",
     "tags": ["KIDS ZONE", "FAMILY FAVOURITE"],
+    "labels": [
+      { "key": "Safety", "val": "Lifeguard" },
+      { "key": "Play", "val": "Interactive" },
+      { "key": "Zone", "val": "Kids Zone" }
+    ],
     "description": "A dedicated jungle-themed water playground for children. Featuring mini slides, tipping buckets, water sprayers, rope bridges, and shallow splash pools — all surrounded by colourful animal sculptures and safe for little ones.",
     "shortDescription": "A vibrant jungle playground packed with mini slides, tipping buckets and splash pools for kids.",
     "heightRequirement": null,
@@ -128,6 +153,11 @@
     "slug": "dino-adventure-zone",
     "category": "Family",
     "tags": ["FAMILY FUN", "KIDS FRIENDLY"],
+    "labels": [
+      { "key": "Experience", "val": "Group Fun" },
+      { "key": "Access", "val": "Walk-in" },
+      { "key": "Zone", "val": "Family Zone" }
+    ],
     "description": "Step into a prehistoric world with life-size dinosaur statues surrounding a multi-slide water play area. Perfect for families — features colourful tube slides, a central water structure and a gentle lazy circuit around the dino park.",
     "shortDescription": "A dinosaur-themed family water zone with multi-coloured slides and life-size dino statues.",
     "heightRequirement": null,
@@ -153,6 +183,11 @@
     "slug": "wave-pool",
     "category": "Family",
     "tags": ["FAMILY FUN", "POPULAR"],
+    "labels": [
+      { "key": "Experience", "val": "Group Fun" },
+      { "key": "Access", "val": "Shallow" },
+      { "key": "Zone", "val": "Family Zone" }
+    ],
     "description": "Havelock's massive wave pool generates powerful ocean-style waves that roll through the pool at regular intervals. Grab a float or wade in — it's an experience the whole family loves.",
     "shortDescription": "Experience ocean-like waves in our massive family wave pool — for all ages.",
     "heightRequirement": null,
@@ -177,6 +212,11 @@
     "slug": "rock-arch-falls",
     "category": "Relax",
     "tags": ["FAMILY FUN", "UNIQUE"],
+    "labels": [
+      { "key": "Vibe", "val": "Peaceful" },
+      { "key": "Activity", "val": "Walk-through" },
+      { "key": "Zone", "val": "Family Zone" }
+    ],
     "description": "Walk or swim under a dramatic stone arch that pours a continuous curtain of water. The natural rock-effect structure creates a rainbow on sunny days and is one of the most photographed spots in the park.",
     "shortDescription": "A stunning stone arch with cascading waterfalls — perfect for photos and a refreshing splash.",
     "heightRequirement": null,
@@ -201,6 +241,11 @@
     "slug": "rain-dance-arena",
     "category": "Entertainment",
     "tags": ["ENTERTAINMENT", "POPULAR"],
+    "labels": [
+      { "key": "Vibe", "val": "Party Mode" },
+      { "key": "Feature", "val": "DJ Music" },
+      { "key": "Zone", "val": "Entertainment" }
+    ],
     "description": "Dance and splash under a sky of overhead sprinklers with music pumping through the speakers. The circular arena features colourful water jets that sync to the beat — great fun for groups and families.",
     "shortDescription": "Dance under overhead sprinklers with music and colourful water jets synced to the beat.",
     "heightRequirement": null,
@@ -225,6 +270,11 @@
     "slug": "river-front-stage",
     "category": "Entertainment",
     "tags": ["ENTERTAINMENT", "EVENTS", "UNIQUE"],
+    "labels": [
+      { "key": "Vibe", "val": "Live Events" },
+      { "key": "Feature", "val": "Floating Stage" },
+      { "key": "Zone", "val": "River Front" }
+    ],
     "description": "A floating stage anchored on the Mahisagar River — host to live events, concerts, and special celebrations. Walk across the floating bridge to the stage and enjoy performances with the river all around you.",
     "shortDescription": "A unique floating stage on the Mahisagar River — host to live events and celebrations.",
     "heightRequirement": null,
@@ -250,6 +300,11 @@
     "slug": "riverside-sunset-view",
     "category": "Relax",
     "tags": ["SCENIC", "RELAX"],
+    "labels": [
+      { "key": "Vibe", "val": "Scenic" },
+      { "key": "Activity", "val": "Terrace" },
+      { "key": "Zone", "val": "River Front" }
+    ],
     "description": "Take a break from the rides and enjoy the breathtaking sunset views over the Mahisagar River. The park's elevated riverside terrace offers unobstructed panoramic views — perfect to unwind and soak in the beauty of nature.",
     "shortDescription": "Unwind on the riverside terrace and watch the golden sun set over the Mahisagar River.",
     "heightRequirement": null,
@@ -274,6 +329,11 @@
     "slug": "kamikaze-body-slide",
     "category": "Thrill",
     "tags": ["HIGH SPEED", "BODY SLIDE"],
+    "labels": [
+      { "key": "Adrenaline", "val": "High" },
+      { "key": "Speed", "val": "Near-Vertical" },
+      { "key": "Zone", "val": "Thrill Zone" }
+    ],
     "description": "The Kamikaze is a high-speed body slide designed for the ultimate adrenaline junkie. Experience a near-vertical plummet followed by a series of bumps that provide thrilling 'airtime' before a high-speed finish in the splash lane.",
     "shortDescription": "A heart-stopping, high-speed vertical drop slide for the bravest riders.",
     "heightRequirement": "Any",

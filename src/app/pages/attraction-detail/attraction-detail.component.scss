@@ -258,8 +258,8 @@
 // ── Stats ─────────────────────────────────────────────────────────────────────
 .rd-stats {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: $spacing-3;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: $spacing-2;
   margin-top: $spacing-6;
 }
 
@@ -273,11 +273,6 @@
   text-align: center;
   gap: $spacing-1;
 
-  svg {
-    color: $primary;
-    margin-bottom: 2px;
-  }
-
   &__label {
     font-size: 10px;
     font-weight: $font-weight-semi;
@@ -287,13 +282,39 @@
   }
 
   &__val {
-    font-size: $font-size-sm;
+    font-size: $font-size-xs;
     font-weight: $font-weight-bold;
     color: $gray-900;
+    word-break: break-word;
+    text-align: center;
+    line-height: 1.3;
   }
 
   &--dim {
     opacity: .7;
+  }
+
+}
+
+// ── Features list ─────────────────────────────────────────────────────────────
+.rd-features {
+  margin-top: $spacing-4;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+}
+
+.rd-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-3;
+  font-size: $font-size-sm;
+  color: $gray-700;
+
+  svg {
+    color: $primary;
+    flex-shrink: 0;
+    margin-top: 2px;
   }
 }
 
@@ -321,27 +342,6 @@
   line-height: 1.8;
 }
 
-// ── Features list ─────────────────────────────────────────────────────────────
-.rd-features {
-  margin-top: $spacing-4;
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-3;
-}
-
-.rd-feature {
-  display: flex;
-  align-items: flex-start;
-  gap: $spacing-3;
-  font-size: $font-size-sm;
-  color: $gray-700;
-
-  svg {
-    color: $primary;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-}
 
 // ── Safety Notes (glassmorphism card) ─────────────────────────────────────────
 .rd-safety {

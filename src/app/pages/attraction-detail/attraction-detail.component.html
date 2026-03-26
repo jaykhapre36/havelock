@@ -44,13 +44,13 @@
             <polyline points="15 18 9 12 15 6"/>
           </svg>
         </button>
-        <div class="rd-hero__nav-actions">
+        <!-- <div class="rd-hero__nav-actions">
           <a routerLink="/packages" class="rd-glass-btn" aria-label="Book tickets">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v2z"/>
             </svg>
           </a>
-        </div>
+        </div> -->
       </div>
 
       <!-- Gradient fade into content -->
@@ -63,9 +63,9 @@
       <!-- Header: name / badge / sub + wait time -->
       <div class="rd-header">
         <div class="rd-header__left">
-          <span class="rd-badge" [ngClass]="'rd-badge--' + getCategoryClass(attraction.category)">
+          <!-- <span class="rd-badge" [ngClass]="'rd-badge--' + getCategoryClass(attraction.category)">
             {{ attraction.category }}
-          </span>
+          </span> -->
           <h1 class="rd-title">{{ attraction.name }}</h1>
           <p class="rd-sub">{{ attraction.shortDescription }}</p>
         </div>
@@ -80,34 +80,10 @@
       </div>
 
       <!-- ── Stats grid ──────────────────────────────────────────────────── -->
-      <div class="rd-stats">
-        <div class="rd-stat">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-          </svg>
-          <span class="rd-stat__label">Thrill</span>
-          <span class="rd-stat__val">{{ attraction.thrillLevel }}</span>
-        </div>
-        <div class="rd-stat" [class.rd-stat--dim]="!attraction.heightRequirement">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <line x1="12" y1="20" x2="12" y2="4"/><polyline points="8 8 12 4 16 8"/><line x1="8" y1="20" x2="16" y2="20"/>
-          </svg>
-          <span class="rd-stat__label">Height</span>
-          <span class="rd-stat__val">{{ attraction.heightRequirement ? attraction.heightRequirement + 'cm+' : 'Any' }}</span>
-        </div>
-        <div class="rd-stat" *ngIf="attraction.maxVelocity">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <path d="M19 17H5a4 4 0 0 1 0-8h1"/><polyline points="15 3 19 7 15 11"/>
-          </svg>
-          <span class="rd-stat__label">Max Speed</span>
-          <span class="rd-stat__val">{{ attraction.maxVelocity }}</span>
-        </div>
-        <div class="rd-stat" *ngIf="!attraction.maxVelocity">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-          </svg>
-          <span class="rd-stat__label">Zone</span>
-          <span class="rd-stat__val">{{ attraction.zone }}</span>
+      <div class="rd-stats" *ngIf="attraction.labels?.length">
+        <div class="rd-stat" *ngFor="let label of attraction.labels">
+          <span class="rd-stat__label">{{ label.key }}</span>
+          <span class="rd-stat__val">{{ label.val }}</span>
         </div>
       </div>
 

@@ -4,6 +4,7 @@ export interface Attraction {
   slug: string;
   category: 'Thrill' | 'Family' | 'Kids' | 'Relax' | 'Entertainment';
   tags: string[];
+  labels?: { key: string; val: string }[];
   description: string;
   shortDescription: string;
   heightRequirement: number | null;
