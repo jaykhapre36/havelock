@@ -28,8 +28,8 @@ export class ContactComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.fb.group({
       name:    ['', [Validators.required, Validators.minLength(2)]],
-      email:   ['', [Validators.required, Validators.email]],
-      phone:   ['', [Validators.pattern('^[0-9+\\-\\s]{7,15}$')]],
+      phone:   ['', [Validators.required, Validators.pattern('^[0-9+\\-\\s]{7,15}$')]],
+      email:   ['', [Validators.email]],
       subject: ['General Enquiry'],
       message: ['', [Validators.required, Validators.minLength(10)]]
     });

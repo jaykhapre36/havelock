@@ -43,18 +43,18 @@
             <input type="text" formControlName="name" placeholder="Your full name" />
             <p class="ct-field__error" *ngIf="isInvalid('name')">Please enter your name (min 2 characters).</p>
           </div>
-          <div class="ct-field" [class.ct-field--error]="isInvalid('email')">
-            <label>Email Address <span>*</span></label>
-            <input type="email" formControlName="email" placeholder="you@example.com" />
-            <p class="ct-field__error" *ngIf="isInvalid('email')">Please enter a valid email address.</p>
+          <div class="ct-field" [class.ct-field--error]="isInvalid('phone')">
+            <label>Phone Number <span>*</span></label>
+            <input type="tel" formControlName="phone" placeholder="+91 99999 00000" />
+            <p class="ct-field__error" *ngIf="isInvalid('phone')">Please enter a valid phone number.</p>
           </div>
         </div>
 
         <div class="ct-form__row">
-          <div class="ct-field" [class.ct-field--error]="isInvalid('phone')">
-            <label>Phone Number</label>
-            <input type="tel" formControlName="phone" placeholder="+91 99999 00000" />
-            <p class="ct-field__error" *ngIf="isInvalid('phone')">Please enter a valid phone number.</p>
+          <div class="ct-field" [class.ct-field--error]="isInvalid('email')">
+            <label>Email Address</label>
+            <input type="email" formControlName="email" placeholder="you@example.com" />
+            <p class="ct-field__error" *ngIf="isInvalid('email')">Please enter a valid email address.</p>
           </div>
           <div class="ct-field">
             <label>Subject</label>

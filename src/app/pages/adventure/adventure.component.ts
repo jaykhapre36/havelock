@@ -37,7 +37,7 @@ export class AdventureComponent {
       category: 'Climbing',
       intensity: 'Moderate',
       image: 'mock-data/adventure_images/adventure-climbing-1.webp',
-      features: ['Multiple difficulty levels', 'Safety rope', 'Helmet & harness']
+      features: ['Vertical wall climb', 'Safety rope', 'Helmet & harness']
     },
     {
       id: 3,
@@ -46,16 +46,16 @@ export class AdventureComponent {
       category: 'Climbing',
       intensity: 'Moderate',
       image: 'mock-data/adventure_images/adventure-tyre-wall-1.webp',
-      features: ['Colourful tyre wall', 'Safety harness', 'All ages welcome']
+      features: ['Colourful tyre wall', 'Safety harness', 'Competitive climb']
     },
     {
       id: 4,
       name: 'Rope Net Traverse',
-      description: 'Crawl and climb across large rope nets suspended at height — an exciting obstacle that challenges your coordination.',
+      description: 'The Rope Net Traverse challenges you to crawl, climb and balance across large suspended rope nets high above the ground.',
       category: 'Heights',
       intensity: 'Moderate',
       image: 'mock-data/adventure_images/adventure-rope-net-1.webp',
-      features: ['Rope net obstacle', 'Safety harness', 'Fun for groups']
+      features: ['Balancing on a rope', 'Safety harness', 'Fun for groups']
     },
     {
       id: 5,
@@ -69,11 +69,11 @@ export class AdventureComponent {
     {
       id: 6,
       name: 'Water Zorbing',
-      description: 'Roll and tumble inside a giant transparent inflatable ball on water. Perfect for kids and adults — pure fun guaranteed.',
+      description: 'Roll and tumble inside a giant transparent inflatable ball on water. Perfect for kids — pure fun guaranteed.',
       category: 'Water',
       intensity: 'Relaxed',
       image: 'mock-data/adventure_images/adventure-zorbing-1.webp',
-      features: ['On-water experience', 'Giant transparent ball', 'Kids & adults']
+      features: ['On-water experience', 'Giant transparent ball', 'Kids']
     },
     {
       id: 7,
@@ -82,7 +82,7 @@ export class AdventureComponent {
       category: 'Water',
       intensity: 'Relaxed',
       image: 'mock-data/adventure_images/adventure-kayaking-1.webp',
-      features: ['Life jacket provided', 'Single & double kayaks', 'Guided session']
+      features: ['Life jacket provided', 'Single & double kayaks', 'Family-friendly']
     },
     {
       id: 8,
@@ -91,11 +91,11 @@ export class AdventureComponent {
       category: 'Thrill Rides',
       intensity: 'Moderate',
       image: 'mock-data/adventure_images/adventure-atv-1.webp',
-      features: ['Helmet provided', 'Family-friendly']
+      features: ['Helmet provided', 'ATV Bike Riding', 'Fun for all ages']
     },
     {
       id: 9,
-      name: 'Giant Swing',
+      name: 'Sky Jump',
       description: 'Soar high into the sky on our giant swing — experience the rush of flying with the riverfront as your backdrop.',
       category: 'Heights',
       intensity: 'Intense',
@@ -104,8 +104,8 @@ export class AdventureComponent {
     },
     {
       id: 10,
-      name: 'Sky Jump',
-      description: 'Take the leap! Jump from a great height secured by bungee ropes — the ultimate adrenaline experience at Havelock.',
+      name: 'Giant Swing',
+      description: 'Soar through the open sky on our Giant Swing — strap in with a friend and feel the rush as you arc high above the ground on a massive pendulum ride built for thrill-seekers.',
       category: 'Heights',
       intensity: 'Intense',
       image: 'mock-data/adventure_images/adventure-swing-1.webp',
