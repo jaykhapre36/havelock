@@ -1,0 +1,38 @@
+@use '../../../../assets/styles/variables' as *;
+
+.loader-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba($black, 0.55);
+  backdrop-filter: blur(3px);
+  z-index: 9999;
+
+  &__spinner {
+    position: relative;
+    width: 64px;
+    height: 64px;
+  }
+
+  &__ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: $primary;
+    animation: spin 0.8s linear infinite;
+
+    &--inner {
+      inset: 10px;
+      border-top-color: $secondary;
+      animation-duration: 0.6s;
+      animation-direction: reverse;
+    }
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
