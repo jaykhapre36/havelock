@@ -320,5 +320,39 @@
     ],
     "waitTime": 20,
     "status": "open"
+  },
+  {
+    "id": 13,
+    "name": "Tornado Funnel",
+    "slug": "tornado-funnel",
+    "category": "Thrill",
+    "tags": ["HIGH THRILL", "SIGNATURE RIDE"],
+    "labels": [
+      { "key": "Thrill Level", "val": "High" },
+      { "key": "Type", "val": "Funnel Bowl Ride" },
+      { "key": "Zone", "val": "Thrill Zone" }
+    ],
+    "description": "The Tornado Funnel is one of Havelock's most exciting rides. You start from an elevated platform and plunge down a steep enclosed spiral tube that rapidly builds speed. That momentum launches you into a massive open funnel bowl, where centrifugal force keeps you pinned to the curved walls as you orbit around the rim again and again. As your speed gradually drops, you spiral inward and exit through the central opening into the splash pool below. Fast, spinning, and completely unpredictable — every ride feels different.",
+    "shortDescription": "Plunge down a steep tube, spin around the walls of a giant funnel bowl, and drop into the splash pool below.",
+    "heightRequirement": "Any",
+    "thrillLevel": "High",
+    "intensity": "Exciting",
+    "zone": "Thrill Zone",
+    "maxVelocity": null,
+    "features": [
+      "Steep enclosed spiral tube",
+      "Giant open funnel bowl",
+      "Centrifugal wall-spinning effect",
+      "Splash pool exit at base"
+    ],
+    "healthAdvisory": "Not recommended for guests with heart conditions, back or neck injuries, or pregnant women.",
+    "nearbyFacilities": ["Locker Zone", "Snack Bar", "Rest Area"],
+    "isFeatured": true,
+    "fastPassAvailable": false,
+    "images": [
+      "/mock-data/images/Tornado-1.webp"
+    ],
+    "waitTime": 25,
+    "status": "open"
   }
 ]
