@@ -280,7 +280,8 @@
     color: $gray-900;
     display: flex;
     align-items: center;
-    gap: 4px;
+    flex-wrap: wrap;
+    gap: 6px;
 
     &--amount {
       color: $primary;
@@ -320,13 +321,14 @@
 .mb-status {
   display: inline-flex;
   align-items: center;
+  flex: none;
   padding: 3px 10px;
   border-radius: 50px;
   font-size: 0.72rem;
   font-weight: 700;
   text-transform: capitalize;
   letter-spacing: 0.04em;
-  width: fit-content;
+  white-space: nowrap;
 
   &--confirmed { background: #00b859; color: #ffffff; }
   &--done      { background: #006aff; color: #ffffff; }

@@ -191,6 +191,13 @@ h6 { font-family: $font-family-heading; font-size: $font-size-md;  font-weight: 
   white-space: nowrap;
   transition: color 0.2s, border-color 0.2s;
 
+  @media (max-width: 480px) {
+    gap: 4px;
+    padding: 12px 4px;
+    font-size: 0.72rem;
+    svg { width: 14px; height: 14px; }
+  }
+
   svg { flex-shrink: 0; }
 
   &:hover { color: #00B4D8; }
